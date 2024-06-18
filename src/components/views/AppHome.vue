@@ -1,12 +1,38 @@
 <script>
 import autoScroll from '../js/autoScroll';
 import autoSlide from '../js/autoSlide.js';
+import axios from 'axios';
 
 export default {
   name: 'AppHome',
+  data(){
+    return{
+      base_api_url:'http://127.0.0.1:8000/',
+      base_restaurants_url:'/api/restaurants',
+      restaurants: [],
+
+    }
+  },
+  methods: {
+    callApi(url){
+      axios
+      .get(url)
+      .then(response => {
+        console.log(response.data.restaurants);
+        this.restaurants = response.data.restaurants
+      })
+      .catch(error => {
+        this.error.message = error.message;
+      })
+    }
+
+  },
   mounted() {
     autoScroll();
     autoSlide();
+
+    let url = this.base_api_url + this.base_restaurant_url;
+    this.callApi(url);
   }
 }
 </script>
@@ -80,7 +106,7 @@ export default {
 
     <section class="restourant">
       <div class="text-rest">
-        <h2>Cerca il tuo Ristorante Preferito e c'ho che piu' ami</h2>
+        <h2>Cerca il tuo Ristorante Preferito e c'ho che piu' ami mangiare</h2>
         <h3>E al resto pensiamo noi!!</h3>
       </div>
       <div class="found-restourant">
@@ -99,15 +125,15 @@ export default {
       </div>
       <div class="restourant-wrap">
         <router-link :to="{ name: 'restourant' }">
-          <div class="col-2">
+          <div class="col-2" v-for="restaurant in restaurants" :key='restaurant.id'>
             <div class="card-restourant">
               <div class="card-body-restourant">
                 <div class="top-restourant">
-                  <img src="/public/img/log-aff/burger.jpg" alt="">
+                  <img :src="restaurant.image" alt="">
                 </div>
                 <div class="bottom-restourant">
-                  <h3>Burger King</h3>
-                  <p>Cerca i ristoranti nella tua zona</p>
+                  <h3>{{restaurant.name}}</h3>
+                  <p>{{restaurant.address}}</p>
                 </div>
               </div>
             </div>
