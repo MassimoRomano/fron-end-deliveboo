@@ -1,0 +1,129 @@
+.restourant-page {
+    margin: 50px 0;
+}
+
+.info-rest {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    margin: 0 0 100px 0;
+
+}
+
+.product {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.product-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 60%;
+}
+
+.logo-rest{
+    width: 50%;
+
+    img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.info-rest{
+    width: 50%;
+}
+
+
+.col-2 {
+    width: calc(100%/6);
+}
+
+.cart {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    border: 1px solid rgba(0, 0, 0, 0.192);
+    padding: 20px 0;
+    height: 600px;
+
+    .pay {
+        width: 70%;
+        margin: auto auto -10px;
+        padding: 15px 0;
+        border: none;
+        background: #e2e5e5;
+        border-radius: 10px;
+
+        a{
+            text-decoration: none;
+            color: #2e33337a;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    }
+
+    .icon-cart{
+        margin: auto;
+        font-size: 60px;
+        color: rgba(0, 0, 0, 0.308);
+    }
+
+    .text-cart{
+        margin: auto;
+        font-size: 20px;
+        color: rgba(0, 0, 0, 0.308);
+        margin-top: -100px;
+    }
+}
+
+
+/* MODALE */
+.modal {
+    position: fixed;
+    z-index: 1;
+    left:0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin:200px auto;
+    border: 1px solid hsl(0, 0%, 53%);
+    width:30%;
+
+
+    img{
+        width: 90%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.modal-inside{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    gap: 20px;
+}
+.close {
+    position: relative;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    left: 47%;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
