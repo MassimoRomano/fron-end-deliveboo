@@ -168,10 +168,13 @@ export default {
         <form action="">
           <ul class="d_flex">
             <li v-for="type, index in types">
-              <input type="checkbox" name="type.id" id="type.id"> {{ type.name }}
+              <input type="checkbox" name="type.id" id="type.id" v-model="selectedTypes" :value="type.id"> {{ type.name
+              }}
             </li>
           </ul>
         </form>
+        <div class="color_white">{{ selectedTypes }}</div>
+        <div>{{ console.log(selectedTypes) }}</div>
       </div>
 
       <div class="restaurant-wrap">
