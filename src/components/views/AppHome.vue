@@ -5,25 +5,25 @@ import axios from 'axios';
 
 export default {
   name: 'AppHome',
-  data(){
-    return{
-      base_api_url:'http://127.0.0.1:8000/',
-      base_restaurants_url:'/api/restaurants',
+  data() {
+    return {
+      base_api_url: 'http://127.0.0.1:8000/',
+      base_restaurants_url: 'api/restaurants',
       restaurants: [],
 
     }
   },
   methods: {
-    callApi(url){
+    callApi(url) {
       axios
-      .get(url)
-      .then(response => {
-        console.log(response.data.restaurants);
-        this.restaurants = response.data.restaurants
-      })
-      .catch(error => {
-        this.error.message = error.message;
-      })
+        .get(url)
+        .then(response => {
+          console.log(response.data.restaurants);
+          this.restaurants = response.data.restaurants
+        })
+        .catch(error => {
+          this.error.message = error.message;
+        })
     }
 
   },
@@ -31,7 +31,7 @@ export default {
     autoScroll();
     autoSlide();
 
-    let url = this.base_api_url + this.base_restaurant_url;
+    let url = this.base_api_url + this.base_restaurants_url;
     this.callApi(url);
   }
 }
@@ -124,16 +124,25 @@ export default {
 
       </div>
       <div class="restourant-wrap">
-        <router-link :to="{ name: 'restourant' }">
-          <div class="col-2" v-for="restaurant in restaurants" :key='restaurant.id'>
+        <router-link :to="{ name: 'restourants' }">
+          <div class="col-2" v-for="restaurant in restaurants.data">
             <div class="card-restourant">
               <div class="card-body-restourant">
                 <div class="top-restourant">
-                  <img :src="restaurant.image" alt="">
+                  <!-- <template v-if="">
+                    <div class="card-image">
+                      <img :src="base_api_url + 'storage/' + restaurant.image" alt="">
+                    </div>
+                  </template>
+<template v-else>
+                    <div class="card-image">
+                      <img :src="restaurant.image" :alt="'Image of the restaurant: ' + restaurant.name">
+                    </div>
+                  </template> -->
                 </div>
                 <div class="bottom-restourant">
-                  <h3>{{restaurant.name}}</h3>
-                  <p>{{restaurant.address}}</p>
+                  <h3>{{ restaurant.name }}</h3>
+                  <p>{{ restaurant.address }}</p>
                 </div>
               </div>
             </div>
