@@ -2,6 +2,7 @@
 import autoScroll from '../js/autoScroll';
 import autoSlide from '../js/autoSlide.js';
 import axios from 'axios';
+import { collapse, dropdownStates, initializeDropdownStates, toggleDropdown, selectOption } from '../js/collapse.js';
 
 export default {
   name: 'AppHome',
@@ -10,8 +11,16 @@ export default {
       base_api_url: 'http://127.0.0.1:8000/',
       base_restaurants_url: 'api/restaurants',
       restaurants: [],
+      selectedTypes: [],
+      base_types_url: 'api/types',
+      types: [],
+      dropdownOptions: collapse,
+      dropdownStates,
 
     }
+  },
+  created() {
+    initializeDropdownStates();
   },
   methods: {
     callApi(url) {
@@ -26,6 +35,34 @@ export default {
         })
     },
 
+    callApiTypes(url) {
+      axios
+        .get(url)
+        .then(response => {
+          console.log(response.data.types);
+          this.types = response.data.types
+        })
+        .catch(error => {
+          this.error.message = error.message;
+        })
+    },
+
+    uncheck(type) {
+      const index = this.selectedTypes.findIndex(selectedType => selectedType.id === type.id);
+      if (index !== -1) {
+        this.selectedTypes.splice(index, 1);
+      } else {
+        this.selectedTypes.push(type);
+      }
+    },
+
+    toggleDropdown,
+    selectOption(name, index, event) {
+      event.stopPropagation();
+      selectOption(name, index);
+      this.$forceUpdate();
+    }
+
   },
   mounted() {
     autoScroll();
@@ -33,6 +70,8 @@ export default {
 
     let url = this.base_api_url + this.base_restaurants_url;
     this.callApi(url);
+    let urlTypes = this.base_api_url + this.base_types_url;
+    this.callApiTypes(urlTypes);
   }
 }
 </script>
@@ -109,25 +148,28 @@ export default {
         <h2>Cerca il tuo Ristorante Preferito e c'ho che piu' ami mangiare</h2>
         <h3>E al resto pensiamo noi!!</h3>
       </div>
-      <div class="found-restaurant">
-        <div class="bar-search-restaurant">
-          <div class="logo-rest-search">
-            <i class="fa-solid fa-utensils"></i>
-          </div>
-          <div class="input-rest">
-            <input type="search" id="search" placeholder="Cerca il tuo ristorante preferito">
-          </div>
-          <div class="button-rest">
-            <button type="submit">Cerca</button>
+      <div class="bar-types">
+        <div v-for="(option, name) in dropdownOptions" :key="name" class="dropdown">
+          <button class="dropdown-button" @click="toggleDropdown(name)">
+            {{ name }}
+            <span><i class="fa-solid fa-sort-down"></i></span>
+          </button>
+          <div class="dropdown-content" :id="'dropdown-' + name" :class="{ open: dropdownStates[name].isOpen }">
+            <ul>
+              <li v-for="type in types" :key="type.id">
+                <input type="checkbox" :id="type.id" :name="name" @click='uncheck(type)'
+                  :checked="selectedTypes.some(selectedType => selectedType.id === type.id)">
+                <label :for="type.id">{{ type.name }}</label>
+              </li>
+            </ul>
           </div>
         </div>
-
       </div>
-      <div class="restaurant-wrap">
 
+      <div class="restaurant-wrap">
         <template v-if="restaurants.data">
           <div class="col-2" v-for="restaurant in restaurants.data">
-            <router-link :to="{ name: 'restaurant', params: { slug: restaurant.slug , id: restaurant.id} }">
+            <router-link :to="{ name: 'restaurant', params: { slug: restaurant.slug, id: restaurant.id } }">
               <div class="card-restaurant">
                 <div class="card-body-restaurant">
                   <div class="top-restaurant">

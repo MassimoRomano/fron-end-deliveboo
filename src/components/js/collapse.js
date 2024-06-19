@@ -1,8 +1,8 @@
 export const collapse = {
-    Ordina: ['Consegna più rapida', 'Consigliati', 'Distanza', 'I più votati'],
-    Offerte: ['Consegna gratuita', 'Offerte di oggi', 'Tutto il menu', 'Prodotti omaggio'],
+    /* Ordina: ['Consegna più rapida', 'Consigliati', 'Distanza', 'I più votati'],
+    Offerte: ['Consegna gratuita', 'Offerte di oggi', 'Tutto il menu', 'Prodotti omaggio'], */
     Cucine: ['Italiano', 'Cinese', 'Giapponese', 'Indiano', 'Brasiliano', 'Spagnolo', 'Greco'],
-    Piatti: ['Pollo', 'Hamburger', 'Pizza', 'Insalata', 'Carne', 'Pasta']
+    /* Piatti: ['Pollo', 'Hamburger', 'Pizza', 'Insalata', 'Carne', 'Pasta'] */
 };
 
 export const dropdownStates = {};

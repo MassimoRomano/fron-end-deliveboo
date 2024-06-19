@@ -265,7 +265,7 @@ main {
     }
 
 
-    .found-restaurant {
+    /* .found-restaurant {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -322,10 +322,10 @@ main {
 
         }
 
-    }
+    } */
 
     .restaurant-wrap {
-        margin: 0 auto;
+        margin: 50px auto;
         display: flex;
         flex-wrap: wrap;
         gap: 30px;
