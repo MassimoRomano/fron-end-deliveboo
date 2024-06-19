@@ -324,10 +324,11 @@ main {
 
     }
 
-    .restorant-wrap {
+    .restaurant-wrap {
         margin: 0 auto;
         display: flex;
         flex-wrap: wrap;
+        gap: 30px;
     }
 
     .col-2 {
@@ -339,6 +340,7 @@ main {
             box-shadow: 0px 0px 20px 5px #000000;
             display: flex;
             flex-direction: column;
+            height: 350px;
 
             .card-body-restaurant {
                 display: flex;
