@@ -1,8 +1,12 @@
 <script>
+import axios from 'axios';
 export default {
-    name: 'AppRestourant',
+    name: 'AppRestaurant',
     data() {
         return {
+            base_api_url: 'http://127.0.0.1:8000/',
+            base_restaurants_url: 'api/restaurants',
+            restaurant: null,
             showModal: false,
             selectedProduct: { name: null, image: null }
         }
@@ -14,20 +18,36 @@ export default {
         },
         closeModal() {
             this.showModal = false;
-        }
+        },
+        callApi(url) {
+            axios
+                .get(url)
+                .then(response => {
+                    console.log(response.data);
+                    this.restaurants = response.data
+                })
+                .catch(error => {
+                    this.error.message = error.message;
+                })
+        },
+    },
+    mounted() {
+        let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug;
+        console.log(url)
+        this.callApi(url);
     }
 }
 </script>
 
 <template>
-    <div class="restourant-page">
+    <div class="restaurant-page">
         <div class="container">
             <section class="info-rest">
                 <div class="logo-rest">
                     <img src="/public/img/log-aff/MC_2007.jpg.webp" alt="">
                 </div>
                 <div class="descr-rest">
-                    <h1>KFC</h1>
+                    <h1></h1>
                     <p>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quaerat.
                     </p>
@@ -37,7 +57,7 @@ export default {
             <h2>Prodotti</h2>
             <section class="product">
                 <div class="product-info">
-                    <div class="col-2" @click="openModal('Osso di Seppia','/public/img/deliv.png')">
+                    <div class="col-2" @click="openModal('Osso di Seppia', '/public/img/deliv.png')">
                         <div class="card-rest">
                             <div class="card-body-rest">
                                 <div class="top-rest">
@@ -77,5 +97,5 @@ export default {
 </template>
 
 <style>
-@import '/src/components/css/_restourant.css';
+@import '/src/components/css/_restaurant.css';
 </style>

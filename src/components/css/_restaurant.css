@@ -1,4 +1,4 @@
-.restourant-page {
+.restaurant-page {
     margin: 50px 0;
 }
 
@@ -23,17 +23,17 @@
     width: 60%;
 }
 
-.logo-rest{
+.logo-rest {
     width: 50%;
 
-    img{
+    img {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
 }
 
-.info-rest{
+.info-rest {
     width: 50%;
 }
 
@@ -58,7 +58,7 @@
         background: #e2e5e5;
         border-radius: 10px;
 
-        a{
+        a {
             text-decoration: none;
             color: #2e33337a;
             font-size: 20px;
@@ -66,13 +66,13 @@
         }
     }
 
-    .icon-cart{
+    .icon-cart {
         margin: auto;
         font-size: 60px;
         color: rgba(0, 0, 0, 0.308);
     }
 
-    .text-cart{
+    .text-cart {
         margin: auto;
         font-size: 20px;
         color: rgba(0, 0, 0, 0.308);
@@ -85,28 +85,28 @@
 .modal {
     position: fixed;
     z-index: 1;
-    left:0;
+    left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-content {
     background-color: #fefefe;
-    margin:200px auto;
+    margin: 200px auto;
     border: 1px solid hsl(0, 0%, 53%);
-    width:30%;
+    width: 30%;
 
 
-    img{
+    img {
         width: 90%;
         height: 100%;
         object-fit: cover;
     }
 }
 
-.modal-inside{
+.modal-inside {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -114,6 +114,7 @@
     margin: auto;
     gap: 20px;
 }
+
 .close {
     position: relative;
     color: #aaa;
@@ -121,6 +122,7 @@
     font-weight: bold;
     left: 47%;
 }
+
 .close:hover,
 .close:focus {
     color: black;
