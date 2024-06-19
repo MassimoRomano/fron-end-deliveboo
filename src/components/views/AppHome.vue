@@ -16,13 +16,21 @@ export default {
       types: [],
       dropdownOptions: collapse,
       dropdownStates,
-
     }
   },
-  created() {
-    initializeDropdownStates();
-  },
+
   methods: {
+    nextPage(url) {
+      this.callApi(url)
+    },
+    prevPage(url) {
+      this.callApi(url)
+    },
+    goTo(page) {
+      const url = this.base_api_url + this.base_restaurants_url + `?page=${page}`
+      this.callApi(url)
+    },
+
     callApi(url) {
       axios
         .get(url)
@@ -33,8 +41,8 @@ export default {
         .catch(error => {
           this.error.message = error.message;
         })
-    },
 
+    },
     callApiTypes(url) {
       axios
         .get(url)
@@ -46,7 +54,6 @@ export default {
           this.error.message = error.message;
         })
     },
-
     uncheck(type) {
       const index = this.selectedTypes.findIndex(selectedType => selectedType.id === type.id);
       if (index !== -1) {
@@ -55,7 +62,6 @@ export default {
         this.selectedTypes.push(type);
       }
     },
-
     toggleDropdown,
     selectOption(name, index, event) {
       event.stopPropagation();
@@ -64,6 +70,7 @@ export default {
     }
 
   },
+
   mounted() {
     autoScroll();
     autoSlide();
@@ -82,9 +89,10 @@ export default {
     <div class="jumbo-head">
       <h1>I piatti dei ristoranti che ami, a domicilio </h1>
       <div class="card">
-
       </div>
+      <!-- ./card -->
     </div>
+    <!-- ./jumbo-head -->
 
     <section class="logo-aff">
       <div class="scroll-container ">
@@ -114,6 +122,8 @@ export default {
             <i class="fa-solid fa-fish-fins"></i>
           </div>
         </div>
+        <!-- ./scroll-top -->
+
         <div class="scroll-bottom">
           <div class="scroll-2">
             <i class="fa-solid fa-burger"></i>
@@ -140,30 +150,28 @@ export default {
             <img src="/public/img/log-aff/scream.jpg" alt="">
           </div>
         </div>
+        <!-- ./scroll-bottom -->
       </div>
+      <!-- ./container -->
     </section>
+    <!-- ./logo-aff -->
 
     <section class="restaurant">
+
       <div class="text-rest">
-        <h2>Cerca il tuo Ristorante Preferito e c'ho che piu' ami mangiare</h2>
+        <h2>Cerca il tuo Ristorante Preferito e ciò che più ami mangiare</h2>
         <h3>E al resto pensiamo noi!!</h3>
       </div>
+      <!-- /.text-rest -->
+
       <div class="bar-types">
-        <div v-for="(option, name) in dropdownOptions" :key="name" class="dropdown">
-          <button class="dropdown-button" @click="toggleDropdown(name)">
-            {{ name }}
-            <span><i class="fa-solid fa-sort-down"></i></span>
-          </button>
-          <div class="dropdown-content" :id="'dropdown-' + name" :class="{ open: dropdownStates[name].isOpen }">
-            <ul>
-              <li v-for="type in types" :key="type.id">
-                <input type="checkbox" :id="type.id" :name="name" @click='uncheck(type)'
-                  :checked="selectedTypes.some(selectedType => selectedType.id === type.id)">
-                <label :for="type.id">{{ type.name }}</label>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <form action="">
+          <ul class="d_flex">
+            <li v-for="type, index in types">
+              <input type="checkbox" name="type.id" id="type.id"> {{ type.name }}
+            </li>
+          </ul>
+        </form>
       </div>
 
       <div class="restaurant-wrap">
@@ -193,10 +201,32 @@ export default {
             </router-link>
           </div>
         </template>
-
-
       </div>
     </section>
+    <!-- ./restaurants -->
+
+    <nav aria-label="Page navigation" class="text-center">
+      <ul class="my_pagination">
+        <li v-show="restaurants.prev_page_url" @click="prevPage(restaurants.prev_page_url)">
+          <button class="page-link" aria-label="Previous">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+        </li>
+
+        <li v-for="page in restaurants.last_page" @click="goTo(page)">
+          <button
+            :class="{ 'active': page == restaurants.current_page, 'page-link': page != restaurants.current_page }">{{
+              page }}</button>
+        </li>
+
+        <li v-show="restaurants.next_page_url" @click="nextPage(restaurants.next_page_url)">
+          <button class="page-link" aria-label="Next">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.pagination -->
 
     <section class="offer">
       <div class="card-offer">
