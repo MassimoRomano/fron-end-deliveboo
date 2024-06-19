@@ -54,20 +54,21 @@ export default {
           this.error.message = error.message;
         })
     },
-    uncheck(type) {
-      const index = this.selectedTypes.findIndex(selectedType => selectedType.id === type.id);
-      if (index !== -1) {
-        this.selectedTypes.splice(index, 1);
-      } else {
-        this.selectedTypes.push(type);
-      }
+    callApiFilter(url) {
+      let data = {
+        ids = this.selectedTypes;
+      };
+      let urlFilter = this.base_api_url
+      axios
+        .get(url)
+        .then(response => {
+          console.log(response);
+          
+        })
+        .catch(error => {
+          this.error.message = error.message;
+        })
     },
-    toggleDropdown,
-    selectOption(name, index, event) {
-      event.stopPropagation();
-      selectOption(name, index);
-      this.$forceUpdate();
-    }
 
   },
 
