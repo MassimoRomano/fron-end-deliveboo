@@ -24,7 +24,7 @@ export default {
         .catch(error => {
           this.error.message = error.message;
         })
-    }
+    },
 
   },
   mounted() {
@@ -104,13 +104,13 @@ export default {
       </div>
     </section>
 
-    <section class="restourant">
+    <section class="restaurant">
       <div class="text-rest">
         <h2>Cerca il tuo Ristorante Preferito e c'ho che piu' ami mangiare</h2>
         <h3>E al resto pensiamo noi!!</h3>
       </div>
-      <div class="found-restourant">
-        <div class="bar-search-restourant">
+      <div class="found-restaurant">
+        <div class="bar-search-restaurant">
           <div class="logo-rest-search">
             <i class="fa-solid fa-utensils"></i>
           </div>
@@ -123,31 +123,36 @@ export default {
         </div>
 
       </div>
-      <div class="restourant-wrap">
-        <router-link :to="{ name: 'restourants' }">
+      <div class="restaurant-wrap">
+
+        <template v-if="restaurants.data">
           <div class="col-2" v-for="restaurant in restaurants.data">
-            <div class="card-restourant">
-              <div class="card-body-restourant">
-                <div class="top-restourant">
-                  <!-- <template v-if="">
-                    <div class="card-image">
-                      <img :src="base_api_url + 'storage/' + restaurant.image" alt="">
-                    </div>
-                  </template>
-<template v-else>
-                    <div class="card-image">
-                      <img :src="restaurant.image" :alt="'Image of the restaurant: ' + restaurant.name">
-                    </div>
-                  </template> -->
-                </div>
-                <div class="bottom-restourant">
-                  <h3>{{ restaurant.name }}</h3>
-                  <p>{{ restaurant.address }}</p>
+            <router-link :to="{ name: 'restaurant', params: { slug: restaurant.slug } }">
+              <div class="card-restaurant">
+                <div class="card-body-restaurant">
+                  <div class="top-restaurant">
+                    <template v-if="restaurant.image && restaurant.image.includes('uploads')">
+                      <div class="card-image">
+                        <img :src="base_api_url + 'storage/' + restaurant.image" alt="">
+                      </div>
+                    </template>
+                    <template v-else>
+                      <div class="card-image">
+                        <img :src="restaurant.image" :alt="'Image of the restaurant: ' + restaurant.name">
+                      </div>
+                    </template>
+                  </div>
+                  <div class="bottom-restaurant">
+                    <h3>{{ restaurant.name }}</h3>
+                    <p>{{ restaurant.address }}</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </router-link>
           </div>
-        </router-link>
+        </template>
+
+
       </div>
     </section>
 
@@ -159,7 +164,8 @@ export default {
             <p>Perfetti per dare più gusto alla tua settimana, ordinare i piatti più amati da tutta la famiglia e fare
               una
               pausa dai fornelli.</p>
-            <p class="log"><span><router-link>Registrati</router-link></span> per avere uno sconto sul tuo primo ordine
+            <p class="log"><span> <router-link>Registrati</router-link> </span> per avere uno sconto sul tuo primo
+              ordine
             </p>
           </div>
           <div class="right-offer">
