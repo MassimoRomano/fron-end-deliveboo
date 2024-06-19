@@ -174,7 +174,7 @@ export default {
 
       <div class="bar-types">
         <form action="">
-          <ul class="d_flex">
+          <ul class="types-section">
             <li v-for="type, index in types" @click="callApiFilter()">
               <input type="checkbox" name="type.id" id="type.id" v-model="selectedTypes" :value="type.id"> {{ type.name
               }}

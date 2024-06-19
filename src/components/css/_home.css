@@ -2,20 +2,6 @@ main {
     background-color: #121212;
 }
 
-.d_flex {
-    width: 80%;
-    margin: auto;
-    display: flex;
-    flex-wrap: wrap;
-    padding: 20px;
-    background-color: aliceblue;
-
-    & li {
-        padding: 20px;
-        list-style: none;
-    }
-}
-
 /* JUMBOTRON */
 .jumbo-head {
     height: 69vh;
@@ -512,14 +498,13 @@ main {
             background-color: rgb(97, 97, 97);
         }
     }
-
-
 }
 
 .color_white {
     color: white;
 }
 
+/* #region Pagination */
 .my_pagination {
     display: flex;
     justify-content: center;
@@ -562,3 +547,25 @@ main {
     }
 
 }
+
+/* #endregion Pagination */
+
+/* #region Types */
+.types-section {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    box-shadow: rgba(142, 121, 248, 1) 4px 4px 10px;
+    border-radius: 15px;
+
+    li {
+        padding: 20px;
+        list-style: none;
+        color: white;
+    }
+
+}
+
+/* #endregion Types */
