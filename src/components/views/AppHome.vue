@@ -127,7 +127,7 @@ export default {
 
         <template v-if="restaurants.data">
           <div class="col-2" v-for="restaurant in restaurants.data">
-            <router-link :to="{ name: 'restaurant', params: { slug: restaurant.slug } }">
+            <router-link :to="{ name: 'restaurant', params: { slug: restaurant.slug , id: restaurant.id} }">
               <div class="card-restaurant">
                 <div class="card-body-restaurant">
                   <div class="top-restaurant">

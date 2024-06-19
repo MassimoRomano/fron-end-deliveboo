@@ -6,7 +6,7 @@ export default {
         return {
             base_api_url: 'http://127.0.0.1:8000/',
             base_restaurants_url: 'api/restaurants',
-            restaurant: null,
+            restaurants: null,
             showModal: false,
             selectedProduct: { name: null, image: null }
         }
@@ -23,9 +23,9 @@ export default {
             axios
                 .get(url)
                 .then(response => {
-                    console.log(response.data);
-                    this.restaurant = response.data.response
-                    console.log(this.restaurant)
+                    console.log(response.data.response);
+                    this.restaurants = response.data.response
+                    console.log(this.restaurants)
                 })
                 .catch(error => {
                     this.error.message = error.message;
@@ -33,7 +33,7 @@ export default {
         },
     },
     mounted() {
-        let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug;
+        let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug + "/" + this.$route.params.id;
         console.log(url)
         this.callApi(url);
     }
@@ -41,7 +41,7 @@ export default {
 </script>
 
 <template>
-    <template v-if="restaurant">
+    <template v-if="restaurants" v-for="restaurant in restaurants">
         <div class="restaurant-page">
             <div class="container">
                 <section class="info-rest">
