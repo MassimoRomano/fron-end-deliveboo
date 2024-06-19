@@ -17,11 +17,11 @@ const router = createRouter({
             name: 'search'
         },
         {
-            path: '/restourant',
+            path: '/restourants',
             component: AppRestourant,
-            name: 'restourant'
+            name: 'restourants'
         },
-        
+
     ]
 })
 
