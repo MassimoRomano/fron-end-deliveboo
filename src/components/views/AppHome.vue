@@ -35,7 +35,7 @@ export default {
       axios
         .get(url)
         .then(response => {
-          console.log(response.data.restaurants);
+          //console.log(response.data.restaurants);
           this.restaurants = response.data.restaurants
         })
         .catch(error => {
@@ -47,29 +47,36 @@ export default {
       axios
         .get(url)
         .then(response => {
-          console.log(response.data.types);
+          //console.log(response.data.types);
           this.types = response.data.types
         })
         .catch(error => {
           this.error.message = error.message;
         })
     },
-    callApiFilter() {
-      const params = new URLSearchParams();
-      this.selectedTypes.forEach(number => {
-        params.append(`numbers[]`, number);
-      });
 
-      let url = this.base_api_url + 'api/restaurants/';
-      axios
-        .get(url, { params })
-        .then(response => {
-          console.log(response);
+    callApiFilter() {
+      // Compongo la chiamata api con la Route di Laravel
+      let url = this.base_api_url + 'api/filter';
+
+      // timing function perché chiamata api più veloce del v-bind
+      setTimeout(() => {
+        axios.get(url, {
+          params: {
+            // costruisco il mio obj paramas passandogli il mio array di id selezionati con v-bind
+            types: this.selectedTypes,
+          }
         })
-        .catch(error => {
-          console.error(error);
-        })
-    },
+          .then(response => {
+            // Vedo la risposta
+            // Passo correttamente gli id!
+            console.log(response.data);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }, 100);
+    }
   },
 
   mounted() {
