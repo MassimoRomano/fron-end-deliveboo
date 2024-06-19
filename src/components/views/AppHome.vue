@@ -54,22 +54,22 @@ export default {
           this.error.message = error.message;
         })
     },
-    callApiFilter(url) {
-      let data = {
-        ids = this.selectedTypes;
-      };
-      let urlFilter = this.base_api_url
+    callApiFilter() {
+      const params = new URLSearchParams();
+      this.selectedTypes.forEach(number => {
+        params.append(`numbers[]`, number);
+      });
+
+      let url = this.base_api_url + 'api/restaurants/';
       axios
-        .get(url)
+        .get(url, { params })
         .then(response => {
           console.log(response);
-          
         })
         .catch(error => {
-          this.error.message = error.message;
+          console.error(error);
         })
     },
-
   },
 
   mounted() {
@@ -168,14 +168,14 @@ export default {
       <div class="bar-types">
         <form action="">
           <ul class="d_flex">
-            <li v-for="type, index in types">
+            <li v-for="type, index in types" @click="callApiFilter()">
               <input type="checkbox" name="type.id" id="type.id" v-model="selectedTypes" :value="type.id"> {{ type.name
               }}
             </li>
           </ul>
         </form>
-        <div class="color_white">{{ selectedTypes }}</div>
         <div>{{ console.log(selectedTypes) }}</div>
+        <div class="color_white">{{ selectedTypes }}</div>
       </div>
 
       <div class="restaurant-wrap">
