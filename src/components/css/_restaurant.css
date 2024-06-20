@@ -141,7 +141,7 @@ h2 {
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: #161616;
     margin: 200px auto;
     border: 1px solid hsl(0, 0%, 53%);
     width: 30%;
@@ -164,11 +164,13 @@ h2 {
 
     h2{
         margin: 0px;
+        color: wheat;
     }
 
     p{
         align-self: self-start;
         margin-left: 35px;
+        color: goldenrod;
     }
 }
 

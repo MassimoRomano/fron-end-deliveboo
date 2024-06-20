@@ -90,7 +90,7 @@ export default {
                                         </div>
                                         <div class="bottom-product">
                                             <h3>{{ dish.name }}</h3>
-                                            <p>Prezzo: {{ dish.price }}</p>
+                                            <p>Prezzo: {{ dish.price }} &euro;</p>
                                         </div>
                                     </div>
                                 </div>

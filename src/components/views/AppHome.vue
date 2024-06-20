@@ -92,9 +92,9 @@ export default {
     scrollTypes(direction) {
       const container = this.$refs.typesContainer;
       if (direction === 'next') {
-        container.scrollLeft += 200;
+        container.scrollLeft += 1000;
       } else {
-        container.scrollLeft -= 200;
+        container.scrollLeft -= 1000;
       }
     },
 
@@ -186,88 +186,99 @@ export default {
     <!-- ./logo-aff -->
 
     <section class="restaurant">
+      <div class="restaurant-container">
 
-      <div class="text-rest">
-        <h2>Cerca il tuo Ristorante Preferito e ciò che più ami mangiare</h2>
-        <h3>Scegli cosa vuoi mangiare oggi</h3>
-      </div>
-      <!-- /.text-rest -->
+        <div class="text-rest">
+          <h2>Cerca il tuo Ristorante Preferito e ciò che più ami mangiare</h2>
+          <h3>Scegli cosa vuoi mangiare oggi</h3>
+        </div>
+        <!-- /.text-rest -->
 
-      <div class="bar-types">
-        <button class="prev-btn" @click="scrollTypes('prev')">&#10094;</button>
-        <form action="">
-          <div ref="typesContainer" class="types-container">
-            <ul class="types-section">
-              <li v-for="type, index in types" @click="callApiFilter()">
-                <input type="checkbox" name="type.id" id="type.id" v-model="selectedTypes" :value="type.id"> {{
-                  type.name }}
-              </li>
-            </ul>
-          </div>
-        </form>
-        <button class="next-btn" @click="scrollTypes('next')">&#10095;</button> <!-- Pulsante per scorrere a destra -->
-        <div>{{ console.log(selectedTypes) }}</div>
-        <div class="color_white">{{ selectedTypes }}</div>
-      </div>
+        <div class="bar-types">
+          <button class="prev-btn" @click="scrollTypes('prev')">&#10094;</button>
+          <form action="">
+            <div ref="typesContainer" class="types-container">
+              <ul class="types-section">
+                <li v-for="type, index in types" @click="callApiFilter()">
+                  <input type="checkbox" name="type.id" id="type.id" v-model="selectedTypes" :value="type.id"> {{
+                    type.name }}
+                </li>
+              </ul>
+            </div>
+          </form>
+          <button class="next-btn" @click="scrollTypes('next')">&#10095;</button>
+          <!-- Pulsante per scorrere a destra -->
+          <div>{{ console.log(selectedTypes) }}</div>
+          <div class="color_white">{{ selectedTypes }}</div>
+        </div>
 
-      <div class="restaurant-wrap">
-        <template v-if="restaurants.data">
-          <div class="col-2" v-for="restaurant in restaurants.data">
-            <router-link :to="{ name: 'restaurant', params: { slug: restaurant.slug, id: restaurant.id } }">
-              <div class="card-restaurant">
-                <div class="card-body-restaurant">
-                  <div class="top-restaurant">
-                    <template v-if="restaurant.image && restaurant.image.includes('uploads')">
-                      <div class="card-image">
-                        <img :src="base_api_url + 'storage/' + restaurant.image" alt="">
+        <div class="restaurant-wrap">
+          <template v-if="restaurants.data">
+            <div class="col-2" v-for="restaurant in restaurants.data">
+              <router-link :to="{ name: 'restaurant', params: { slug: restaurant.slug, id: restaurant.id } }">
+                <div class="card-restaurant">
+                  <div class="card-body-restaurant">
+                    <div class="top-restaurant">
+                      <template v-if="restaurant.image && restaurant.image.includes('uploads')">
+                        <div class="card-image">
+                          <img :src="base_api_url + 'storage/' + restaurant.image" alt="">
+                        </div>
+                      </template>
+                      <template v-else>
+                        <div class="card-image">
+                          <img :src="restaurant.image" :alt="'Image of the restaurant: ' + restaurant.name">
+                        </div>
+                      </template>
+                    </div>
+                    <div class="bottom-restaurant">
+                      <div>
+                        <h3>{{ restaurant.name }}</h3>
                       </div>
-                    </template>
-                    <template v-else>
-                      <div class="card-image">
-                        <img :src="restaurant.image" :alt="'Image of the restaurant: ' + restaurant.name">
+                      <div>
+                        <p>Indirizzo:</p>
+                        <p>{{ restaurant.address }}</p>
+                        <p v-if="restaurant.type">{{ restaurant.type }}</p>
                       </div>
-                    </template>
-                  </div>
-                  <div class="bottom-restaurant">
-                    <h3>{{ restaurant.name }}</h3>
-                    <p>{{ restaurant.address }}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </router-link>
-          </div>
-        </template>
+              </router-link>
+            </div>
+          </template>
 
-        <template v-else>
-          <h3>I don't have restaurants</h3>
-        </template>
-        <!-- template if don't have restaurant -->
+          <template v-else>
+            <h3>I don't have restaurants</h3>
+          </template>
+          <!-- template if don't have restaurant -->
+        </div>
+        <nav aria-label="Page navigation" class="text-center">
+          <ul class="my_pagination">
+            <li v-show="restaurants.prev_page_url" @click="prevPage(restaurants.prev_page_url)">
+              <button class="page-link" aria-label="Previous">
+                <i class="fa-solid fa-chevron-left"></i>
+              </button>
+            </li>
+
+            <li v-for="page in restaurants.last_page" @click="goTo(page)">
+              <button
+                :class="{ 'active': page == restaurants.current_page, 'page-link': page != restaurants.current_page }">{{
+                  page }}</button>
+            </li>
+
+            <li v-show="restaurants.next_page_url" @click="nextPage(restaurants.next_page_url)">
+              <button class="page-link" aria-label="Next">
+                <i class="fa-solid fa-chevron-right"></i>
+              </button>
+            </li>
+          </ul>
+        </nav>
+        <!-- /.pagination -->
       </div>
     </section>
     <!-- ./restaurants -->
 
-    <nav aria-label="Page navigation" class="text-center">
-      <ul class="my_pagination">
-        <li v-show="restaurants.prev_page_url" @click="prevPage(restaurants.prev_page_url)">
-          <button class="page-link" aria-label="Previous">
-            <i class="fa-solid fa-chevron-left"></i>
-          </button>
-        </li>
 
-        <li v-for="page in restaurants.last_page" @click="goTo(page)">
-          <button
-            :class="{ 'active': page == restaurants.current_page, 'page-link': page != restaurants.current_page }">{{
-              page }}</button>
-        </li>
 
-        <li v-show="restaurants.next_page_url" @click="nextPage(restaurants.next_page_url)">
-          <button class="page-link" aria-label="Next">
-            <i class="fa-solid fa-chevron-right"></i>
-          </button>
-        </li>
-      </ul>
-    </nav>
-    <!-- /.pagination -->
 
     <section class="offer">
       <div class="card-offer">
