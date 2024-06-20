@@ -59,7 +59,6 @@ export default {
       // Compongo la chiamata api con la Route di Laravel
       let url = this.base_api_url + 'api/filter';
 
-
       // timing function perché chiamata api più veloce del v-bind 
       console.log(this.selectedTypes.length, 'ciao')
       setTimeout(() => {
@@ -201,7 +200,7 @@ export default {
               <ul class="types-section">
                 <li v-for="type, index in types" @click="callApiFilter()">
                   <input type="checkbox" name="type.id" id="type.id" v-model="selectedTypes" :value="type.id"> {{
-                    type.name }}
+            type.name }}
                 </li>
               </ul>
             </div>
@@ -262,7 +261,7 @@ export default {
             <li v-for="page in restaurants.last_page" @click="goTo(page)">
               <button
                 :class="{ 'active': page == restaurants.current_page, 'page-link': page != restaurants.current_page }">{{
-                  page }}</button>
+            page }}</button>
             </li>
 
             <li v-show="restaurants.next_page_url" @click="nextPage(restaurants.next_page_url)">
@@ -276,9 +275,6 @@ export default {
       </div>
     </section>
     <!-- ./restaurants -->
-
-
-
 
     <section class="offer">
       <div class="card-offer">

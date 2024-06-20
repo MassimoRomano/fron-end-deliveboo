@@ -68,7 +68,8 @@ export default {
                         </div>
                     </section>
 
-                    <h2>Menu'</h2>
+                    <h2>Menù</h2>
+
                     <section class="product">
                         <div class="product-info">
                             <div @click="openModal(dish)" class="col-2 restaurant-dishes"
