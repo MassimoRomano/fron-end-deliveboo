@@ -35,7 +35,7 @@ export default {
       axios
         .get(url)
         .then(response => {
-          //console.log(response.data.restaurants);
+          console.log(response.data.restaurants);
           this.restaurants = response.data.restaurants
         })
         .catch(error => {
@@ -59,23 +59,37 @@ export default {
       // Compongo la chiamata api con la Route di Laravel
       let url = this.base_api_url + 'api/filter';
 
-      // timing function perché chiamata api più veloce del v-bind
+
+      // timing function perché chiamata api più veloce del v-bind 
+      console.log(this.selectedTypes.length, 'ciao')
       setTimeout(() => {
-        axios.get(url, {
-          params: {
-            // costruisco il mio obj paramas passandogli il mio array di id selezionati con v-bind
-            types: this.selectedTypes,
-          }
-        })
-          .then(response => {
-            // Vedo la risposta
-            // Passo correttamente gli id!
-            console.log(response.data);
+        if (this.selectedTypes.length > 0) {
+          axios.get(url, {
+            params: {
+              // costruisco il mio obj paramas passandogli il mio array di id selezionati con v-bind
+              types: this.selectedTypes,
+            }
           })
-          .catch(error => {
-            console.error(error);
-          });
+            .then(response => {
+              // Vedo la risposta
+              // Passo correttamente gli id!
+
+              console.log(response.data.received_data);
+              this.restaurants = response.data.received_data;
+              // this.restaurants =
+            })
+            .catch(error => {
+              console.error(error);
+            });
+        } else {
+          console.log(this.selectedTypes.length, 'ciao')
+          let urlRestaurants = this.base_api_url + this.base_restaurants_url;
+          this.callApi(urlRestaurants);
+        }
       }, 100);
+
+
+
     }
   },
 
@@ -212,6 +226,11 @@ export default {
             </router-link>
           </div>
         </template>
+
+        <template v-else>
+          <h3>I don't have restaurants</h3>
+        </template>
+        <!-- template if don't have restaurant -->
       </div>
     </section>
     <!-- ./restaurants -->
