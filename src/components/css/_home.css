@@ -338,8 +338,7 @@
         margin: 50px auto;
         display: flex;
         flex-wrap: wrap;
-        gap: 30px;
-        justify-content: space-between;
+        gap: 63px;
 
         a {
             text-decoration: none;
