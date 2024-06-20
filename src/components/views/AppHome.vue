@@ -89,6 +89,7 @@ export default {
       }, 100);
 
     },
+
     scrollTypes(direction) {
       const container = this.$refs.typesContainer;
       if (direction === 'next') {
@@ -237,7 +238,9 @@ export default {
                       <div>
                         <p>Indirizzo:</p>
                         <p>{{ restaurant.address }}</p>
-                        <p v-if="restaurant.type">{{ restaurant.type }}</p>
+                        <div v-if="restaurant.types"> 
+                          <p v-for="(type,index) in restaurant.types">{{ type.name }}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
