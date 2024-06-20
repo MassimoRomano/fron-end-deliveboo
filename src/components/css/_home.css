@@ -702,4 +702,12 @@
     color: white;
 }
 
+.text_center{
+    text-align: center;
+}
+
+.width_100{
+    width: 100%;
+}
+
 /* #endregion collabs */
