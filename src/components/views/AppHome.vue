@@ -189,7 +189,7 @@ export default {
       <div class="restaurant-container">
 
         <div class="text-rest">
-          <h2>Cerca il tuo <span>Ristorante Preferito</span> e ciò che più ami mangiare e  noi penseremo al resto</h2>
+          <h2>Cerca il tuo <span>Ristorante Preferito</span> e ciò che più ami mangiare e noi penseremo al resto</h2>
           <h3>Scegli cosa vuoi mangiare oggi</h3>
         </div>
         <!-- /.text-rest -->
@@ -219,7 +219,7 @@ export default {
                 <div class="card-restaurant">
                   <div class="card-body-restaurant">
                     <div class="top-restaurant">
-                      <template v-if="restaurant.image && restaurant.image.includes('uploads')">
+                      <template v-if="restaurant.image && restaurant.image.startsWith('uploads')">
                         <div class="card-image">
                           <img :src="base_api_url + 'storage/' + restaurant.image" alt="">
                         </div>

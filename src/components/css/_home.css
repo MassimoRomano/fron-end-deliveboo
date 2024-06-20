@@ -256,7 +256,7 @@
         span {
             color: goldenrod;
         }
-        
+
 
         h3 {
             margin-bottom: 10px;
@@ -368,13 +368,13 @@
 
                 img {
                     width: 100%;
-                    aspect-ratio: 1.5;
                     object-fit: cover;
                     position: relative;
                     bottom: 30px;
                     margin-bottom: -20px;
                     clip-path: circle();
                     shape-outside: circle();
+                    aspect-ratio: 1.5;
                 }
 
 
@@ -416,26 +416,26 @@
     animation: slideleft 3s;
 }
 
- 
+
 @keyframes slideleft {
     from {
         transform: translateX(-100%);
     }
-  
+
     to {
         transform: translateX(0);
     }
-  }
-  
-  @keyframes slideRight {
+}
+
+@keyframes slideRight {
     from {
         transform: translateX(500px);
     }
-  
+
     to {
         transform: translateX(0);
     }
-  }
+}
 
 /* #region Pagination */
 .my_pagination {
