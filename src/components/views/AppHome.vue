@@ -76,7 +76,15 @@ export default {
             console.error(error);
           });
       }, 100);
-    }
+    },
+    scrollTypes(direction) {
+      const container = this.$refs.typesContainer;
+      if (direction === 'next') {
+        container.scrollLeft += 200;
+      } else {
+        container.scrollLeft -= 200;
+      }
+    },
   },
 
   mounted() {
@@ -92,7 +100,7 @@ export default {
 </script>
 
 <template>
-  <main>
+  <main class="home">
 
     <div class="jumbo-head">
       <h1>I piatti dei ristoranti che ami, a domicilio </h1>
@@ -168,19 +176,23 @@ export default {
 
       <div class="text-rest">
         <h2>Cerca il tuo Ristorante Preferito e ciò che più ami mangiare</h2>
-        <h3>E al resto pensiamo noi!!</h3>
+        <h3>Scegli cosa vuoi mangiare oggi</h3>
       </div>
       <!-- /.text-rest -->
 
       <div class="bar-types">
+        <button class="prev-btn" @click="scrollTypes('prev')">&#10094;</button>
         <form action="">
-          <ul class="types-section">
-            <li v-for="type, index in types" @click="callApiFilter()">
-              <input type="checkbox" name="type.id" id="type.id" v-model="selectedTypes" :value="type.id"> {{ type.name
-              }}
-            </li>
-          </ul>
+          <div ref="typesContainer" class="types-container">
+            <ul class="types-section">
+              <li v-for="type, index in types" @click="callApiFilter()">
+                <input type="checkbox" name="type.id" id="type.id" v-model="selectedTypes" :value="type.id"> {{
+                  type.name }}
+              </li>
+            </ul>
+          </div>
         </form>
+        <button class="next-btn" @click="scrollTypes('next')">&#10095;</button> <!-- Pulsante per scorrere a destra -->
         <div>{{ console.log(selectedTypes) }}</div>
         <div class="color_white">{{ selectedTypes }}</div>
       </div>
