@@ -1,4 +1,4 @@
-main {
+.home {
     background-color: #121212;
 }
 
@@ -96,7 +96,7 @@ main {
 
 /* #endregion search */
 
-/* SCROLL LINE */
+/* #region SCROLL LINE */
 
 .logo-aff {
     width: 100%;
@@ -238,6 +238,8 @@ main {
     }
 }
 
+/* #endregion SCROLL LINE */
+
 
 /* restaurant */
 .restaurant {
@@ -367,7 +369,7 @@ main {
 }
 
 
-/* OFFER */
+/* #region OFFER */
 
 .offer {
     height: 750px;
@@ -425,8 +427,10 @@ main {
 
 }
 
+/* #endregion */
 
-/* COLLABS */
+
+/*#region COLLABS */
 
 .collabs {
     height: 700px;
@@ -504,17 +508,19 @@ main {
     color: white;
 }
 
+/* #endregion collabs */
+
 /* #region Pagination */
 .my_pagination {
     display: flex;
     justify-content: center;
+    align-items: center;
     list-style: none;
     padding: 1rem 0;
 
     li {
         padding: 0.5rem 1.1rem;
         margin: 2rem 1rem;
-        border: 1px solid rgba(32, 49, 87, 0.473);
         border-radius: 50%;
         cursor: pointer;
         font-size: 20px;
@@ -531,7 +537,7 @@ main {
     }
 
     .active {
-        color: rgba(0, 255, 241, 1);
+        color: rgb(243, 237, 206);
         border: 0;
         font-weight: bold;
         font-size: large;
@@ -540,7 +546,7 @@ main {
 
     .page-link {
         border: 0;
-        color: white;
+        color:goldenrod;
         background-color: transparent;
         font-weight: bold;
         font-size: large;
@@ -551,21 +557,76 @@ main {
 /* #endregion Pagination */
 
 /* #region Types */
-.types-section {
-    width: 80%;
+.bar-types {
+    position: relative;
+    width: 70%;
+    height: 100px;
+    padding: 10px 20px;
+    display: block;
+    align-items: center;
+    justify-content: center;
     margin: auto;
-    display: flex;
-    flex-wrap: wrap;
-    padding: 20px;
-    box-shadow: rgba(142, 121, 248, 1) 4px 4px 10px;
-    border-radius: 15px;
 
-    li {
-        padding: 20px;
-        list-style: none;
-        color: white;
+    button {
+        z-index: 100;
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #161616;
+        color: goldenrod;
+        border-radius: 50%;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+
     }
+}
 
+.types-container {
+    overflow-x: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 15px 40px;
+    margin: 0 auto;
+    border-radius: 35px;
+}
+
+.types-section {
+    display: flex;
+    gap: 15px;
+    width: 60%;
+    max-width: 100%;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.types-section li {
+    flex: 0 0 auto;
+    padding: 5px 15px;
+    list-style: none;
+    color: goldenrod;
+    border-radius: 25px;
+    display: flex;
+    gap: 5px;
+    cursor: pointer;
+    background-color: white;
+}
+
+.prev-btn {
+    left: -24px;
+    top: 23%;
+}
+
+.next-btn {
+    right: -25px;
+    top: 24%;
 }
 
 /* #endregion Types */
