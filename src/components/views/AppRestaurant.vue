@@ -31,16 +31,16 @@ export default {
             axios
                 .get(url)
                 .then(response => {
-                    console.log(response.data.response);
+                    //console.log(response.data.response);
                     this.restaurants = response.data.response
-                    console.log(this.restaurants)
+                    //console.log(this.restaurants)
                 })
                 .catch(error => {
                     this.error.message = error.message;
                 })
         },
         addItemToCart(product) {
-            console.log(product);
+            //onsole.log(product);
             let product_quantity = {
                 object: product,
                 quantity: 1,
@@ -49,12 +49,11 @@ export default {
             if (!check_product) {
                 this.cart.push(product_quantity);
             }
-            //console.log(check_product);
         },
     },
     mounted() {
         let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug;
-        console.log(url);
+        //console.log(url);
         this.callApi(url);
     }
 }
@@ -62,13 +61,7 @@ export default {
 
 <template>
     <main class="rest">
-
         <template v-if="restaurants" v-for="restaurant in restaurants">
-
-            <div>
-                <!-- {{ console.log(restaurant) }} -->
-            </div>
-
             <div class="restaurant-page">
                 <div class="container">
                     <section v-for="restaurant in restaurants" class="info-rest">
@@ -77,7 +70,6 @@ export default {
                                 <img :src="restaurant.image.startsWith('uploads') ? base_api_url + 'storage/' + restaurant.image : restaurant.image"
                                     alt="Logo del ristorante">
                             </template>
-
                         </div>
                         <div class="descr-rest">
                             <h1>{{ restaurant.name }}</h1>
@@ -93,38 +85,31 @@ export default {
 
                     <section class="product">
                         <div class="product-info">
-                            <template v-if="restaurants.dishes">
-
-                                <div class="col-2 restaurant-dishes" v-for="dish in restaurant.dishes">
-                                    <div class="card-product" id="dish.id">
-                                        <div class="card-body-product">
-                                            <div class="top-product">
-                                                <template v-if="dish.image && dish.image.startsWith('uploads')">
-                                                    <div class="card-image">
-                                                        <img :src="base_api_url + 'storage/' + dish.image" alt="">
-                                                    </div>
-                                                </template>
-                                                <template v-else>
-                                                    <div class="card-image">
-                                                        <img :src="dish.image" :alt="'Image of the dish: ' + dish.name">
-                                                    </div>
-                                                </template>
-                                                <!-- ./images -->
-                                            </div>
-                                            <div class="bottom-product">
-
-
-                                                <h3>{{ dish.name }}</h3>
-                                                <p>Prezzo: {{ dish.price }} &euro;</p>
-                                                <button @click="addItemToCart(dish)" class="add_to_cart">Aggiungi al
-                                                    carrello</button>
-
-                                            </div>
+                            <div class="col-2 restaurant-dishes" v-for="dish in restaurant.dishes">
+                                <div class="card-product" id="dish.id">
+                                    <div class="card-body-product">
+                                        <div class="top-product">
+                                            <template v-if="dish.image && dish.image.startsWith('uploads')">
+                                                <div class="card-image">
+                                                    <img :src="base_api_url + 'storage/' + dish.image" alt="">
+                                                </div>
+                                            </template>
+                                            <template v-else>
+                                                <div class="card-image">
+                                                    <img :src="dish.image" :alt="'Image of the dish: ' + dish.name">
+                                                </div>
+                                            </template>
+                                            <!-- ./images -->
+                                        </div>
+                                        <div class="bottom-product">
+                                            <h3>{{ dish.name }}</h3>
+                                            <p>Prezzo: {{ dish.price }} &euro;</p>
+                                            <button @click="addItemToCart(dish)" class="add_to_cart">
+                                                Aggiungi al carrello</button>
                                         </div>
                                     </div>
                                 </div>
-                            </template>
-
+                            </div>
                         </div>
                         <!-- /.row -->
                         <div class="cart">
@@ -143,7 +128,6 @@ export default {
                                             @click="product.quantity <= 1 ? cart.splice(index, 1) : product.quantity -= 1">-</button>
                                     </p>
                                 </div>
-
                             </div>
                             <button class="pay"><a href="">Vai al carrello</a></button>
                             <!-- <button class="pay"><a href="">Vai al pagamento</a></button> -->
@@ -168,6 +152,7 @@ export default {
                             </div>
                         </div>
                     </div> -->
+
                 </div>
             </div>
         </template>
