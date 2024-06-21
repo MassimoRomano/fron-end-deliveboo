@@ -207,8 +207,8 @@ export default {
           </form>
           <button class="next-btn" @click="scrollTypes('next')">&#10095;</button>
           <!-- Pulsante per scorrere a destra -->
-          <div>{{ console.log(selectedTypes) }}</div>
-          <div class="color_white">{{ selectedTypes }}</div>
+          <!-- <div>{{ console.log(selectedTypes) }}</div> -->
+          <!-- <div class="color_white">{{ selectedTypes }}</div> -->
         </div>
 
         <div class="restaurant-wrap">
@@ -218,7 +218,7 @@ export default {
                 <div class="card-restaurant">
                   <div class="card-body-restaurant">
                     <div class="top-restaurant">
-                      <template v-if="restaurant.image && restaurant.image.includes('uploads')">
+                      <template v-if="restaurant.image && restaurant.image.startsWith('uploads')">
                         <div class="card-image">
                           <img :src="base_api_url + 'storage/' + restaurant.image" alt="">
                         </div>

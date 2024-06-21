@@ -21,7 +21,6 @@ const router = createRouter({
             component: AppRestaurant,
             name: 'restaurant'
         },
-
     ]
 })
 

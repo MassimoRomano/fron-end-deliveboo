@@ -1,5 +1,6 @@
 <script>
 import axios from 'axios';
+
 export default {
     name: 'AppRestaurant',
     data() {
@@ -8,7 +9,8 @@ export default {
             base_restaurants_url: 'api/restaurants',
             restaurants: null,
             showModal: false,
-            selectedProduct: { name: null, image: null }
+            selectedProduct: { name: null, image: null },
+            cart: [],
         }
     },
     methods: {
@@ -17,14 +19,14 @@ export default {
                 name: dish.name,
                 image: dish.image.includes('uploads') ? this.base_api_url + 'storage/' + dish.image : dish.image,
                 ingredients: dish.ingredients,
-                price: dish.price
+                price: dish.price,
+                product_id: dish.id,
             }
             this.showModal = true;
         },
         closeModal() {
             this.showModal = false;
         },
-
         callApi(url) {
             axios
                 .get(url)
@@ -37,10 +39,24 @@ export default {
                     this.error.message = error.message;
                 })
         },
+        addItemToCart(product) {
+            console.log(product);
+            let product_quantity = {
+                object: product,
+                quantity: 1,
+            }
+            let check_product = this.cart.find(product_quantity => object.name === product.name);
+            console.log(check_product);
+            if (!this.cart.includes(product_quantity)) {
+                console.log(product_quantity);
+                this.cart.push(product_quantity);
+                console.log(this.cart);
+            }
+        },
     },
     mounted() {
         let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug + "/" + this.$route.params.id;
-        console.log(url)
+        console.log(url);
         this.callApi(url);
     }
 }
@@ -48,9 +64,9 @@ export default {
 
 <template>
     <main class="rest">
-        <template v-if="restaurants" v-for="restaurant in restaurants">
+        <template v-if="restaurants" v-for="restaurant in    restaurants   ">
             <div>
-                {{ console.log(restaurant) }}
+                <!-- {{ console.log(restaurant) }} -->
             </div>
 
             <div class="restaurant-page">
@@ -72,12 +88,11 @@ export default {
 
                     <section class="product">
                         <div class="product-info">
-                            <div @click="openModal(dish)" class="col-2 restaurant-dishes"
-                                v-for="dish in restaurant.dishes">
-                                <div class="card-product">
+                            <div class="col-2 restaurant-dishes" v-for="dish in restaurant.dishes">
+                                <div class="card-product" id="dish.id">
                                     <div class="card-body-product">
                                         <div class="top-product">
-                                            <template v-if="dish.image && dish.image.includes('uploads')">
+                                            <template v-if="dish.image && dish.image.startsWith('uploads')">
                                                 <div class="card-image">
                                                     <img :src="base_api_url + 'storage/' + dish.image" alt="">
                                                 </div>
@@ -90,9 +105,11 @@ export default {
                                             <!-- ./images -->
                                         </div>
                                         <div class="bottom-product">
+
                                             <h3>{{ dish.name }}</h3>
                                             <p>Prezzo: {{ dish.price }} &euro;</p>
                                         </div>
+                                        <!-- <button @click="addItemToCart(dish)">Aggiungi al carrello</button> -->
                                     </div>
                                 </div>
                             </div>
@@ -103,14 +120,26 @@ export default {
                                 <i class="fa-solid fa-cart-shopping"></i>
                             </div>
                             <div class="text-cart">
-                                <h2>Carrello vuoto</h2>
+                                <h2>Carrello</h2>
+                                <!-- <p>{{ cart.length }} oggetti nel carrello</p>
+                                <div v-for="(product, index) in cart">
+                                    <p>
+                                        {{ product.object.name }}
+                                        <button class="add_product" @click="product.quantity += 1">+</button>
+                                        <span>{{ product.quantity }}</span>
+                                        <button class="remove_product"
+                                            @click="product.quantity <= 1 ? cart.splice(index, 1) : product.quantity -= 1">-</button>
+                                    </p>
+                                </div>
+ -->
                             </div>
-                            <button class="pay"><a href="">Vai al pagamento</a></button>
+                            <button class="pay"><a href="">Vai al carrello</a></button>
+                            <!-- <button class="pay"><a href="">Vai al pagamento</a></button> -->
                         </div>
                     </section>
 
                     <!-- Modale -->
-                    <div v-if="showModal" class="modal" @click.self="closeModal()">
+                    <!--  <div v-if="showModal" class="modal" @click.self="closeModal()">
                         <div class="modal-content">
                             <div class="modal-inside">
                                 <span class="close" @click="closeModal()">&times;</span>
@@ -118,9 +147,15 @@ export default {
                                 <h2>{{ selectedProduct.name }}</h2>
                                 <p>Ingredienti: {{ selectedProduct.ingredients }}</p>
                                 <p>Price: <strong>{{ selectedProduct.price }}&euro;</strong></p>
+                                <div class="add_remove">
+                                    <button class="add_product" @click="productIncrement()">+</button>
+                                    <div class="product_quantity">{{ quantity }}</div>
+                                    <button class="remove_product" @click="productDecrement()">-</button>
+                                </div>
+                                <button @click="addItemToCart(product)">Aggiungi a carrello</button>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </template>

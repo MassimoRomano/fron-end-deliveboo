@@ -11,6 +11,9 @@ export default {
     AppHome,
     AppFooter
   },
+  async mounted() {
+    await this.$store.commit('initialiseStore')
+  },
 }
 </script>
 
