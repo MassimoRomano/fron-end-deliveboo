@@ -11,6 +11,7 @@ export default {
             showModal: false,
             selectedProduct: { name: null, image: null },
             cart: [],
+            ristoranteSalvato: null,
         }
     },
     methods: {
@@ -34,20 +35,54 @@ export default {
                     //console.log(response.data.response);
                     this.restaurants = response.data.response
                     //console.log(this.restaurants)
+                    this.restaurants.forEach(restaurant => {
+                        this.ristoranteSalvato = restaurant.id
+                        //console.log(restaurant);
+                    });
+                    let restaurant_id = JSON.parse(localStorage.getItem("restaurantID")) //salviamo il restaurantID che era stato salvato in local storage
+                    //console.log(restaurant_id, this.ristoranteSalvato);
+                    if (restaurant_id == this.ristoranteSalvato) {
+                        this.cart = JSON.parse(localStorage.getItem("order")); //ricaviamo l'ordine dal local storage per savarlo e printaro sul carrello
+                        //console.log(this.cart);
+                    }
                 })
                 .catch(error => {
                     this.error.message = error.message;
                 })
+
         },
         addItemToCart(product) {
             //onsole.log(product);
             let product_quantity = {
                 object: product,
                 quantity: 1,
+                price: parseFloat(product.price).toFixed(2),
             }
+            //console.log(product_quantity);
             let check_product = this.cart.find(product_quantity => product_quantity.object.name === product.name);
             if (!check_product) {
                 this.cart.push(product_quantity);
+            }
+            localStorage.clear();
+            //console.log(this.cart);
+            localStorage.setItem("order", JSON.stringify(this.cart)); //trasforma il dato in stringa e lo salva con il nome Order
+            localStorage.setItem("restaurantID", JSON.stringify(this.ristoranteSalvato)); //trasforma il dato in stringa e lo salva con il nome restaurantID
+            //console.log(ordineSavato);
+        },
+        add_product_to_cart(product) {
+            product.quantity += 1
+            product.price = parseFloat(product.object.price * product.quantity).toFixed(2);
+            //console.log(product.price);
+            localStorage.setItem("order", JSON.stringify(this.cart));
+        },
+        remove_product_to_cart(product, index) {
+            if (product.quantity <= 1) {
+                this.cart.splice(index, 1)
+                localStorage.setItem("order", JSON.stringify(this.cart));
+            } else {
+                product.quantity -= 1
+                product.price = parseFloat(product.object.price * product.quantity).toFixed(2);
+                localStorage.setItem("order", JSON.stringify(this.cart));
             }
         },
     },
@@ -105,7 +140,8 @@ export default {
                                             <h3>{{ dish.name }}</h3>
                                             <p>Prezzo: {{ dish.price }} &euro;</p>
                                             <button @click="addItemToCart(dish)" class="add_to_cart">
-                                                Aggiungi al carrello</button>
+                                                Aggiungi al carrello
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -118,19 +154,19 @@ export default {
                             </div>
                             <div class="text-cart">
                                 <h2>Carrello</h2>
-                                <p>{{ cart.length }} oggetti nel carrello</p>
+                                <p v-if="cart">{{ cart.length }} oggetti nel carrello</p>
                                 <div v-for="(product, index) in cart">
                                     <p>
                                         {{ product.object.name }}
-                                        <button class="add_product" @click="product.quantity += 1">+</button>
+                                        <button class="add_product" @click="add_product_to_cart(product)">+</button>
                                         <span class="n_off_poducts">{{ product.quantity }}</span>
                                         <button class="remove_product"
-                                            @click="product.quantity <= 1 ? cart.splice(index, 1) : product.quantity -= 1">-</button>
+                                            @click="remove_product_to_cart(product, index)">-</button>
                                     </p>
+                                    <p>Totale prodotto: {{ product.price }} </p>
                                 </div>
                             </div>
-                            <button class="pay"><a href="">Vai al carrello</a></button>
-                            <!-- <button class="pay"><a href="">Vai al pagamento</a></button> -->
+                            <button class="pay" @click="addOrder()">Paga qui</button>
                         </div>
                     </section>
 
