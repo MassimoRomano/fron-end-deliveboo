@@ -88,6 +88,7 @@ export default {
       }, 100);
 
     },
+
     scrollTypes(direction) {
       const container = this.$refs.typesContainer;
       if (direction === 'next') {
@@ -188,7 +189,7 @@ export default {
       <div class="restaurant-container">
 
         <div class="text-rest">
-          <h2>Cerca il tuo Ristorante Preferito e ciò che più ami mangiare</h2>
+          <h2>Cerca il tuo <span>Ristorante Preferito</span> e ciò che più ami mangiare e noi penseremo al resto</h2>
           <h3>Scegli cosa vuoi mangiare oggi</h3>
         </div>
         <!-- /.text-rest -->
@@ -200,7 +201,7 @@ export default {
               <ul class="types-section">
                 <li v-for="type, index in types" @click="callApiFilter()">
                   <input type="checkbox" name="type.id" id="type.id" v-model="selectedTypes" :value="type.id"> {{
-            type.name }}
+                  type.name }}
                 </li>
               </ul>
             </div>
@@ -213,6 +214,7 @@ export default {
 
         <div class="restaurant-wrap">
           <template v-if="restaurants.data">
+
             <div class="col-2" v-for="restaurant in restaurants.data">
               <router-link :to="{ name: 'restaurant', params: { slug: restaurant.slug, id: restaurant.id } }">
                 <div class="card-restaurant">
@@ -221,35 +223,42 @@ export default {
                       <template v-if="restaurant.image && restaurant.image.startsWith('uploads')">
                         <div class="card-image">
                           <img :src="base_api_url + 'storage/' + restaurant.image" alt="">
-                        </div>
-                      </template>
-                      <template v-else>
-                        <div class="card-image">
-                          <img :src="restaurant.image" :alt="'Image of the restaurant: ' + restaurant.name">
-                        </div>
-                      </template>
-                    </div>
-                    <div class="bottom-restaurant">
-                      <div>
-                        <h3>{{ restaurant.name }}</h3>
+                          </div>
+                        </template>
+                        <template v-else>
+                          <div class="card-image">
+                            <img :src="restaurant.image" :alt="'Image of the restaurant: ' + restaurant.name">
+                          </div>
+                        </template>
                       </div>
-                      <div>
-                        <p>Indirizzo:</p>
-                        <p>{{ restaurant.address }}</p>
-                        <p v-if="restaurant.type">{{ restaurant.type }}</p>
+                      <div class="bottom-restaurant">
+                        <div>
+                          <h3>{{ restaurant.name }}</h3>
+                        </div>
+                        <div>
+                          <p>Indirizzo:</p>
+                          <p>{{ restaurant.address }}</p>
+                          <div v-if="restaurant.types">
+                            <p v-for="(type, index) in restaurant.types">{{ type.name }}</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </router-link>
-            </div>
+                </router-link>
+              </div>
+            </template>
+            <template v-else>
+              <h3 class="color_white text_center width_100">Nessun ristorante trovato con queste tipologie, prova a
+                togliere
+                qualche filtro! </h3>
+            </template>
           </template>
 
-          <template v-else>
-            <h3>I don't have restaurants</h3>
-          </template>
+
           <!-- template if don't have restaurant -->
         </div>
+
         <nav aria-label="Page navigation" class="text-center">
           <ul class="my_pagination">
             <li v-show="restaurants.prev_page_url" @click="prevPage(restaurants.prev_page_url)">
@@ -261,7 +270,7 @@ export default {
             <li v-for="page in restaurants.last_page" @click="goTo(page)">
               <button
                 :class="{ 'active': page == restaurants.current_page, 'page-link': page != restaurants.current_page }">{{
-            page }}</button>
+                page }}</button>
             </li>
 
             <li v-show="restaurants.next_page_url" @click="nextPage(restaurants.next_page_url)">

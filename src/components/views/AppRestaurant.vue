@@ -73,7 +73,7 @@ export default {
                 <div class="container">
                     <section v-if="restaurants" v-for="restaurant in restaurants" class="info-rest">
                         <div class="logo-rest">
-                            <img :src="restaurant.image.includes('uploads') ? base_api_url + 'storage/' + restaurant.image : restaurant.image"
+                            <img :src="restaurant.image.startsWith('uploads') ? base_api_url + 'storage/' + restaurant.image : restaurant.image"
                                 alt="Logo del ristorante">
                         </div>
                         <div class="descr-rest">
