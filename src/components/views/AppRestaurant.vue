@@ -114,11 +114,12 @@ export default {
                                             <div class="bottom-product">
 
 
-                                            <h3>{{ dish.name }}</h3>
-                                            <p>Prezzo: {{ dish.price }} &euro;</p>
-                                            <button @click="addItemToCart(dish)" class="add_to_cart">Aggiungi al
-                                                carrello</button>
+                                                <h3>{{ dish.name }}</h3>
+                                                <p>Prezzo: {{ dish.price }} &euro;</p>
+                                                <button @click="addItemToCart(dish)" class="add_to_cart">Aggiungi al
+                                                    carrello</button>
 
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
