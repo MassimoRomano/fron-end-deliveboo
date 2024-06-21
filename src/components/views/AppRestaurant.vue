@@ -55,7 +55,7 @@ export default {
         },
     },
     mounted() {
-        let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug + "/" + this.$route.params.id;
+        let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug;
         console.log(url);
         this.callApi(url);
     }
@@ -64,17 +64,20 @@ export default {
 
 <template>
     <main class="rest">
-        <template v-if="restaurants" v-for="restaurant in    restaurants   ">
+        <template v-if="restaurants">
             <div>
                 <!-- {{ console.log(restaurant) }} -->
             </div>
 
             <div class="restaurant-page">
                 <div class="container">
-                    <section v-if="restaurants" v-for="restaurant in restaurants" class="info-rest">
+                    <section v-for="restaurant in restaurants" class="info-rest">
                         <div class="logo-rest">
-                            <img :src="restaurant.image.startsWith('uploads') ? base_api_url + 'storage/' + restaurant.image : restaurant.image"
-                                alt="Logo del ristorante">
+                            <template v-if="restaurant.image">
+                                <img :src="restaurant.image.startsWith('uploads') ? base_api_url + 'storage/' + restaurant.image : restaurant.image"
+                                    alt="Logo del ristorante">
+                            </template>
+
                         </div>
                         <div class="descr-rest">
                             <h1>{{ restaurant.name }}</h1>
@@ -88,31 +91,35 @@ export default {
 
                     <section class="product">
                         <div class="product-info">
-                            <div class="col-2 restaurant-dishes" v-for="dish in restaurant.dishes">
-                                <div class="card-product" id="dish.id">
-                                    <div class="card-body-product">
-                                        <div class="top-product">
-                                            <template v-if="dish.image && dish.image.startsWith('uploads')">
-                                                <div class="card-image">
-                                                    <img :src="base_api_url + 'storage/' + dish.image" alt="">
-                                                </div>
-                                            </template>
-                                            <template v-else>
-                                                <div class="card-image">
-                                                    <img :src="dish.image" :alt="'Image of the dish: ' + dish.name">
-                                                </div>
-                                            </template>
-                                            <!-- ./images -->
-                                        </div>
-                                        <div class="bottom-product">
+                            <template v-if="restaurants.dishes">
 
-                                            <h3>{{ dish.name }}</h3>
-                                            <p>Prezzo: {{ dish.price }} &euro;</p>
+                                <div class="col-2 restaurant-dishes" v-for="dish in restaurant.dishes">
+                                    <div class="card-product" id="dish.id">
+                                        <div class="card-body-product">
+                                            <div class="top-product">
+                                                <template v-if="dish.image && dish.image.startsWith('uploads')">
+                                                    <div class="card-image">
+                                                        <img :src="base_api_url + 'storage/' + dish.image" alt="">
+                                                    </div>
+                                                </template>
+                                                <template v-else>
+                                                    <div class="card-image">
+                                                        <img :src="dish.image" :alt="'Image of the dish: ' + dish.name">
+                                                    </div>
+                                                </template>
+                                                <!-- ./images -->
+                                            </div>
+                                            <div class="bottom-product">
+
+                                                <h3>{{ dish.name }}</h3>
+                                                <p>Prezzo: {{ dish.price }} &euro;</p>
+                                            </div>
+                                            <!-- <button @click="addItemToCart(dish)">Aggiungi al carrello</button> -->
                                         </div>
-                                        <!-- <button @click="addItemToCart(dish)">Aggiungi al carrello</button> -->
                                     </div>
                                 </div>
-                            </div>
+                            </template>
+
                         </div>
                         <!-- /.row -->
                         <div class="cart">
