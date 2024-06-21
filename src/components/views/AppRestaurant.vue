@@ -11,6 +11,7 @@ export default {
             showModal: false,
             selectedProduct: { name: null, image: null },
             cart: [],
+            ristoranteSalvato: null,
         }
     },
     methods: {
@@ -34,10 +35,21 @@ export default {
                     //console.log(response.data.response);
                     this.restaurants = response.data.response
                     //console.log(this.restaurants)
+                    this.restaurants.forEach(restaurant => {
+                        this.ristoranteSalvato = restaurant.id
+                        //console.log(restaurant);
+                    });
+                    let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
+                    console.log(restaurant_id, this.ristoranteSalvato);
+                    if (restaurant_id == this.ristoranteSalvato) {
+                        this.cart = JSON.parse(localStorage.getItem("order"));
+                        console.log(this.cart);
+                    }
                 })
                 .catch(error => {
                     this.error.message = error.message;
                 })
+
         },
         addItemToCart(product) {
             //onsole.log(product);
@@ -50,8 +62,26 @@ export default {
                 this.cart.push(product_quantity);
             }
         },
+        addOrder() {
+            localStorage.clear();
+            //console.log(this.cart);
+            localStorage.setItem("order", JSON.stringify(this.cart));
+            localStorage.setItem("restaurantID", JSON.stringify(this.ristoranteSalvato));
+            let ordineSavato = JSON.parse(localStorage.getItem("order"));
+            console.log(ordineSavato);
+        },
+        setCart() {
+            let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
+            if (restaurant_id == this.ristoranteSalvato) {
+                this.cart = JSON.parse(localStorage.getItem("order"));
+                console.log(this.cart);
+            }
+        }
     },
     mounted() {
+        window.onbeforeunload = function () {
+            setCart();
+        }
         let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug;
         //console.log(url);
         this.callApi(url);
@@ -105,7 +135,8 @@ export default {
                                             <h3>{{ dish.name }}</h3>
                                             <p>Prezzo: {{ dish.price }} &euro;</p>
                                             <button @click="addItemToCart(dish)" class="add_to_cart">
-                                                Aggiungi al carrello</button>
+                                                Aggiungi al carrello
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -129,8 +160,7 @@ export default {
                                     </p>
                                 </div>
                             </div>
-                            <button class="pay"><a href="">Vai al carrello</a></button>
-                            <!-- <button class="pay"><a href="">Vai al pagamento</a></button> -->
+                            <button class="pay" @click="addOrder()">Paga qui</button>
                         </div>
                     </section>
 
