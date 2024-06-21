@@ -48,11 +48,11 @@ export default {
         .then(response => {
           //console.log(response.data.types);
           this.types = response.data.types
-         
+
         })
         .catch(error => {
           this.error.message = error.message;
-          
+
         })
     },
 
@@ -62,7 +62,7 @@ export default {
 
 
       // timing function perché chiamata api più veloce del v-bind 
-      console.log(this.selectedTypes.length, 'ciao') 
+      console.log(this.selectedTypes.length, 'ciao')
       this.isLoading = true
       setTimeout(() => {
         if (this.selectedTypes.length > 0) {
@@ -190,98 +190,99 @@ export default {
     <!-- ./logo-aff -->
 
     <section class="restaurant">
+      <div class="text-rest">
+        <h2>Cerca il tuo Ristorante Preferito e ciò che più ami mangiare</h2>
+        <h3>Scegli cosa vuoi mangiare oggi</h3>
+      </div>
+      <!-- /.text-rest -->
+
       <div class="restaurant-container">
-
-        <div class="text-rest">
-          <h2>Cerca il tuo Ristorante Preferito e ciò che più ami mangiare</h2>
-          <h3>Scegli cosa vuoi mangiare oggi</h3>
-        </div>
-        <!-- /.text-rest -->
-
-        <div class="bar-types">
-          <button class="prev-btn" @click="scrollTypes('prev')">&#10094;</button>
-          <form action="">
-            <div ref="typesContainer" class="types-container">
-              <ul class="types-section">
-                <li v-for="type, index in types">
-                  <input type="checkbox" name="type.id" id="type.id" v-model="selectedTypes" :value="type.id" @click="callApiFilter()"> 
-                  {{type.name }}
-                </li>
-              </ul>
+        <div class="restaurant-inside">
+          <div class="bar-types">
+            <!-- <button class="prev-btn" @click="scrollTypes('prev')">&#10094;</button> -->
+            <form action="">
+              <div ref="typesContainer" class="types-container">
+                <ul class="types-section">
+                  <li v-for="type, index in types">
+                    <input type="checkbox" name="type.id" id="type.id" v-model="selectedTypes" :value="type.id"
+                      @click="callApiFilter()">
+                    {{ type.name }}
+                  </li>
+                </ul>
+              </div>
+            </form>
+          </div>
+          <div class="separate"></div>
+          <div class="restaurant-col">
+            <div v-if="isLoading" class="loading col-12">
+              <p>Caricamento dei ristoranti in corso...</p>
             </div>
-          </form>
-          <button class="next-btn" @click="scrollTypes('next')">&#10095;</button>
-          <!-- Pulsante per scorrere a destra -->
-          <!-- <div>{{ console.log(selectedTypes) }}</div>
-          <div class="color_white">{{ selectedTypes }}</div> -->
-        </div>
-        <div v-if="isLoading" class="loading">
-          <p>Caricamento dei ristoranti in corso...</p>
-        </div>
-        <div class="restaurant-wrap">
-          <template v-if="restaurants.data">
-            <div class="col-2" v-for="restaurant in restaurants.data">
-              <router-link :to="{ name: 'restaurant', params: { slug: restaurant.slug } }">
-                <div class="card-restaurant">
-                  <div class="card-body-restaurant">
-                    <div class="top-restaurant">
-                      <template v-if="restaurant.image && restaurant.image.startsWith('uploads')">
-                        <div class="card-image">
-                          <img :src="base_api_url + 'storage/' + restaurant.image" alt="">
+            <div class="restaurant-wrap">
+              <template v-if="restaurants.data">
+                <div class="col-2" v-for="restaurant in restaurants.data">
+                  <router-link :to="{ name: 'restaurant', params: { slug: restaurant.slug } }">
+                    <div class="card-restaurant">
+                      <div class="card-body-restaurant">
+                        <div class="top-restaurant">
+                          <template v-if="restaurant.image && restaurant.image.startsWith('uploads')">
+                            <div class="card-image">
+                              <img :src="base_api_url + 'storage/' + restaurant.image" alt="">
+                            </div>
+                          </template>
+                          <template v-else>
+                            <div class="card-image">
+                              <img :src="restaurant.image" :alt="'Image of the restaurant: ' + restaurant.name">
+                            </div>
+                          </template>
                         </div>
-                      </template>
-                      <template v-else>
-                        <div class="card-image">
-                          <img :src="restaurant.image" :alt="'Image of the restaurant: ' + restaurant.name">
+                        <div class="bottom-restaurant">
+                          <div>
+                            <h3>{{ restaurant.name }}</h3>
+                          </div>
+                          <div>
+                            <p>Indirizzo:</p>
+                            <p>{{ restaurant.address }}</p>
+
+                            <p class="type-text">Tipologia:</p>
+                            <div class="type-text" v-for=" (type, index) in restaurant.types">{{ type.name }}</div>
+
+                          </div>
                         </div>
-                      </template>
-                    </div>
-                    <div class="bottom-restaurant">
-                      <div>
-                        <h3>{{ restaurant.name }}</h3>
-                      </div>
-                      <div>
-                        <p>Indirizzo:</p>
-                        <p>{{ restaurant.address }}</p>
-
-                        <p class="type-text">Tipologia:</p>
-                        <div class="type-text" v-for=" (type, index) in restaurant.types">{{ type.name }}</div>
-
                       </div>
                     </div>
-                  </div>
+                  </router-link>
                 </div>
-              </router-link>
+              </template>
+
+              <!-- <template v-else>
+                <h3>Nessun ristorante trovato</h3>
+              </template> -->
+              <!-- template if don't have restaurant -->
+              <nav aria-label="Page navigation" class="text-center col-12">
+                <ul class="my_pagination">
+                  <li v-show="restaurants.prev_page_url" @click="prevPage(restaurants.prev_page_url)">
+                    <button class="page-link" aria-label="Previous">
+                      <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                  </li>
+
+                  <li v-for="page in restaurants.last_page" @click="goTo(page)">
+                    <button
+                      :class="{ 'active': page == restaurants.current_page, 'page-link': page != restaurants.current_page }">{{
+                        page }}</button>
+                  </li>
+
+                  <li v-show="restaurants.next_page_url" @click="nextPage(restaurants.next_page_url)">
+                    <button class="page-link" aria-label="Next">
+                      <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+              <!-- /.pagination -->
             </div>
-          </template>
-
-          <template v-else>
-            <h3>Nessun ristorante trovato</h3>
-          </template>
-          <!-- template if don't have restaurant -->
+          </div>
         </div>
-        <nav aria-label="Page navigation" class="text-center">
-          <ul class="my_pagination">
-            <li v-show="restaurants.prev_page_url" @click="prevPage(restaurants.prev_page_url)">
-              <button class="page-link" aria-label="Previous">
-                <i class="fa-solid fa-chevron-left"></i>
-              </button>
-            </li>
-
-            <li v-for="page in restaurants.last_page" @click="goTo(page)">
-              <button
-                :class="{ 'active': page == restaurants.current_page, 'page-link': page != restaurants.current_page }">{{
-                  page }}</button>
-            </li>
-
-            <li v-show="restaurants.next_page_url" @click="nextPage(restaurants.next_page_url)">
-              <button class="page-link" aria-label="Next">
-                <i class="fa-solid fa-chevron-right"></i>
-              </button>
-            </li>
-          </ul>
-        </nav>
-        <!-- /.pagination -->
       </div>
     </section>
     <!-- ./restaurants -->
