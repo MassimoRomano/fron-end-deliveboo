@@ -1,5 +1,5 @@
 .home {
-    background-color: #121212;
+    background-image: linear-gradient(to right top, #000000, #070707, #0d0d0d, #121212, #161616); 
     overflow-x: hidden;
 }
 
@@ -550,7 +550,7 @@
 
 .collabs {
     height: 700px;
-    background-image: linear-gradient(to right top, #000000, #070707, #0d0d0d, #121212, #161616);
+    
     padding: 100px 0px;
 
     .col-4 {
