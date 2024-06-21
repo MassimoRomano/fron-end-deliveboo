@@ -219,7 +219,7 @@ export default {
         <div class="restaurant-wrap">
           <template v-if="restaurants.data">
             <div class="col-2" v-for="restaurant in restaurants.data">
-              <router-link :to="{ name: 'restaurant', params: { slug: restaurant.slug, id: restaurant.id } }">
+              <router-link :to="{ name: 'restaurant', params: { slug: restaurant.slug } }">
                 <div class="card-restaurant">
                   <div class="card-body-restaurant">
                     <div class="top-restaurant">
@@ -241,8 +241,10 @@ export default {
                       <div>
                         <p>Indirizzo:</p>
                         <p>{{ restaurant.address }}</p>
+
                         <p class="type-text">Tipologia:</p>
                         <div class="type-text" v-for=" (type, index) in restaurant.types">{{ type.name }}</div>
+
                       </div>
                     </div>
                   </div>
