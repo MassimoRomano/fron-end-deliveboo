@@ -65,11 +65,24 @@ export default {
             console.log(this.cart);
             localStorage.setItem("order", JSON.stringify(this.cart)); //trasforma il dato in stringa e lo salva con il nome Order
             localStorage.setItem("restaurantID", JSON.stringify(this.ristoranteSalvato)); //trasforma il dato in stringa e lo salva con il nome restaurantID
-            /* let ordineSavato = JSON.parse(localStorage.getItem("order")); */ //salviamo l'ordine che era stato salvato in local storage
             //console.log(ordineSavato);
         },
         addOrder() {
 
+        },
+        add_product_to_cart(product) {
+            product.quantity += 1
+            localStorage.setItem("order", JSON.stringify(this.cart));
+        },
+        remove_product_to_cart(product, index) {
+            if (product.quantity <= 1) {
+                this.cart.splice(index, 1)
+                localStorage.setItem("order", JSON.stringify(this.cart));
+
+            } else {
+                product.quantity -= 1
+                localStorage.setItem("order", JSON.stringify(this.cart));
+            }
         },
         setCart() {
             let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"));  //salviamo i restaurantID che era stato salvato in local storage
@@ -150,15 +163,15 @@ export default {
                             </div>
                             <div class="text-cart">
                                 <h2>Carrello</h2>
-                                <p>{{ cart.length }} oggetti nel carrello</p>
+                                <p v-if="cart">{{ cart.length }} oggetti nel carrello</p>
                                 <div v-for="(product, index) in cart">
                                     <p>
                                         {{ product.object.name }}
-                                        <button class="add_product" @click="product.quantity += 1">+</button>
+                                        <button class="add_product" @click="add_product_to_cart(product)">+</button>
                                         <!-- AGGIUNGERE L'INCREMENTO AL LOCAl STORAGE -->
                                         <span class="n_off_poducts">{{ product.quantity }}</span>
                                         <button class="remove_product"
-                                            @click="product.quantity <= 1 ? cart.splice(index, 1) : product.quantity -= 1">-</button>
+                                            @click="remove_product_to_cart(product, index)">-</button>
                                         <!-- AGGIUNGERE IL DECREMENTO AL LOCAl STORAGE -->
 
                                     </p>
