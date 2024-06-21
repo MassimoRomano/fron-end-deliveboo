@@ -244,6 +244,11 @@
 
 
 /* restaurant */
+
+.loading {
+    text-align: center;
+}
+
 .restaurant {
     height: auto;
     margin: 100px 0;
@@ -334,6 +339,7 @@
 
     /* #endregion */
 
+
     .restaurant-wrap {
         margin: 50px auto;
         display: flex;
@@ -370,7 +376,7 @@
                     object-fit: cover;
                     position: relative;
                     bottom: 30px;
-                    margin-bottom: -20px;
+                    margin-bottom: -35px;
                     clip-path: circle();
                     shape-outside: circle();
                     aspect-ratio: 1.5;
@@ -380,7 +386,7 @@
                 .bottom-restaurant {
                     width: 100%;
                     height: 100%;
-                    color: wheat;
+
                     padding: 20px;
                     display: flex;
                     flex-direction: column;
@@ -389,12 +395,19 @@
                     h3 {
                         font-size: 20px;
                         font-weight: bold;
+                        color: wheat;
                     }
 
                     p {
                         font-size: 15px;
-                        font-weight: bold;
+                        color: purple;
                     }
+
+                    .type-text {
+                        color: goldenrod;
+                    }
+
+                    font-weight: bold;
                 }
 
             }

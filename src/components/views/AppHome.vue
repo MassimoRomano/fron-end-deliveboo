@@ -14,8 +14,7 @@ export default {
       selectedTypes: [],
       base_types_url: 'api/types',
       types: [],
-      dropdownOptions: collapse,
-      dropdownStates,
+      isLoading: false,
     }
   },
 
@@ -32,14 +31,17 @@ export default {
     },
 
     callApi(url) {
+      this.isLoading = true
       axios
         .get(url)
         .then(response => {
           console.log(response.data.restaurants);
           this.restaurants = response.data.restaurants
+          this.isLoading = false
         })
         .catch(error => {
           this.error.message = error.message;
+          this.isLoading = false;
         })
 
     },
@@ -116,7 +118,7 @@ export default {
   <main class="home">
 
     <div class="jumbo-head">
-      <h1>I piatti dei ristoranti che ami, a domicilio </h1>
+      <h1>I piatti dei ristoranti che ami a domicilio </h1>
       <div class="card">
       </div>
       <!-- ./card -->
@@ -211,7 +213,9 @@ export default {
           <!-- <div>{{ console.log(selectedTypes) }}</div>
           <div class="color_white">{{ selectedTypes }}</div> -->
         </div>
-
+        <div v-if="isLoading" class="loading">
+          <p>Caricamento dei ristoranti in corso...</p>
+        </div>
         <div class="restaurant-wrap">
           <template v-if="restaurants.data">
             <div class="col-2" v-for="restaurant in restaurants.data">
@@ -237,7 +241,10 @@ export default {
                       <div>
                         <p>Indirizzo:</p>
                         <p>{{ restaurant.address }}</p>
-                        <div v-for=" (type, index) in restaurant.types">{{ type.name }}</div>
+
+                        <p class="type-text">Tipologia:</p>
+                        <div class="type-text" v-for=" (type, index) in restaurant.types">{{ type.name }}</div>
+
                       </div>
                     </div>
                   </div>
