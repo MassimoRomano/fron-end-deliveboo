@@ -14,8 +14,7 @@ export default {
       selectedTypes: [],
       base_types_url: 'api/types',
       types: [],
-      dropdownOptions: collapse,
-      dropdownStates,
+      isLoading: false,
     }
   },
 
@@ -32,14 +31,17 @@ export default {
     },
 
     callApi(url) {
+      this.isLoading = true
       axios
         .get(url)
         .then(response => {
           console.log(response.data.restaurants);
           this.restaurants = response.data.restaurants
+          this.isLoading = false
         })
         .catch(error => {
           this.error.message = error.message;
+          this.isLoading = false;
         })
 
     },
@@ -201,7 +203,7 @@ export default {
               <ul class="types-section">
                 <li v-for="type, index in types" @click="callApiFilter()">
                   <input type="checkbox" name="type.id" id="type.id" v-model="selectedTypes" :value="type.id"> {{
-            type.name }}
+                    type.name }}
                 </li>
               </ul>
             </div>
@@ -211,7 +213,9 @@ export default {
           <!-- <div>{{ console.log(selectedTypes) }}</div>
           <div class="color_white">{{ selectedTypes }}</div> -->
         </div>
-
+        <div v-if="isLoading" class="loading">
+          <p>Caricamento dei ristoranti in corso...</p>
+        </div>
         <div class="restaurant-wrap">
           <template v-if="restaurants.data">
             <div class="col-2" v-for="restaurant in restaurants.data">
@@ -237,7 +241,8 @@ export default {
                       <div>
                         <p>Indirizzo:</p>
                         <p>{{ restaurant.address }}</p>
-                        <div v-for=" (type, index) in restaurant.types">{{ type.name }}</div>
+                        <p class="type-text">Tipologia:</p>
+                        <div class="type-text" v-for=" (type, index) in restaurant.types">{{ type.name }}</div>
                       </div>
                     </div>
                   </div>
@@ -262,7 +267,7 @@ export default {
             <li v-for="page in restaurants.last_page" @click="goTo(page)">
               <button
                 :class="{ 'active': page == restaurants.current_page, 'page-link': page != restaurants.current_page }">{{
-            page }}</button>
+                  page }}</button>
             </li>
 
             <li v-show="restaurants.next_page_url" @click="nextPage(restaurants.next_page_url)">
