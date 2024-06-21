@@ -108,8 +108,9 @@ export default {
 
                                             <h3>{{ dish.name }}</h3>
                                             <p>Prezzo: {{ dish.price }} &euro;</p>
+                                            <button @click="addItemToCart(dish)" class="add_to_cart">Aggiungi al
+                                                carrello</button>
                                         </div>
-                                        <button @click="addItemToCart(dish)">Aggiungi al carrello</button>
                                     </div>
                                 </div>
                             </div>
@@ -126,7 +127,7 @@ export default {
                                     <p>
                                         {{ product.object.name }}
                                         <button class="add_product" @click="product.quantity += 1">+</button>
-                                        <span>{{ product.quantity }}</span>
+                                        <span class="n_off_poducts">{{ product.quantity }}</span>
                                         <button class="remove_product"
                                             @click="product.quantity <= 1 ? cart.splice(index, 1) : product.quantity -= 1">-</button>
                                     </p>
