@@ -56,7 +56,9 @@ export default {
             let product_quantity = {
                 object: product,
                 quantity: 1,
+                price: parseFloat(product.price).toFixed(2),
             }
+            //console.log(product_quantity);
             let check_product = this.cart.find(product_quantity => product_quantity.object.name === product.name);
             if (!check_product) {
                 this.cart.push(product_quantity);
@@ -67,20 +69,19 @@ export default {
             localStorage.setItem("restaurantID", JSON.stringify(this.ristoranteSalvato)); //trasforma il dato in stringa e lo salva con il nome restaurantID
             //console.log(ordineSavato);
         },
-        addOrder() {
-
-        },
         add_product_to_cart(product) {
             product.quantity += 1
+            product.price = parseFloat(product.object.price * product.quantity).toFixed(2);
+            //console.log(product.price);
             localStorage.setItem("order", JSON.stringify(this.cart));
         },
         remove_product_to_cart(product, index) {
             if (product.quantity <= 1) {
                 this.cart.splice(index, 1)
                 localStorage.setItem("order", JSON.stringify(this.cart));
-
             } else {
                 product.quantity -= 1
+                product.price = parseFloat(product.object.price * product.quantity).toFixed(2);
                 localStorage.setItem("order", JSON.stringify(this.cart));
             }
         },
@@ -162,6 +163,7 @@ export default {
                                         <button class="remove_product"
                                             @click="remove_product_to_cart(product, index)">-</button>
                                     </p>
+                                    <p>Totale prodotto: {{ product.price }} </p>
                                 </div>
                             </div>
                             <button class="pay" @click="addOrder()">Paga qui</button>
