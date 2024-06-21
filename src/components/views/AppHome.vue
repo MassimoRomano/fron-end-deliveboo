@@ -2,7 +2,7 @@
 import autoScroll from '../js/autoScroll';
 import autoSlide from '../js/autoSlide.js';
 import axios from 'axios';
-import { collapse, dropdownStates, initializeDropdownStates, toggleDropdown, selectOption } from '../js/collapse.js';
+
 
 export default {
   name: 'AppHome',
@@ -31,17 +31,14 @@ export default {
     },
 
     callApi(url) {
-      this.isLoading = true
       axios
         .get(url)
         .then(response => {
           console.log(response.data.restaurants);
           this.restaurants = response.data.restaurants
-          this.isLoading = false
         })
         .catch(error => {
           this.error.message = error.message;
-          this.isLoading = false;
         })
 
     },
@@ -51,9 +48,11 @@ export default {
         .then(response => {
           //console.log(response.data.types);
           this.types = response.data.types
+         
         })
         .catch(error => {
           this.error.message = error.message;
+          
         })
     },
 
@@ -63,7 +62,8 @@ export default {
 
 
       // timing function perché chiamata api più veloce del v-bind 
-      console.log(this.selectedTypes.length, 'ciao')
+      console.log(this.selectedTypes.length, 'ciao') 
+      this.isLoading = true
       setTimeout(() => {
         if (this.selectedTypes.length > 0) {
           axios.get(url, {
@@ -78,10 +78,12 @@ export default {
 
               console.log(response.data.received_data);
               this.restaurants = response.data.received_data;
+              this.isLoading = false
               // this.restaurants =
             })
             .catch(error => {
               console.error(error);
+              this.isLoading = false
             });
         } else {
           console.log(this.selectedTypes.length, 'ciao')
@@ -201,9 +203,9 @@ export default {
           <form action="">
             <div ref="typesContainer" class="types-container">
               <ul class="types-section">
-                <li v-for="type, index in types" @click="callApiFilter()">
-                  <input type="checkbox" name="type.id" id="type.id" v-model="selectedTypes" :value="type.id"> {{
-                    type.name }}
+                <li v-for="type, index in types">
+                  <input type="checkbox" name="type.id" id="type.id" v-model="selectedTypes" :value="type.id" @click="callApiFilter()"> 
+                  {{type.name }}
                 </li>
               </ul>
             </div>
@@ -252,7 +254,7 @@ export default {
           </template>
 
           <template v-else>
-            <h3>I don't have restaurants</h3>
+            <h3>Nessun ristorante trovato</h3>
           </template>
           <!-- template if don't have restaurant -->
         </div>
