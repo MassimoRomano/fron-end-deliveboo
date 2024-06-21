@@ -59,7 +59,6 @@ export default {
       // Compongo la chiamata api con la Route di Laravel
       let url = this.base_api_url + 'api/filter';
 
-
       // timing function perché chiamata api più veloce del v-bind 
       console.log(this.selectedTypes.length, 'ciao')
       setTimeout(() => {
@@ -209,21 +208,21 @@ export default {
           </form>
           <button class="next-btn" @click="scrollTypes('next')">&#10095;</button>
           <!-- Pulsante per scorrere a destra -->
-          <div>{{ console.log(selectedTypes) }}</div>
-          <div class="color_white">{{ selectedTypes }}</div>
+          <!-- <div>{{ console.log(selectedTypes) }}</div> -->
+          <!-- <div class="color_white">{{ selectedTypes }}</div> -->
         </div>
 
         <div class="restaurant-wrap">
           <template v-if="restaurants.data">
-            <template v-if="restaurants.data.length > 0">
-              <div class="col-2" v-for="restaurant in restaurants.data">
-                <router-link :to="{ name: 'restaurant', params: { slug: restaurant.slug, id: restaurant.id } }">
-                  <div class="card-restaurant">
-                    <div class="card-body-restaurant">
-                      <div class="top-restaurant">
-                        <template v-if="restaurant.image && restaurant.image.startsWith('uploads')">
-                          <div class="card-image">
-                            <img :src="base_api_url + 'storage/' + restaurant.image" alt="">
+
+            <div class="col-2" v-for="restaurant in restaurants.data">
+              <router-link :to="{ name: 'restaurant', params: { slug: restaurant.slug, id: restaurant.id } }">
+                <div class="card-restaurant">
+                  <div class="card-body-restaurant">
+                    <div class="top-restaurant">
+                      <template v-if="restaurant.image && restaurant.image.startsWith('uploads')">
+                        <div class="card-image">
+                          <img :src="base_api_url + 'storage/' + restaurant.image" alt="">
                           </div>
                         </template>
                         <template v-else>
@@ -285,9 +284,6 @@ export default {
       </div>
     </section>
     <!-- ./restaurants -->
-
-
-
 
     <section class="offer">
       <div class="card-offer">
