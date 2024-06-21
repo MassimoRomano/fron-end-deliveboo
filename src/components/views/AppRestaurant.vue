@@ -45,13 +45,11 @@ export default {
                 object: product,
                 quantity: 1,
             }
-            let check_product = this.cart.find(product_quantity => object.name === product.name);
-            console.log(check_product);
-            if (!this.cart.includes(product_quantity)) {
-                console.log(product_quantity);
+            let check_product = this.cart.find(product_quantity => product_quantity.object.name === product.name);
+            if (!check_product) {
                 this.cart.push(product_quantity);
-                console.log(this.cart);
             }
+            //console.log(check_product);
         },
     },
     mounted() {
@@ -64,7 +62,7 @@ export default {
 
 <template>
     <main class="rest">
-        <template v-if="restaurants" v-for="restaurant in    restaurants   ">
+        <template v-if="restaurants" v-for="restaurant in restaurants">
             <div>
                 <!-- {{ console.log(restaurant) }} -->
             </div>
@@ -85,6 +83,8 @@ export default {
                     </section>
 
                     <h2>Menù</h2>
+
+                    <!-- DA CONTROLLARE I VISIBILITY -->
 
                     <section class="product">
                         <div class="product-info">
@@ -109,7 +109,7 @@ export default {
                                             <h3>{{ dish.name }}</h3>
                                             <p>Prezzo: {{ dish.price }} &euro;</p>
                                         </div>
-                                        <!-- <button @click="addItemToCart(dish)">Aggiungi al carrello</button> -->
+                                        <button @click="addItemToCart(dish)">Aggiungi al carrello</button>
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@ export default {
                             </div>
                             <div class="text-cart">
                                 <h2>Carrello</h2>
-                                <!-- <p>{{ cart.length }} oggetti nel carrello</p>
+                                <p>{{ cart.length }} oggetti nel carrello</p>
                                 <div v-for="(product, index) in cart">
                                     <p>
                                         {{ product.object.name }}
@@ -131,7 +131,7 @@ export default {
                                             @click="product.quantity <= 1 ? cart.splice(index, 1) : product.quantity -= 1">-</button>
                                     </p>
                                 </div>
- -->
+
                             </div>
                             <button class="pay"><a href="">Vai al carrello</a></button>
                             <!-- <button class="pay"><a href="">Vai al pagamento</a></button> -->
