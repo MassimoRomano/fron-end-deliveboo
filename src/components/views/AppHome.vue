@@ -116,7 +116,7 @@ export default {
   <main class="home">
 
     <div class="jumbo-head">
-      <h1>I piatti dei ristoranti che ami, a domicilio </h1>
+      <h1>I piatti dei ristoranti che ami a domicilio </h1>
       <div class="card">
       </div>
       <!-- ./card -->
@@ -201,7 +201,7 @@ export default {
               <ul class="types-section">
                 <li v-for="type, index in types" @click="callApiFilter()">
                   <input type="checkbox" name="type.id" id="type.id" v-model="selectedTypes" :value="type.id"> {{
-                  type.name }}
+            type.name }}
                 </li>
               </ul>
             </div>
@@ -237,7 +237,7 @@ export default {
                       <div>
                         <p>Indirizzo:</p>
                         <p>{{ restaurant.address }}</p>
-                        <div v-for=" (type,index) in restaurant.types">{{ type.name }}</div>
+                        <div v-for=" (type, index) in restaurant.types">{{ type.name }}</div>
                       </div>
                     </div>
                   </div>
@@ -262,7 +262,7 @@ export default {
             <li v-for="page in restaurants.last_page" @click="goTo(page)">
               <button
                 :class="{ 'active': page == restaurants.current_page, 'page-link': page != restaurants.current_page }">{{
-                page }}</button>
+            page }}</button>
             </li>
 
             <li v-show="restaurants.next_page_url" @click="nextPage(restaurants.next_page_url)">
