@@ -158,12 +158,9 @@ export default {
                                     <p>
                                         {{ product.object.name }}
                                         <button class="add_product" @click="add_product_to_cart(product)">+</button>
-                                        <!-- AGGIUNGERE L'INCREMENTO AL LOCAl STORAGE -->
                                         <span class="n_off_poducts">{{ product.quantity }}</span>
                                         <button class="remove_product"
                                             @click="remove_product_to_cart(product, index)">-</button>
-                                        <!-- AGGIUNGERE IL DECREMENTO AL LOCAl STORAGE -->
-
                                     </p>
                                 </div>
                             </div>
