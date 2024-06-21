@@ -39,10 +39,10 @@ export default {
                         this.ristoranteSalvato = restaurant.id
                         //console.log(restaurant);
                     });
-                    let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
+                    let restaurant_id = JSON.parse(localStorage.getItem("restaurantID")) //salviamo il restaurantID che era stato salvato in local storage
                     console.log(restaurant_id, this.ristoranteSalvato);
                     if (restaurant_id == this.ristoranteSalvato) {
-                        this.cart = JSON.parse(localStorage.getItem("order"));
+                        this.cart = JSON.parse(localStorage.getItem("order")); //ricaviamo l'ordine dal local storage per savarlo e printaro sul carrello
                         console.log(this.cart);
                     }
                 })
@@ -61,19 +61,20 @@ export default {
             if (!check_product) {
                 this.cart.push(product_quantity);
             }
-        },
-        addOrder() {
             localStorage.clear();
             //console.log(this.cart);
-            localStorage.setItem("order", JSON.stringify(this.cart));
-            localStorage.setItem("restaurantID", JSON.stringify(this.ristoranteSalvato));
-            let ordineSavato = JSON.parse(localStorage.getItem("order"));
-            console.log(ordineSavato);
+            localStorage.setItem("order", JSON.stringify(this.cart)); //trasforma il dato in stringa e lo salva cn il nome Order
+            localStorage.setItem("restaurantID", JSON.stringify(this.ristoranteSalvato)); //trasforma il dato in stringa e lo salva con il nome restaurantID
+            let ordineSavato = JSON.parse(localStorage.getItem("order")); //salviamo l'ordine che era stato salvato in local storage
+            //console.log(ordineSavato);
+        },
+        addOrder() {
+
         },
         setCart() {
-            let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
+            let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"));  //salviamo i restaurantID che era stato salvato in local storage
             if (restaurant_id == this.ristoranteSalvato) {
-                this.cart = JSON.parse(localStorage.getItem("order"));
+                this.cart = JSON.parse(localStorage.getItem("order")); //trasforma il dato de localstorage in stringa o tipo precedente
                 console.log(this.cart);
             }
         }
