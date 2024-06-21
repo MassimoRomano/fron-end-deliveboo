@@ -31,32 +31,29 @@ export default {
             axios
                 .get(url)
                 .then(response => {
-                    console.log(response.data.response);
+                    //console.log(response.data.response);
                     this.restaurants = response.data.response
-                    console.log(this.restaurants)
+                    //console.log(this.restaurants)
                 })
                 .catch(error => {
                     this.error.message = error.message;
                 })
         },
         addItemToCart(product) {
-            console.log(product);
+            //onsole.log(product);
             let product_quantity = {
                 object: product,
                 quantity: 1,
             }
-            let check_product = this.cart.find(product_quantity => object.name === product.name);
-            console.log(check_product);
-            if (!this.cart.includes(product_quantity)) {
-                console.log(product_quantity);
+            let check_product = this.cart.find(product_quantity => product_quantity.object.name === product.name);
+            if (!check_product) {
                 this.cart.push(product_quantity);
-                console.log(this.cart);
             }
         },
     },
     mounted() {
-        let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug + "/" + this.$route.params.id;
-        console.log(url);
+        let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug;
+        //console.log(url);
         this.callApi(url);
     }
 }
@@ -64,17 +61,15 @@ export default {
 
 <template>
     <main class="rest">
-        <template v-if="restaurants" v-for="restaurant in    restaurants   ">
-            <div>
-                <!-- {{ console.log(restaurant) }} -->
-            </div>
-
+        <template v-if="restaurants" v-for="restaurant in restaurants">
             <div class="restaurant-page">
                 <div class="container">
-                    <section v-if="restaurants" v-for="restaurant in restaurants" class="info-rest">
+                    <section v-for="restaurant in restaurants" class="info-rest">
                         <div class="logo-rest">
-                            <img :src="restaurant.image.startsWith('uploads') ? base_api_url + 'storage/' + restaurant.image : restaurant.image"
-                                alt="Logo del ristorante">
+                            <template v-if="restaurant.image">
+                                <img :src="restaurant.image.startsWith('uploads') ? base_api_url + 'storage/' + restaurant.image : restaurant.image"
+                                    alt="Logo del ristorante">
+                            </template>
                         </div>
                         <div class="descr-rest">
                             <h1>{{ restaurant.name }}</h1>
@@ -85,6 +80,8 @@ export default {
                     </section>
 
                     <h2>Menù</h2>
+
+                    <!-- DA CONTROLLARE I VISIBILITY -->
 
                     <section class="product">
                         <div class="product-info">
@@ -105,11 +102,11 @@ export default {
                                             <!-- ./images -->
                                         </div>
                                         <div class="bottom-product">
-
                                             <h3>{{ dish.name }}</h3>
                                             <p>Prezzo: {{ dish.price }} &euro;</p>
+                                            <button @click="addItemToCart(dish)" class="add_to_cart">
+                                                Aggiungi al carrello</button>
                                         </div>
-                                        <!-- <button @click="addItemToCart(dish)">Aggiungi al carrello</button> -->
                                     </div>
                                 </div>
                             </div>
@@ -121,17 +118,16 @@ export default {
                             </div>
                             <div class="text-cart">
                                 <h2>Carrello</h2>
-                                <!-- <p>{{ cart.length }} oggetti nel carrello</p>
+                                <p>{{ cart.length }} oggetti nel carrello</p>
                                 <div v-for="(product, index) in cart">
                                     <p>
                                         {{ product.object.name }}
                                         <button class="add_product" @click="product.quantity += 1">+</button>
-                                        <span>{{ product.quantity }}</span>
+                                        <span class="n_off_poducts">{{ product.quantity }}</span>
                                         <button class="remove_product"
                                             @click="product.quantity <= 1 ? cart.splice(index, 1) : product.quantity -= 1">-</button>
                                     </p>
                                 </div>
- -->
                             </div>
                             <button class="pay"><a href="">Vai al carrello</a></button>
                             <!-- <button class="pay"><a href="">Vai al pagamento</a></button> -->
@@ -156,6 +152,7 @@ export default {
                             </div>
                         </div>
                     </div> -->
+
                 </div>
             </div>
         </template>

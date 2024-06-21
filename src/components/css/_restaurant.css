@@ -80,14 +80,16 @@ h2 {
     display: flex;
     flex-direction: column;
     width: 40%;
-    border: 1px solid rgba(0, 0, 0, 0.192);
-    padding: 20px 0;
-    height: 600px;
+    border-radius: 10px;
+    padding: 2rem;
+    min-height: 300px;
+    max-height: 600px;
+    box-shadow: rgba(100, 100, 111, 0.4) 3px 3px 29px 0px;
+    text-align: center;
+    overflow: auto;
 
     .pay {
-        width: 70%;
-        margin: auto auto -10px;
-        padding: 15px 0;
+        padding: 0.5rem;
         border: none;
         background: #e2e5e5;
         border-radius: 10px;
@@ -100,20 +102,42 @@ h2 {
         }
     }
 
+    .add_product,
+    .remove_product {
+        padding: 0.2rem 0.6rem;
+        border: 1px solid rgba(100, 100, 111, 0.4);
+        border-radius: 50%;
+    }
+
+    .n_off_poducts {
+        padding: 0.5rem;
+    }
+
     .icon-cart {
-        margin: auto;
         font-size: 60px;
         color: rgba(0, 0, 0, 0.308);
+        padding-bottom: 4rem;
     }
 
     .text-cart {
-        margin: auto;
+        padding: 1rem 0;
         font-size: 20px;
         color: rgba(0, 0, 0, 0.308);
         margin-top: -100px;
     }
 }
 
+.add_to_cart {
+    padding: 0.2rem 0.5rem;
+    border-radius: 10px;
+    border: 1px solid rgba(100, 100, 111, 0.1);
+    margin-bottom: 0.5rem;
+
+    &:hover {
+        background-color: rgba(113, 51, 109, 0.37);
+        transition: 0.3s ease-in-out;
+    }
+}
 
 /* MODALE */
 .modal {
