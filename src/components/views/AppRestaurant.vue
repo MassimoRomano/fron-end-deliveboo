@@ -40,10 +40,10 @@ export default {
                         //console.log(restaurant);
                     });
                     let restaurant_id = JSON.parse(localStorage.getItem("restaurantID")) //salviamo il restaurantID che era stato salvato in local storage
-                    console.log(restaurant_id, this.ristoranteSalvato);
+                    //console.log(restaurant_id, this.ristoranteSalvato);
                     if (restaurant_id == this.ristoranteSalvato) {
                         this.cart = JSON.parse(localStorage.getItem("order")); //ricaviamo l'ordine dal local storage per savarlo e printaro sul carrello
-                        console.log(this.cart);
+                        //console.log(this.cart);
                     }
                 })
                 .catch(error => {
@@ -62,7 +62,7 @@ export default {
                 this.cart.push(product_quantity);
             }
             localStorage.clear();
-            console.log(this.cart);
+            //console.log(this.cart);
             localStorage.setItem("order", JSON.stringify(this.cart)); //trasforma il dato in stringa e lo salva con il nome Order
             localStorage.setItem("restaurantID", JSON.stringify(this.ristoranteSalvato)); //trasforma il dato in stringa e lo salva con il nome restaurantID
             //console.log(ordineSavato);
@@ -84,18 +84,8 @@ export default {
                 localStorage.setItem("order", JSON.stringify(this.cart));
             }
         },
-        setCart() {
-            let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"));  //salviamo i restaurantID che era stato salvato in local storage
-            if (restaurant_id == this.ristoranteSalvato) {
-                this.cart = JSON.parse(localStorage.getItem("order")); //trasforma il dato de localstorage in stringa o tipo precedente
-                console.log(this.cart);
-            }
-        }
     },
     mounted() {
-        window.onbeforeunload = function () {
-            setCart();
-        }
         let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug;
         //console.log(url);
         this.callApi(url);
