@@ -10,7 +10,11 @@
   },
   "dependencies": {
     "@fortawesome/vue-fontawesome": "^3.0.8",
+    "@types/braintree-web-drop-in": "^1.39.3",
     "axios": "^1.7.2",
+    "braintree": "^3.23.0",
+    "braintree-web": "^3.102.0",
+    "braintree-web-drop-in": "^1.42.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.3",
     "vue3-toastify": "^0.2.1",
