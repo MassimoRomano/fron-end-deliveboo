@@ -121,7 +121,7 @@ export default {
                     <section class="product">
                         <div class="product-info">
                             <div class="col-2 restaurant-dishes" v-for="dish in restaurant.dishes" >
-                                <div class="card-product" id="dish.id" v-if="dish.visibility === 1">
+                                <div class="card-product" id="dish.id" :class="{ 'card-product-invisible': dish.visibility !== 1 }">
                                     <div class="card-body-product">
                                         <div class="top-product">
                                             <template v-if="dish.image && dish.image.startsWith('uploads')">
@@ -142,6 +142,7 @@ export default {
                                             <button @click="addItemToCart(dish)" class="add_to_cart">
                                                 Aggiungi al carrello
                                             </button>
+                                            <p v-if="dish.visibility !== 1" class="not-available">Non disponibile</p>
                                         </div>
                                     </div>
                                 </div>

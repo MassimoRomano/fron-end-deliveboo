@@ -39,6 +39,8 @@ h2 {
         height: 100%;
         border-radius: 10px;
         box-shadow: rgba(100, 100, 111, 0.4) 3px 3px 29px 0px;
+        position: relative;
+        
 
         .card-body-product {
             .top-product {
@@ -48,6 +50,8 @@ h2 {
                     border-top-left-radius: 10px;
                     border-top-right-radius: 10px;
                     background-color: white;
+                    
+                    
                 }
             }
 
@@ -60,6 +64,20 @@ h2 {
             }
         }
     }
+}
+
+.card-product-invisible {
+    opacity: 0.5;
+    pointer-events: none; 
+}
+
+.not-available{
+    color: red;
+    font-weight: bold;
+    font-size: 20px;
+    position: absolute;
+    top: 35%;
+    left: 25%;
 }
 
 .logo-rest {
