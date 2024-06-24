@@ -1,4 +1,3 @@
-
 <script>
 import axios from 'axios';
 import dropin from 'braintree-web-drop-in';
@@ -6,14 +5,39 @@ import dropin from 'braintree-web-drop-in';
 export default {
     name: 'AppPayment',
     data() {
-        return {};
+        return {
+            //Inizializzo una variavile dove poi salverò il token ottunuto dal server
+            myToken: '',
+            base_api_url: 'http://127.0.0.1:8000/api/',
+        };
     },
     methods: {
+
+
+        giveMeToken() {
+            let url = this.base_api_url + "pay/token";
+            console.log(url);
+            // Aggiungo un ritardo di 1 secondo prima di eseguire la richiesta
+            /* setTimeout(() => { */
+                axios
+                    .get(url)
+                    .then(response => {
+                        //Ecco il token!
+                        console.log(response.data.clientToken);
+                        this.myToken = response.data.clientToken;
+                        this.initializeBraintree();
+                    })
+                    .catch(error => {
+                        this.error.message = error.message;
+                    });
+            /* }, 1000); */
+        },
+
         initializeBraintree() {
             const button = document.querySelector('#submit-button');
 
             dropin.create({
-                authorization: 'sandbox_9q3q5vsf_k7hty5rbd7vhxpms',
+                authorization: this.myToken,
                 container: '#dropin-container'
             }, (createErr, instance) => {
                 if (createErr) {
@@ -28,7 +52,7 @@ export default {
                             return;
                         }
 
-                        axios.post('/checkout', { paymentMethodNonce: payload.nonce })
+                        axios.post(this.base_api_url + 'process-payment', { paymentMethodNonce: payload.nonce })
                             .then(response => {
                                 const result = response.data;
 
@@ -69,7 +93,8 @@ export default {
         },
     },
     mounted() {
-        this.initializeBraintree();
+        //this.initializeBraintree();
+        this.giveMeToken();
     }
 };
 </script>
@@ -92,7 +117,7 @@ export default {
 
 
 <style scoped>
-.my_container{
+.my_container {
     width: 50%;
     margin: auto;
 }
