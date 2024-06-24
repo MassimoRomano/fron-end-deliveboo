@@ -10,7 +10,7 @@
     display: flex;
     flex-direction: row;
     gap: 40px;
-    margin: 0 0 100px 0;
+    margin: 20px auto 100px ;
 
 }
 
@@ -27,8 +27,13 @@ h2 {
 .product-info {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 30px 25px;
     width: 60%;
+}
+
+.menu{
+    margin-left: 440px;
+    font-size:40px;
 }
 
 .col-2 {
@@ -40,7 +45,7 @@ h2 {
         border-radius: 10px;
         box-shadow: rgba(100, 100, 111, 0.4) 3px 3px 29px 0px;
         position: relative;
-        
+        background-color: white;
 
         .card-body-product {
             .top-product {
@@ -49,20 +54,23 @@ h2 {
                     object-fit: cover;
                     border-top-left-radius: 10px;
                     border-top-right-radius: 10px;
-                    background-color: white;
-                    
                     
                 }
             }
 
             .bottom-product {
                 padding: 1rem 0.5rem 0;
+                
 
                 p {
                     padding: 0.5rem 0;
                 }
             }
         }
+    }
+
+    .card-product:hover{
+        scale: 1.05;
     }
 }
 
@@ -81,7 +89,7 @@ h2 {
 }
 
 .logo-rest {
-    width: 50%;
+    width: 40%;
 
     img {
         width: 100%;
@@ -90,21 +98,43 @@ h2 {
     }
 }
 
+.descr-rest{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+
+    h1{
+        font-size: 30px;
+        margin-bottom: 40px;
+    }
+
+    p{
+        font-size: 20px;
+        margin-bottom: 40px;
+    }
+}
+
 .info-rest {
-    width: 50%;
+    width:99%;
 }
 
 .cart {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     width: 40%;
     border-radius: 10px;
     padding: 2rem;
     min-height: 300px;
-    max-height: 600px;
+    max-height: 1200px;
     box-shadow: rgba(100, 100, 111, 0.4) 3px 3px 29px 0px;
-    text-align: center;
+    text-align: left;
     overflow: auto;
+
+    h2{
+        text-align: center;
+        font-size: 30px;
+    }
 
     .pay {
         padding: 0.5rem;
@@ -135,6 +165,7 @@ h2 {
         font-size: 60px;
         color: rgba(0, 0, 0, 0.308);
         padding-bottom: 4rem;
+        text-align: center;
     }
 
     .text-cart {
@@ -142,6 +173,37 @@ h2 {
         font-size: 20px;
         color: rgba(0, 0, 0, 0.308);
         margin-top: -100px;
+    }
+
+    .tot-prod-in-cart{
+        text-align: center;
+        color: black;
+        margin-bottom: 50px;
+        font-weight: bold;
+    }
+
+    .prod-cart-price{
+        margin: 10px 0 10px 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.205);
+        padding: 20px 0;
+
+        p{
+            color: black;
+        }
+    }
+
+    .prod-price{
+        font-weight: bold;
+
+        span{
+            color: red;
+        }
+    }
+
+    .tot-cart{
+        text-align: center;
+        font-weight: bold;
+        font-size: 20px;
     }
 }
 

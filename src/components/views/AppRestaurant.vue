@@ -137,12 +137,21 @@ export default {
                         <div class="descr-rest">
                             <h1>{{ restaurant.name }}</h1>
                             <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quaerat.
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, natus ex praesentium assumenda a deserunt doloribus, optio non rem reprehenderit fugit neque iure, odio nisi. Architecto eos ad sunt nobis.
+                                Quasi reprehenderit asperiores, quo dolorum accusamus eius illum earum atque deleniti expedita nobis possimus. Pariatur nulla veniam voluptate saepe tenetur earum, sequi iusto provident eos deleniti ut voluptatem tempore veritatis.
+                            </p>
+                            <p>
+                                Indirizzo: 
+                                <strong>{{ restaurant.address }}</strong>
+                            </p>
+                            <p>
+                                Numero di Telefono: 
+                               <strong>{{ restaurant.phone_number }}</strong> 
                             </p>
                         </div>
                     </section>
 
-                    <h2>Menù</h2>
+                    <h2 class="menu">Menù</h2>
 
                     <!-- DA CONTROLLARE I VISIBILITY -->
 
@@ -204,11 +213,11 @@ export default {
                         <div class="cart">
                             <div class="icon-cart">
                                 <i class="fa-solid fa-cart-shopping"></i>
+                                <h2>Carrello</h2>
                             </div>
                             <div class="text-cart">
-                                <h2>Carrello</h2>
-                                <p v-if="cart">{{ cart.length }} oggetti nel carrello</p>
-                                <div v-for="(product, index) in cart">
+                                <p class="tot-prod-in-cart" v-if="cart">{{ cart.length }} oggetti nel carrello</p>
+                                <div v-for="(product, index) in cart" class="prod-cart-price">
                                     <p>
                                         {{ product.object.name }}
                                         <button class="add_product" @click="increase_cart_quantity(product)">+</button>
@@ -216,10 +225,10 @@ export default {
                                         <button class="remove_product"
                                             @click="decrease_cart_quantity(product, index)">-</button>
                                     </p>
-                                    <p>Totale prodotto: {{ product.price }} </p>
+                                    <p class="prod-price">Totale prodotto: <span>{{ product.price }} &euro;</span> </p>
                                 </div>
                             </div>
-                            <p class="">Totale carrello: {{ this.total.toFixed(2) }}</p>
+                            <p class="tot-cart">Totale carrello: {{ this.total.toFixed(2) }}</p>
                             <button class="pay" @click="addOrder()">
                                 <router-link :to="{ name: 'order' }">
                                     Ordina
