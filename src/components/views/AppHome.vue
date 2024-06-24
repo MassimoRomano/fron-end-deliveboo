@@ -31,14 +31,17 @@ export default {
     },
 
     callApi(url) {
+      this.isLoading = true
       axios
         .get(url)
         .then(response => {
           console.log(response.data.restaurants);
           this.restaurants = response.data.restaurants
+          this.isLoading = false
         })
         .catch(error => {
           this.error.message = error.message;
+          this.isLoading = false
         })
 
     },
@@ -254,9 +257,9 @@ export default {
                 </div>
               </template>
 
-              <!-- <template v-else>
+              <template v-else>
                 <h3>Nessun ristorante trovato</h3>
-              </template> -->
+              </template>
               <!-- template if don't have restaurant -->
               <nav aria-label="Page navigation" class="text-center col-12">
                 <ul class="my_pagination">

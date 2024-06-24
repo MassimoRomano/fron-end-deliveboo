@@ -16,6 +16,7 @@
     "braintree-web": "^3.102.0",
     "braintree-web-drop-in": "^1.42.0",
     "vue": "^3.4.21",
+    "vue-braintree": "^2.1.0",
     "vue-router": "^4.3.3",
     "vue3-toastify": "^0.2.1",
     "vuex": "^4.0.2"
