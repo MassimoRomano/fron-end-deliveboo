@@ -12,6 +12,8 @@ export default {
             selectedProduct: { name: null, image: null },
             cart: [],
             ristoranteSalvato: null,
+            total: 0,
+            restaurantOrder: null
         }
     },
     methods: {
@@ -63,28 +65,47 @@ export default {
             if (!check_product) {
                 this.cart.push(product_quantity);
             }
+            this.total = this.total + parseFloat(product.price);
+            console.log(this.total)
             localStorage.clear();
             //console.log(this.cart);
+            localStorage.setItem("total", JSON.stringify(this.total))
             localStorage.setItem("order", JSON.stringify(this.cart)); //trasforma il dato in stringa e lo salva con il nome Order
             localStorage.setItem("restaurantID", JSON.stringify(this.ristoranteSalvato)); //trasforma il dato in stringa e lo salva con il nome restaurantID
             //console.log(ordineSavato);
+
         },
         add_product_to_cart(product) {
             product.quantity += 1
             product.price = parseFloat(product.object.price * product.quantity).toFixed(2);
-            //console.log(product.price);
             localStorage.setItem("order", JSON.stringify(this.cart));
+
+            this.total += parseFloat(product.object.price);
+            localStorage.setItem("total", JSON.stringify(this.total));
         },
         remove_product_to_cart(product, index) {
             if (product.quantity <= 1) {
                 this.cart.splice(index, 1)
+                console.log(product.object.price)
                 localStorage.setItem("order", JSON.stringify(this.cart));
+
+                this.total -= parseFloat(product.object.price);
+                localStorage.setItem("total", JSON.stringify(this.total));
             } else {
                 product.quantity -= 1
                 product.price = parseFloat(product.object.price * product.quantity).toFixed(2);
                 localStorage.setItem("order", JSON.stringify(this.cart));
+
+                this.total -= parseFloat(product.object.price);
+                localStorage.setItem("total", JSON.stringify(this.total));
             }
         },
+        addOrder() {
+
+            if (this.cart.length > 0) {
+
+            }
+        }
     },
     mounted() {
         let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug;
@@ -148,6 +169,9 @@ export default {
                             </div>
                         </div>
                         <!-- /.row -->
+                        <!-- <template v-if="ristoranteSalvato != JSON.parse(localStorage.getItem(" restaurantID"))">
+
+                        </template> -->
                         <div class="cart">
                             <div class="icon-cart">
                                 <i class="fa-solid fa-cart-shopping"></i>
@@ -166,7 +190,11 @@ export default {
                                     <p>Totale prodotto: {{ product.price }} </p>
                                 </div>
                             </div>
-                            <button class="pay" @click="addOrder()">Paga qui</button>
+                            <button class="pay" @click="addOrder()">
+                                <router-link :to="{ name: 'order' }">
+                                    Ordina
+                                </router-link>
+                            </button>
                         </div>
                     </section>
 
