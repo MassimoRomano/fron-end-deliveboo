@@ -42,12 +42,12 @@ export default {
             axios
                 .get(url)
                 .then(response => {
-                    //console.log(response.data.response);
+                    console.log(response.data.response);
                     this.restaurants = response.data.response
                     //console.log(this.restaurants)
                     this.restaurants.forEach(restaurant => {
                         this.ristoranteSalvato = restaurant.id
-                        //console.log(restaurant);
+                        console.log(restaurant);
                     });
                     let restaurant_id = JSON.parse(localStorage.getItem("restaurantID")) //salviamo il restaurantID che era stato salvato in local storage
                     //console.log(restaurant_id, this.ristoranteSalvato);
@@ -149,6 +149,8 @@ export default {
 
                     <section class="product">
                         <div class="product-info">
+                            <div class="col-2 restaurant-dishes" v-for="dish in restaurant.dishes" >
+                                <div class="card-product" id="dish.id" :class="{ 'card-product-invisible': dish.visibility !== 1 }">
                             <div class="col-2 restaurant-dishes" v-for="dish in restaurant.dishes">
                                 <div v-if="showModal" class="modal" @click.self="closeModal()">
                                     <div class="modal-content">
@@ -187,6 +189,7 @@ export default {
                                             <button @click="openModal(dish)" class="add_to_cart">
                                                 Aggiungi al carrello
                                             </button>
+                                            <p v-if="dish.visibility !== 1" class="not-available">Non disponibile</p>
                                         </div>
                                     </div>
                                 </div>

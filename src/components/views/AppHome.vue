@@ -208,7 +208,7 @@ export default {
                 <ul class="types-section">
                   <li v-for="type, index in types">
                     <input type="checkbox" name="type.id" id="type.id" v-model="selectedTypes" :value="type.id"
-                      @click="callApiFilter()">
+                      @change="callApiFilter()">
                     {{ type.name }}
                   </li>
                 </ul>
@@ -217,8 +217,9 @@ export default {
           </div>
           <div class="separate"></div>
           <div class="restaurant-col">
-            <div v-if="isLoading" class="loading col-12">
-              <p>Caricamento dei ristoranti in corso...</p>
+
+            <div v-if="isLoading" class="loader col-12">
+              <h3>Caricamento ristoranti...</h3>
             </div>
             <div class="restaurant-wrap">
               <template v-if="restaurants.data">
@@ -258,7 +259,7 @@ export default {
               </template>
 
               <template v-else>
-                <h3>Nessun ristorante trovato</h3>
+                <h3 class="no-found col-12">Nessun ristorante trovato</h3>
               </template>
               <!-- template if don't have restaurant -->
               <nav aria-label="Page navigation" class="text-center col-12">

@@ -1,5 +1,5 @@
 .home {
-    background-image: linear-gradient(to right top, #000000, #070707, #0d0d0d, #121212, #161616); 
+    background-image: linear-gradient(to right top, #000000, #070707, #0d0d0d, #121212, #161616);
     overflow-x: hidden;
 }
 
@@ -175,11 +175,14 @@
 
 
 /* restaurant */
-
-.loading {
-    text-align: center;
+.loader{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font: 20px;
+    color: goldenrod;
+    margin-top: 300px;
 }
-
 .restaurant {
     height: auto;
     margin: 100px auto;
@@ -222,12 +225,14 @@
         }
 
     }
-.separate{
-    height: 1000px;
-    background-color: goldenrod;
-    width: 1px;
-    margin-top: 35px;
-}
+
+    .separate {
+        height: 1000px;
+        background-color: goldenrod;
+        width: 1px;
+        margin-top: 35px;
+    }
+
     /* #endregion */
     .restaurant-col {
         display: flex;
@@ -260,7 +265,7 @@
             height: 350px;
             position: relative;
             margin: 20px 0;
-            
+
 
             .card-body-restaurant {
                 display: flex;
@@ -436,14 +441,15 @@
     padding: 15px 40px;
     margin: 0 auto;
     text-align: left;
-    
+
 }
 
 @keyframes slideToTop {
     from {
         transform: translateY(-3000%);
     }
-    top{
+
+    top {
         transform: translateY(0);
     }
 }
@@ -471,15 +477,16 @@
     background-color: #161616;
 }
 
-/* .prev-btn {
-    left: -25px;
-    top: 23%;
-}
+.no-found {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: wheat;
+    margin-top: 200px;
+    font-size: 30px;
+    font-weight: bold;
 
-.next-btn {
-    right: -25px;
-    top: 24%;
-} */
+}
 
 /* #endregion Types */
 
@@ -550,7 +557,7 @@
 
 .collabs {
     height: 700px;
-    
+
     padding: 100px 0px;
 
     .col-4 {
