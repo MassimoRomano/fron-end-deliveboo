@@ -32,12 +32,12 @@ export default {
             axios
                 .get(url)
                 .then(response => {
-                    //console.log(response.data.response);
+                    console.log(response.data.response);
                     this.restaurants = response.data.response
                     //console.log(this.restaurants)
                     this.restaurants.forEach(restaurant => {
                         this.ristoranteSalvato = restaurant.id
-                        //console.log(restaurant);
+                        console.log(restaurant);
                     });
                     let restaurant_id = JSON.parse(localStorage.getItem("restaurantID")) //salviamo il restaurantID che era stato salvato in local storage
                     //console.log(restaurant_id, this.ristoranteSalvato);
@@ -120,8 +120,8 @@ export default {
 
                     <section class="product">
                         <div class="product-info">
-                            <div class="col-2 restaurant-dishes" v-for="dish in restaurant.dishes">
-                                <div class="card-product" id="dish.id">
+                            <div class="col-2 restaurant-dishes" v-for="dish in restaurant.dishes" >
+                                <div class="card-product" id="dish.id" v-if="dish.visibility === 1">
                                     <div class="card-body-product">
                                         <div class="top-product">
                                             <template v-if="dish.image && dish.image.startsWith('uploads')">
