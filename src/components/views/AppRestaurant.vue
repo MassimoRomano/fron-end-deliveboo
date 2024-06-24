@@ -12,22 +12,32 @@ export default {
             selectedProduct: { name: null, image: null },
             cart: [],
             ristoranteSalvato: null,
+            total: 0,
+            restaurantOrder: null,
+            verify: false,
         }
     },
     methods: {
+        /* Aprire la modale */
         openModal(dish) {
-            this.selectedProduct = {
-                name: dish.name,
-                image: dish.image.includes('uploads') ? this.base_api_url + 'storage/' + dish.image : dish.image,
-                ingredients: dish.ingredients,
-                price: dish.price,
-                product_id: dish.id,
+            let restaurant_id = JSON.parse(localStorage.getItem("restaurantID")) //salviamo il restaurantID che era stato salvato in local storage
+            if (restaurant_id != this.ristoranteSalvato) {
+                this.showModal = true;
+            } else {
+                this.addItemToCart(dish);
             }
-            this.showModal = true;
         },
+        orderProceed(dish) {
+            this.active = !this.active;
+            this.closeModal();
+            this.addItemToCart(dish);
+            this.verify = true;
+        },
+        /* Chiudere la modale */
         closeModal() {
             this.showModal = false;
         },
+        /* Chiamata API */
         callApi(url) {
             axios
                 .get(url)
@@ -49,10 +59,9 @@ export default {
                 .catch(error => {
                     this.error.message = error.message;
                 })
-
         },
+        /* Agiungere il piatto al carrello */
         addItemToCart(product) {
-            //onsole.log(product);
             let product_quantity = {
                 object: product,
                 quantity: 1,
@@ -63,32 +72,51 @@ export default {
             if (!check_product) {
                 this.cart.push(product_quantity);
             }
+            this.total = this.total + parseFloat(product.price);
+            console.log(this.total)
             localStorage.clear();
-            //console.log(this.cart);
+            console.log(this.cart);
+            localStorage.setItem("total", JSON.stringify(this.total))
             localStorage.setItem("order", JSON.stringify(this.cart)); //trasforma il dato in stringa e lo salva con il nome Order
             localStorage.setItem("restaurantID", JSON.stringify(this.ristoranteSalvato)); //trasforma il dato in stringa e lo salva con il nome restaurantID
             //console.log(ordineSavato);
         },
-        add_product_to_cart(product) {
+        /* Aumentare quantità del carrello */
+        increase_cart_quantity(product) {
             product.quantity += 1
             product.price = parseFloat(product.object.price * product.quantity).toFixed(2);
-            //console.log(product.price);
             localStorage.setItem("order", JSON.stringify(this.cart));
+
+            this.total += parseFloat(product.object.price);
+            localStorage.setItem("total", JSON.stringify(this.total));
         },
-        remove_product_to_cart(product, index) {
+        /* Ridurre quantità del carrello */
+        decrease_cart_quantity(product, index) {
             if (product.quantity <= 1) {
                 this.cart.splice(index, 1)
+                console.log(product.object.price)
                 localStorage.setItem("order", JSON.stringify(this.cart));
+
+                this.total -= parseFloat(product.object.price);
+                localStorage.setItem("total", JSON.stringify(this.total));
             } else {
                 product.quantity -= 1
                 product.price = parseFloat(product.object.price * product.quantity).toFixed(2);
                 localStorage.setItem("order", JSON.stringify(this.cart));
+
+                this.total -= parseFloat(product.object.price);
+                localStorage.setItem("total", JSON.stringify(this.total));
+            }
+        },
+        addOrder() {
+            if (this.cart.length > 0) {
+
             }
         },
     },
     mounted() {
         let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug;
-        //console.log(url);
+        this.verify = false;
         this.callApi(url);
     }
 }
@@ -118,10 +146,29 @@ export default {
 
                     <!-- DA CONTROLLARE I VISIBILITY -->
 
+
                     <section class="product">
                         <div class="product-info">
                             <div class="col-2 restaurant-dishes" v-for="dish in restaurant.dishes" >
                                 <div class="card-product" id="dish.id" :class="{ 'card-product-invisible': dish.visibility !== 1 }">
+                            <div class="col-2 restaurant-dishes" v-for="dish in restaurant.dishes">
+                                <div v-if="showModal" class="modal" @click.self="closeModal()">
+                                    <div class="modal-content">
+                                        <div class="modal-inside">
+                                            <span class="close" @click="closeModal()">&times;</span>
+                                            <h2>Attenzione!</h2>
+                                            <p>Hai già l'ordine di un altro ristorante nel carrello, cliccando prosegui
+                                                andrai a
+                                                cancellare il
+                                                vecchio ordine per far spazio al nuovo </p>
+                                            <div class="add_remove">
+                                                <button @click="orderProceed(dish)">Prosegui</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /warning modal -->
+                                <div class="card-product" id="dish.id">
                                     <div class="card-body-product">
                                         <div class="top-product">
                                             <template v-if="dish.image && dish.image.startsWith('uploads')">
@@ -139,7 +186,7 @@ export default {
                                         <div class="bottom-product">
                                             <h3>{{ dish.name }}</h3>
                                             <p>Prezzo: {{ dish.price }} &euro;</p>
-                                            <button @click="addItemToCart(dish)" class="add_to_cart">
+                                            <button @click="openModal(dish)" class="add_to_cart">
                                                 Aggiungi al carrello
                                             </button>
                                             <p v-if="dish.visibility !== 1" class="not-available">Non disponibile</p>
@@ -149,6 +196,7 @@ export default {
                             </div>
                         </div>
                         <!-- /.row -->
+
                         <div class="cart">
                             <div class="icon-cart">
                                 <i class="fa-solid fa-cart-shopping"></i>
@@ -159,37 +207,22 @@ export default {
                                 <div v-for="(product, index) in cart">
                                     <p>
                                         {{ product.object.name }}
-                                        <button class="add_product" @click="add_product_to_cart(product)">+</button>
+                                        <button class="add_product" @click="increase_cart_quantity(product)">+</button>
                                         <span class="n_off_poducts">{{ product.quantity }}</span>
                                         <button class="remove_product"
-                                            @click="remove_product_to_cart(product, index)">-</button>
+                                            @click="decrease_cart_quantity(product, index)">-</button>
                                     </p>
                                     <p>Totale prodotto: {{ product.price }} </p>
                                 </div>
                             </div>
-                            <button class="pay" @click="addOrder()">Paga qui</button>
+                            <p class="">Totale carrello: {{ this.total.toFixed(2) }}</p>
+                            <button class="pay" @click="addOrder()">
+                                <router-link :to="{ name: 'order' }">
+                                    Ordina
+                                </router-link>
+                            </button>
                         </div>
                     </section>
-
-                    <!-- Modale -->
-                    <!--  <div v-if="showModal" class="modal" @click.self="closeModal()">
-                        <div class="modal-content">
-                            <div class="modal-inside">
-                                <span class="close" @click="closeModal()">&times;</span>
-                                <img :src="selectedProduct.image" alt="Product Image">
-                                <h2>{{ selectedProduct.name }}</h2>
-                                <p>Ingredienti: {{ selectedProduct.ingredients }}</p>
-                                <p>Price: <strong>{{ selectedProduct.price }}&euro;</strong></p>
-                                <div class="add_remove">
-                                    <button class="add_product" @click="productIncrement()">+</button>
-                                    <div class="product_quantity">{{ quantity }}</div>
-                                    <button class="remove_product" @click="productDecrement()">-</button>
-                                </div>
-                                <button @click="addItemToCart(product)">Aggiungi a carrello</button>
-                            </div>
-                        </div>
-                    </div> -->
-
                 </div>
             </div>
         </template>
