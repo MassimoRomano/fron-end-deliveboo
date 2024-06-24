@@ -19,17 +19,17 @@ export default {
             console.log(url);
             // Aggiungo un ritardo di 1 secondo prima di eseguire la richiesta
             /* setTimeout(() => { */
-                axios
-                    .get(url)
-                    .then(response => {
-                        //Ecco il token!
-                        console.log(response.data.clientToken);
-                        this.myToken = response.data.clientToken;
-                        this.initializeBraintree();
-                    })
-                    .catch(error => {
-                        this.error.message = error.message;
-                    });
+            axios
+                .get(url)
+                .then(response => {
+                    //Ecco il token!
+                    console.log(response.data.clientToken);
+                    this.myToken = response.data.clientToken;
+                    this.initializeBraintree();
+                })
+                .catch(error => {
+                    console.error('Error getting token:', error);
+                });
             /* }, 1000); */
         },
 
@@ -51,10 +51,11 @@ export default {
                             console.error('Error requesting payment method:', requestPaymentMethodErr);
                             return;
                         }
-
+                        console.log(this.base_api_url + 'process-payment', { paymentMethodNonce: payload.nonce });
                         axios.post(this.base_api_url + 'process-payment', { paymentMethodNonce: payload.nonce })
                             .then(response => {
                                 const result = response.data;
+                                console.log(result);
 
                                 // Tear down the Drop-in UI
                                 instance.teardown(teardownErr => {
@@ -65,7 +66,7 @@ export default {
                                         button.remove();
                                     }
                                 });
-
+                                console.log(result.success);
                                 if (result.success) {
                                     document.querySelector('#checkout-message').innerHTML = `
                     <h1>Success</h1>
