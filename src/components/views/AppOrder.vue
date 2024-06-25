@@ -205,7 +205,7 @@ export default {
             <div class="row">
                 <div class="col">
                     <h3>{{ restaurant_name }}</h3>
-                    <p>Totale Ordine: {{ total_price }} &euro;</p>
+                    <p v-if="total_price">Totale Ordine: {{ total_price.toFixed(2) }} &euro;</p>
                 </div>
                 <!-- /.col -->
                 <div class="col">
