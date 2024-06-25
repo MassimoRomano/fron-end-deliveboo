@@ -240,7 +240,8 @@ export default {
                                                     cancellare il
                                                     vecchio ordine per far spazio al nuovo </p>
                                                 <div class="add_remove">
-                                                    <button @click="orderProceed(dish)">Prosegui</button>
+                                                    <button @click="orderProceed(dish)"
+                                                        class="btn_prosegui">Prosegui</button>
                                                 </div>
                                             </div>
                                         </div>
