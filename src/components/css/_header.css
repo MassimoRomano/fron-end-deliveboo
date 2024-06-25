@@ -3,6 +3,8 @@ header {
     width: 100%;
     box-sizing: border-box;
     height: 80px;
+
+   
 }
 
 .container {
@@ -23,6 +25,20 @@ header {
     
 
     .menu {
+        @media (max-width: 768px) {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 0 0;
+        }
+
+        @media (max-width: 425px) {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 0 0;
+        }
+
         padding-top: 5px;
         a {
             text-decoration: none;
@@ -36,7 +52,7 @@ header {
         }
 
         a:hover{
-            color: var(--primary-color);
+            color: var(--deliverboo-fifty);
         }
 
     }
@@ -46,10 +62,19 @@ header {
     .logo{
         cursor: pointer;
         padding: 24px 0 0 0;
+
         h2{
+            @media (max-width: 425px) {
+                font-size: 20px;
+            }
+
             i{
                 color: var(--deliverboo-fifty);
                 margin-right: 10px;
+
+                @media (max-width: 425px) {
+                    font-size: 20px;
+                }
             }
         }
 
