@@ -133,6 +133,7 @@ export default {
                     this.customer_phone_number = '';
                     this.customer_email = '';
                     this.customer_note = '';
+                    this.errors = false;
                     // console.log(response.data)
                     // inserisci il messaggio di successo nell'istanza di successo
                     this.success = response.data.message;
