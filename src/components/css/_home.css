@@ -939,36 +939,36 @@
 
     /* Types */
     .bar-types {
-        position: relative;
-        width: 100%;
+        position: none;
+        width:100%;
+        padding: 4px 15px;
         display: flex;
-        margin-top: -40px;
-        overflow-y: auto;
+        justify-content: start;
+        overflow-y: scroll;
+        margin: 0 auto;
     }
-    
+
     .types-container {
         display: flex;
-        width: 100%;
-        margin: auto;
         text-align: left;
+        width: auto;
     }
-    
+
     .types-section {
         display: flex;
         flex-direction: row;
         gap: 10px;
-        margin:auto;
-        width: 98%;
+        width: 100%;
     }
 
     .types-section li {
         display: flex;
         background-color: var(--deliverboo-fifty);
-        padding: 5px 7px ;
+        padding: 5px 7px;
         gap: 4px;
     }
-    
-    
+
+
     .no-found {
         display: flex;
         align-items: center;
@@ -977,7 +977,7 @@
         margin-top: 200px;
         font-size: 30px;
         font-weight: bold;
-    
+
     }
 
     /* #region Pagination */
