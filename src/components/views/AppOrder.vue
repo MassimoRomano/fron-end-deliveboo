@@ -1,5 +1,7 @@
 <script>
 import axios from 'axios';
+import dropin from 'braintree-web-drop-in';
+
 
 export default {
     name: 'AppOrder',
@@ -16,9 +18,92 @@ export default {
             errors: false,
             success: false,
             restaurant_name: '',
+            myToken: '',
+            base_api_url: 'http://127.0.0.1:8000/api/',
+            orderDone: false
         }
     },
     methods: {
+        giveMeToken() {
+            let url = this.base_api_url + "pay/token";
+            console.log(url);
+            // Aggiungo un ritardo di 1 secondo prima di eseguire la richiesta
+            /* setTimeout(() => { */
+            axios
+                .get(url)
+                .then(response => {
+                    //Ecco il token!
+                    console.log(response.data.clientToken);
+                    this.myToken = response.data.clientToken;
+                    this.initializeBraintree();
+                })
+                .catch(error => {
+                    console.error('Error getting token:', error);
+                });
+            /* }, 1000); */
+        },
+
+        initializeBraintree() {
+            const button = document.querySelector('#submit-button');
+
+            dropin.create({
+                authorization: this.myToken,
+                container: '#dropin-container'
+            }, (createErr, instance) => {
+                if (createErr) {
+                    console.error('Error creating Braintree Drop-in:', createErr);
+                    return;
+                }
+
+                button.addEventListener('click', () => {
+                    instance.requestPaymentMethod((requestPaymentMethodErr, payload) => {
+                        if (requestPaymentMethodErr) {
+                            console.error('Error requesting payment method:', requestPaymentMethodErr);
+                            return;
+                        }
+                        console.log(this.base_api_url + 'process-payment', { paymentMethodNonce: payload.nonce });
+                        axios.post(this.base_api_url + 'process-payment', { paymentMethodNonce: payload.nonce })
+                            .then(response => {
+                                const result = response.data;
+                                console.log(result);
+
+                                // Tear down the Drop-in UI
+                                instance.teardown(teardownErr => {
+                                    if (teardownErr) {
+                                        console.error('Could not tear down Drop-in UI!');
+                                    } else {
+                                        console.info('Drop-in UI has been torn down!');
+                                        button.remove();
+                                    }
+                                });
+                                console.log(result.success);
+                                if (result.success) {
+                                    document.querySelector('#checkout-message').innerHTML = `
+                    <h1>Success</h1>
+                    <p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p>
+                    <p>Refresh to try another transaction.</p>
+                  `;
+                                } else {
+                                    console.log(result);
+                                    document.querySelector('#checkout-message').innerHTML = `
+                    <h1>Error</h1>
+                    <p>Check your console.</p>
+                  `;
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error processing payment:', error);
+                                document.querySelector('#checkout-message').innerHTML = `
+                  <h1>Error</h1>
+                  <p>Check your console.</p>
+                  `;
+                            });
+                    });
+                });
+            });
+        },
+
+
         newOrder() {
             this.loading = true;
             const url = "http://127.0.0.1:8000/api/add-order";
@@ -51,6 +136,7 @@ export default {
                     // console.log(response.data)
                     // inserisci il messaggio di successo nell'istanza di successo
                     this.success = response.data.message;
+                    this.orderDone = true;
                 } else if (response.data.errors) {//altrimenti se ti da errore
                     this.success = false;
                     // console.log(response.data)
@@ -80,12 +166,22 @@ export default {
                 <div class="alert alert-success">
                     <div class="info">
                         {{ success }}
+                        {{ giveMeToken() }}
                     </div>
                     <div class="" @click="success = !success">
                         <i class="fa-solid fa-xmark"></i>
                     </div>
                 </div>
+
+
             </template>
+            <div class="my_container">
+                <div id="dropin-wrapper">
+                    <div id="checkout-message"></div>
+                    <div id="dropin-container"></div>
+                    <button id="submit-button">Submit payment</button>
+                </div>
+            </div>
 
 
             <!-- alert di errore del campo form lato laravel -->
@@ -104,7 +200,7 @@ export default {
             </template>
 
 
-            <h2 class="order_title">Inserisci i tuoi dati per completare l'ordine</h2>
+            <h2 v-if="!this.orderDone" class="order_title">Inserisci i tuoi dati per completare l'ordine</h2>
             <div class="row">
                 <div class="col">
                     <h3>{{ restaurant_name }}</h3>
@@ -112,7 +208,7 @@ export default {
                 </div>
                 <!-- /.col -->
                 <div class="col">
-                    <form action="" method="post" @submit.prevent="newOrder()">
+                    <form v-if="!this.orderDone" action="" method="post" @submit.prevent="newOrder()">
                         <div class="mb-3">
                             <label for="customer_name" class="form-label">Nome*</label>
                             <input type="text" class="form-control pad-3" name="customer_name" id="customer_name"
@@ -251,5 +347,10 @@ export default {
 
 .list-errors {
     padding: 10px 20px;
+}
+
+.my_container {
+    width: 50%;
+    margin: auto;
 }
 </style>
