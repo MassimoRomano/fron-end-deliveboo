@@ -246,10 +246,10 @@ export default {
                           <div>
                             <p>Indirizzo:</p>
                             <p>{{ restaurant.address }}</p>
-
+                          </div>
+                          <div>
                             <p class="type-text">Tipologia:</p>
-                            <div class="type-text" v-for=" (type, index) in restaurant.types">{{ type.name }}</div>
-
+                            <span class="type-text" v-for=" (type, index) in restaurant.types">{{ type.name }} , </span>
                           </div>
                         </div>
                       </div>
@@ -298,6 +298,7 @@ export default {
       <div class="card-offer">
         <div class="card-body-offer">
           <div class="left-offer">
+            <div class="stars"></div>
             <h3>Menù in offerta: sconti fino al 25%</h3>
             <p>Perfetti per dare più gusto alla tua settimana, ordinare i piatti più amati da tutta la famiglia e fare
               una
@@ -305,6 +306,7 @@ export default {
             <p class="log"><span> <router-link>Registrati</router-link> </span> per avere uno sconto sul tuo primo
               ordine
             </p>
+
           </div>
           <div class="right-offer">
             <img src="/public/img/food-del.jpg" alt="">
