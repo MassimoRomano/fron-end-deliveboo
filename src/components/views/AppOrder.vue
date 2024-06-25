@@ -5,92 +5,200 @@ export default {
     name: 'AppOrder',
     data() {
         return {
-            customer_name: null,
-            customer_lastname: null,
-            customer_address: null,
-            customer_phone_number: null,
-            customer_email: null,
-            customer_note: null,
             total_price: null,
+            customer_name: '',
+            customer_lastname: '',
+            customer_address: '',
+            customer_phone_number: '',
+            customer_email: '',
+            customer_note: '',
+            loading: false,
+            errors: false,
+            success: false,
+            restaurant_name: '',
         }
     },
     methods: {
         newOrder() {
+            this.loading = true;
             const url = "http://127.0.0.1:8000/api/add-order";
+            const restaurant_id = JSON.parse(localStorage.getItem("restaurantID"));
+            const total_price = JSON.parse(localStorage.getItem("total"));
+            const cartItems = JSON.parse(localStorage.getItem("order"));
             const data = {
-                customer: {
-                    customer_name: this.customer_name,
-                    customer_lastname: this.customer_lastname,
-                    customer_address: this.customer_address,
-                    customer_phone_number: this.customer_phone_number,
-                    customer_email: this.customer_email,
-                    customer_note: this.customer_note,
-                    total_price: this.total_price,
-                    restaurant_id: JSON.parse(localStorage.getItem("restaurantID")),
-                    total_price: JSON.parse(localStorage.getItem("total")),
-                },
-                cartItems: JSON.parse(localStorage.getItem("order")),
+                restaurant_id: restaurant_id,
+                customer_name: this.customer_name,
+                customer_lastname: this.customer_lastname,
+                customer_address: this.customer_address,
+                customer_phone_number: this.customer_phone_number,
+                customer_email: this.customer_email,
+                customer_note: this.customer_note,
+                total_price: total_price,
+                cartItems: cartItems,
             };
-            console.log(url, data);
+            // console.log(url, data);
+            axios.post(url, data).then(response => {
+                console.log(response);
+
+                // se ho sucesso con la compilazione dei dati del form
+                if (response.data.success) {
+                    this.customer_name = '';
+                    this.customer_lastname = '';
+                    this.customer_address = '';
+                    this.customer_phone_number = '';
+                    this.customer_email = '';
+                    this.customer_note = '';
+                    // console.log(response.data)
+                    // inserisci il messaggio di successo nell'istanza di successo
+                    this.success = response.data.message;
+                } else if (response.data.errors) {//altrimenti se ti da errore
+                    this.success = false;
+                    // console.log(response.data)
+                    // inserisci il messaggio di errore nell'istanza di errore
+                    this.errors = response.data.errors;
+                    // console.log(this.errors);
+                }
+                this.loading = false;
+            }).catch(err => {
+                console.error(err);
+            })
         },
     },
     mounted() {
+        this.total_price = JSON.parse(localStorage.getItem("total"))
+        this.restaurant_name = JSON.parse(localStorage.getItem("restaurant_name"))
     }
 }
 </script>
 
 <template>
-    <section class="order">
+    <section class="order p-5">
         <div class="container">
+
+            <!-- alert di successo del campo form lato laravel-->
+            <template v-if="success">
+                <div class="alert alert-success">
+                    <div class="info">
+                        {{ success }}
+                    </div>
+                    <div class="" @click="success = !success">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                </div>
+            </template>
+
+
+            <!-- alert di errore del campo form lato laravel -->
+            <template v-if="errors">
+                <div class="alert alert-danger">
+                    <div class="info">
+                        <h4 class="py-1">Errors:</h4>
+                        <ul class="list-errors">
+                            <li v-for="error in errors">{{ error[0] }}</li>
+                        </ul>
+                    </div>
+                    <div class="" @click="errors = !errors">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                </div>
+            </template>
+
+
             <h2 class="order_title">Inserisci i tuoi dati per completare l'ordine</h2>
             <div class="row">
                 <div class="col">
-                    <h3>Ristorante NOME</h3>
-                    <p>Prezzo totale</p>
+                    <h3>{{ restaurant_name }}</h3>
+                    <p>Totale Ordine: {{ total_price }} &euro;</p>
                 </div>
                 <!-- /.col -->
                 <div class="col">
                     <form action="" method="post" @submit.prevent="newOrder()">
                         <div class="mb-3">
-                            <label for="customer_name" class="form-label">Nome</label>
+                            <label for="customer_name" class="form-label">Nome*</label>
                             <input type="text" class="form-control pad-3" name="customer_name" id="customer_name"
-                                aria-describedby="helpId" v-model="customer_name" />
+                                aria-describedby="helpId" v-model="customer_name"
+                                :class="{ 'border-red': errors.customer_lastname }" />
+                            <!-- errore di validazione lato laravel -->
+                            <template v-if="errors.customer_name">
+                                <div class="text-red" v-for="error in errors.customer_name">
+                                    {{ error }}
+                                </div>
+                            </template>
                         </div>
                         <!-- /name -->
                         <div class="mb-3">
-                            <label for="customer_lastname" class="form-label">Cognome</label>
+                            <label for="customer_lastname" class="form-label">Cognome*</label>
                             <input type="text" class="form-control pad-3" name="customer_lastname"
-                                id="customer_lastname" aria-describedby="helpId" v-model="customer_lastname" />
+                                id="customer_lastname" aria-describedby="helpId" v-model="customer_lastname"
+                                :class="{ 'border-red': errors.customer_lastname }" />
+                            <!-- errore di validazione lato laravel -->
+                            <template v-if="errors.customer_lastname">
+                                <div class="text-red" v-for="error in errors.customer_lastname">
+                                    {{ error }}
+                                </div>
+                            </template>
                         </div>
                         <!-- /lastname -->
                         <div class="mb-3">
-                            <label for="customer_address" class="form-label">Indirizzo</label>
+                            <label for="customer_address" class="form-label">Indirizzo*</label>
                             <input type="text" class="form-control pad-3" name="customer_address" id="customer_address"
-                                aria-describedby="helpId" v-model="customer_address" />
+                                aria-describedby="helpId" v-model="customer_address"
+                                :class="{ 'border-red': errors.customer_address }" />
+                            <!-- errore di validazione lato laravel -->
+                            <template v-if="errors.customer_address">
+                                <div class="text-red" v-for="error in errors.customer_address">
+                                    {{ error }}
+                                </div>
+                            </template>
                         </div>
                         <!-- /address -->
                         <div class="mb-3">
-                            <label for="customer_phone_number" class="form-label">Telefono</label>
+                            <label for="customer_phone_number" class="form-label">Telefono*</label>
                             <input type="" class="form-control pad-3" name="customer_phone_number"
-                                id="customer_phone_number" aria-describedby="helpId" v-model="customer_phone_number" />
+                                id="customer_phone_number" aria-describedby="helpId" v-model="customer_phone_number"
+                                :class="{ 'border-red': errors.customer_phone_number }" />
+                            <!-- errore di validazione lato laravel -->
+                            <template v-if="errors.customer_phone_number">
+                                <div class="text-red" v-for="error in errors.customer_phone_number">
+                                    {{ error }}
+                                </div>
+                            </template>
                         </div>
                         <!-- /phone number -->
                         <div class="mb-3">
                             <div class="mb-3">
-                                <label for="customer_email" class="form-label">Email</label>
+                                <label for="customer_email" class="form-label">Email*</label>
                                 <input type="email" class="form-control pad-3" name="customer_email" id="customer_email"
-                                    v-model="customer_email" />
+                                    v-model="customer_email" :class="{ 'border-red': errors.customer_email }" />
+                                <!-- errore di validazione lato laravel -->
+                                <template v-if="errors.customer_email">
+                                    <div class="text-red" v-for="error in errors.customer_email">
+                                        {{ error }}
+                                    </div>
+                                </template>
                             </div>
                         </div>
                         <!-- /email -->
                         <div class="mb-3">
                             <label for="customer_note" class="form-label">Note</label>
                             <textarea class="form-control pad-3" name="customer_note" id="customer_note" rows="3"
-                                v-model="customer_note"></textarea>
+                                v-model="customer_note" :class="{ 'border-red': errors.customer_note }"></textarea>
+                            <!-- errore di validazione lato laravel -->
+                            <template v-if="errors.customer_note">
+                                <div class="text-red" v-for="error in errors.customer_note">
+                                    {{ error }}
+                                </div>
+                            </template>
                         </div>
                         <!-- /notes -->
-                        <button type="submit" class="btn_pay">
-                            <span>Conferma e vai al pagamento</span>
+                        <button type="submit" class="btn_pay" :disabled="loading">
+                            <template v-if="loading == false">
+                                vai al pagamento
+                            </template>
+                            <template v-else>
+                                <i class="fa-regular fa-paper-plane px-1"></i>
+                                ATTENDI....
+                            </template>
                         </button>
                     </form>
                     <!-- /form -->
@@ -106,4 +214,42 @@ export default {
 
 <style>
 @import '../css/_order.css';
+
+.alert {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    border: 3px solid;
+    border-radius: 10px;
+}
+
+.alert-success {
+    border-color: green;
+    background-color: rgba(0, 128, 0, 0.395);
+}
+
+.alert-danger {
+    border-color: red;
+    background-color: rgba(255, 0, 0, 0.376);
+}
+
+.border-red {
+    border: 2px solid red !important;
+}
+
+
+.text-red {
+    color: red !important;
+}
+
+.btn_pay {
+    padding: 0.75rem 0.5rem;
+    background-color: dark;
+    color: white;
+    border: 5px;
+}
+
+.list-errors {
+    padding: 10px 20px;
+}
 </style>
