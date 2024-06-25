@@ -288,15 +288,15 @@ export default {
                                 <div v-for="(product, index) in cart" class="prod-cart-price">
                                     <p>
                                         {{ product.object.name }}
-                                        <button class="add_product" @click="increase_cart_quantity(product)">+</button>
-                                        <span class="n_off_poducts">{{ product.quantity }}</span>
                                         <button class="remove_product"
                                             @click="decrease_cart_quantity(product, index)">-</button>
+                                        <span class="n_off_poducts">{{ product.quantity }}</span>
+                                        <button class="add_product" @click="increase_cart_quantity(product)">+</button>
                                     </p>
                                     <p class="prod-price">Totale prodotto: <span>{{ product.price }} &euro;</span> </p>
                                 </div>
                             </div>
-                            <p class="tot-cart">Totale carrello: {{ this.total.toFixed(2) }}</p>
+                            <p class="tot-cart">Totale carrello: {{ this.total.toFixed(2) }} &euro;</p>
                             <button class="pay" @click="addOrder()">
                                 <router-link :to="{ name: 'order' }">
                                     Ordina

@@ -12,7 +12,7 @@ header {
 }
 
 .navbar {
-    background-color: #111;
+    background-color:var(--quaternary-color);
 }
 
 .head {
@@ -20,13 +20,13 @@ header {
     flex-direction: row;
     justify-content: space-between;
     margin: auto;
-    color: white;
+    
 
     .menu {
         padding-top: 5px;
         a {
             text-decoration: none;
-            color: white;
+            color: var(--secondary-color);
             margin-left: 25px;
             font-size: 18px;
 
@@ -36,7 +36,7 @@ header {
         }
 
         a:hover{
-            color: goldenrod;
+            color: var(--primary-color);
         }
 
     }
@@ -48,14 +48,14 @@ header {
         padding: 24px 0 0 0;
         h2{
             i{
-                color: goldenrod;
+                color: var(--deliverboo-fifty);
                 margin-right: 10px;
             }
         }
 
         a{
             text-decoration: none;
-            color: white;
+            color: var(--deliverboo-fifty);
         }
     }
 }
