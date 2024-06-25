@@ -290,3 +290,42 @@ h2 {
         }
     }
 }
+
+.new-dish-display {
+    display: flex;
+    flex-wrap: wrap;
+
+    .new-card {
+        position: relative;
+        width: 250px;
+        height: 350px;
+        border-radius: 10px;
+        margin: 0.5rem;
+        box-shadow: rgba(100, 100, 111, 0.4) 3px 3px 29px 0px;
+
+        img {
+            width: 100%;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .new-card-content {
+            padding: 1rem;
+
+            .dish-name {
+                font-weight: bold;
+                font-size: large;
+            }
+
+            span {
+                font-weight: bold;
+            }
+
+            button {
+                position: absolute;
+                bottom: 0.5rem;
+            }
+
+        }
+    }
+}
