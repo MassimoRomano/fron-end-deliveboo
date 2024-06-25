@@ -226,9 +226,39 @@ export default {
 
                     <section class="product">
                         <div class="product-info">
-                            <div class="col-2 restaurant-dishes" v-for="dish in restaurant.dishes">
-                                <div class="card-product" id="dish.id"
-                                    :class="{ 'card-product-invisible': dish.visibility !== 1 }">
+                            <section class="new-dish-display">
+                                <div v-for="dish in restaurant.dishes" class="">
+                                    <div v-if="dish.visibility === 1" class="new-card">
+                                        <template v-if="dish.image && dish.image.startsWith('uploads')">
+                                            <div class="card-image">
+                                                <img :src="base_api_url + 'storage/' + dish.image" alt="">
+                                            </div>
+                                        </template>
+                                        <template v-else>
+                                            <div class="card-image">
+                                                <img :src="dish.image" :alt="'Image of the dish: ' + dish.name">
+                                            </div>
+                                        </template>
+                                        <div class="new-card-content">
+                                            <p class="dish-name">
+                                                {{ dish.name }}
+                                            </p>
+                                            <p class="dish-ingredients">
+                                                <span>Ingredienti:</span>
+                                                {{ dish.ingredients }}
+                                            </p>
+                                            <p class="dish-price">
+                                                <span>Prezzo:</span>
+                                                {{ dish.price }} &euro;
+                                            </p>
+                                            <button @click="openModal(dish)" class="add_to_cart">
+                                                Aggiungi al carrello
+                                            </button>
+                                        </div>
+                                        <!-- /new card content -->
+
+                                    </div>
+                                    <!-- /new card -->
                                     <div v-if="showModal" class="modal" @click.self="closeModal()">
                                         <div class="modal-content">
                                             <div class="modal-inside">
@@ -246,36 +276,9 @@ export default {
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- /warning modal -->
-                                    <div class="card-product" id="dish.id">
-                                        <div class="card-body-product">
-                                            <div class="top-product">
-                                                <template v-if="dish.image && dish.image.startsWith('uploads')">
-                                                    <div class="card-image">
-                                                        <img :src="base_api_url + 'storage/' + dish.image" alt="">
-                                                    </div>
-                                                </template>
-                                                <template v-else>
-                                                    <div class="card-image">
-                                                        <img :src="dish.image" :alt="'Image of the dish: ' + dish.name">
-                                                    </div>
-                                                </template>
-                                                <!-- ./images -->
-                                            </div>
-                                            <div class="bottom-product">
-                                                <h3>{{ dish.name }}</h3>
-                                                <p>Prezzo: {{ dish.price }} &euro;</p>
-                                                <button @click="openModal(dish)" class="add_to_cart">
-                                                    Aggiungi al carrello
-                                                </button>
-                                                <p v-if="dish.visibility !== 1" class="not-available">Non
-                                                    disponibile</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                 </div>
-                            </div>
+                            </section>
+                            <!-- /new-dish-dispay -->
                         </div>
                         <!-- /.row -->
 
