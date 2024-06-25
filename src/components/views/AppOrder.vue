@@ -20,7 +20,7 @@ export default {
             restaurant_name: '',
             myToken: '',
             base_api_url: 'http://127.0.0.1:8000/api/',
-            orderDone: false
+            paymentDone: false
         }
     },
     methods: {
@@ -62,11 +62,13 @@ export default {
                             return;
                         }
                         console.log(this.base_api_url + 'process-payment', { paymentMethodNonce: payload.nonce });
-                        axios.post(this.base_api_url + 'process-payment', { paymentMethodNonce: payload.nonce })
+                        axios.post(this.base_api_url + 'process-payment', { paymentMethodNonce: payload.nonce, total_price: this.total_price })
                             .then(response => {
                                 const result = response.data;
                                 console.log(result);
 
+                                this.orderDone = result.success
+                                // console.log(this.orderDone)
                                 // Tear down the Drop-in UI
                                 instance.teardown(teardownErr => {
                                     if (teardownErr) {
@@ -105,6 +107,7 @@ export default {
 
 
         newOrder() {
+
             this.loading = true;
             const url = "http://127.0.0.1:8000/api/add-order";
             const restaurant_id = JSON.parse(localStorage.getItem("restaurantID"));
@@ -150,6 +153,10 @@ export default {
                 console.error(err);
             })
         },
+        checkFormData() {
+            return true;
+        }
+
     },
     mounted() {
         this.total_price = JSON.parse(localStorage.getItem("total"))
@@ -163,26 +170,7 @@ export default {
         <div class="container">
 
             <!-- alert di successo del campo form lato laravel-->
-            <template v-if="success">
-                <div class="alert alert-success">
-                    <div class="info">
-                        {{ success }}
-                        {{ giveMeToken() }}
-                        <div class="my_container">
-                            <div id="dropin-wrapper">
-                                <div id="checkout-message"></div>
-                                <div id="dropin-container"></div>
-                                <button id="submit-button">Submit payment</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="" @click="success = !success">
-                        <i class="fa-solid fa-xmark"></i>
-                    </div>
-                </div>
 
-
-            </template>
 
 
 
@@ -208,8 +196,17 @@ export default {
                     <h3>{{ restaurant_name }}</h3>
                     <p v-if="total_price">Totale Ordine: {{ total_price.toFixed(2) }} &euro;</p>
                 </div>
+                <div class="my_container">
+                    <div id="dropin-wrapper">
+                        <div id="checkout-message"></div>
+                        <div id="dropin-container"></div>
+                        <button id="submit-button">Submit payment</button>
+                    </div>
+                </div>
                 <!-- /.col -->
                 <div class="col">
+
+
                     <form v-if="!this.orderDone" action="" method="post" @submit.prevent="newOrder()">
                         <div class="mb-3">
                             <label for="customer_name" class="form-label">Nome*</label>
@@ -288,11 +285,19 @@ export default {
                                 </div>
                             </template>
                         </div>
+
+
+
                         <!-- /notes -->
-                        <button type="submit" class="btn_pay" :disabled="loading">
-                            <template v-if="loading == false">
-                                vai al pagamento
+                        <button type="submit" class="btn_pay" :disabled="loading" v-if="checkFormData()">
+                            {{ giveMeToken() }}
+
+                            <template v-if="loading == false && orderDone == true">
+                                procedi con l'ordine
                             </template>
+
+
+
                             <template v-else>
                                 <i class="fa-regular fa-paper-plane px-1"></i>
                                 ATTENDI....
