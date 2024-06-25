@@ -98,11 +98,10 @@ export default {
             // se il nome del piatto non ce nella card
             if (!check_product) {
                 this.cart.push(product_quantity);
+                // chiamo l'istanza total e aggiungo il prezzo del prodotto
+                this.total = this.total + parseFloat(product.price);
+                // console.log(this.total)
             }
-
-            // chiamo l'istanza total e aggiungo il prezzo del prodotto
-            this.total = this.total + parseFloat(product.price);
-            // console.log(this.total)
 
             // pulliamo il localStorage dei dati vecchi
             localStorage.clear();
@@ -221,9 +220,6 @@ export default {
 
                     <h2 class="menu">Menù</h2>
 
-                    <!-- DA CONTROLLARE I VISIBILITY -->
-
-
                     <section class="product">
                         <div class="product-info">
                             <section class="new-dish-display">
@@ -264,11 +260,11 @@ export default {
                                             <div class="modal-inside">
                                                 <span class="close" @click="closeModal()">&times;</span>
                                                 <h2>Attenzione!</h2>
-                                                <p>Hai già l'ordine di un altro ristorante nel carrello, cliccando
-                                                    prosegui
-                                                    andrai a
-                                                    cancellare il
-                                                    vecchio ordine per far spazio al nuovo </p>
+                                                <p>
+                                                    Hai già l'ordine di un altro ristorante nel carrello, cliccando
+                                                    prosegui andrai a cancellare il vecchio ordine per far spazio al
+                                                    nuovo
+                                                </p>
                                                 <div class="add_remove">
                                                     <button @click="orderProceed(dish)"
                                                         class="btn_prosegui">Prosegui</button>
@@ -288,7 +284,12 @@ export default {
                                 <h2>Carrello</h2>
                             </div>
                             <div class="text-cart">
-                                <p class="tot-prod-in-cart" v-if="cart">{{ cart.length }} oggetti nel carrello</p>
+                                <p class="tot-prod-in-cart" v-if="cart">
+                                    {{ cart.length }}
+                                    oggett<span v-if="cart.length == 1">o</span>
+                                    <span v-else>i</span>
+                                    nel carrello
+                                </p>
                                 <div v-for="(product, index) in cart" class="prod-cart-price">
                                     <p>
                                         {{ product.object.name }}

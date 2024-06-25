@@ -7,6 +7,7 @@ export default {
     name: 'AppOrder',
     data() {
         return {
+            cart: null,
             total_price: null,
             customer_name: '',
             customer_lastname: '',
@@ -20,15 +21,40 @@ export default {
             restaurant_name: '',
             myToken: '',
             base_api_url: 'http://127.0.0.1:8000/api/',
-            orderDone: false
+            orderDone: false,
+            paymentMethodNonce: null,
+            instance: null,
+            paymentMessage: '',
+            orderMessage: ''
         }
     },
     methods: {
+        /*         validateForm() {
+                    this.errors = {};
+        
+                    if (this.customer_name.length < 3) {
+                        this.errors.customer_name = ['Il nome deve essere lungo almeno 3 caratteri.'];
+                    }
+                    if (this.customer_lastname.length < 3) {
+                        this.errors.customer_lastname = ['Il cognome deve essere lungo almeno 3 caratteri.'];
+                    }
+                    if (this.customer_address.length < 6) {
+                        this.errors.customer_address = ['L\'indirizzo deve essere lungo almeno 6 caratteri.'];
+                    }
+                    if (!/^\d+$/.test(this.customer_phone_number)) {
+                        this.errors.customer_phone_number = ['Il numero di telefono deve essere un numero valido.'];
+                    }
+                    if (!/\S+@\S+\.\S+/.test(this.customer_email)) {
+                        this.errors.customer_email = ['L\'email deve essere un indirizzo email valido.'];
+                    }
+        
+                    return Object.keys(this.errors).length === 0;
+                }, */
+
         giveMeToken() {
             let url = this.base_api_url + "pay/token";
             console.log(url);
             // Aggiungo un ritardo di 1 secondo prima di eseguire la richiesta
-            /* setTimeout(() => { */
             axios
                 .get(url)
                 .then(response => {
@@ -40,7 +66,6 @@ export default {
                 .catch(error => {
                     console.error('Error getting token:', error);
                 });
-            /* }, 1000); */
         },
 
         initializeBraintree() {
@@ -55,110 +80,137 @@ export default {
                     console.error('Error creating Braintree Drop-in:', createErr);
                     return;
                 }
-
-                button.addEventListener('click', () => {
-                    instance.requestPaymentMethod((requestPaymentMethodErr, payload) => {
-                        if (requestPaymentMethodErr) {
-                            console.error('Error requesting payment method:', requestPaymentMethodErr);
-                            return;
-                        }
-                        console.log(this.base_api_url + 'process-payment', { paymentMethodNonce: payload.nonce });
-                        axios.post(this.base_api_url + 'process-payment', { paymentMethodNonce: payload.nonce })
-                            .then(response => {
-                                const result = response.data;
-                                console.log(result);
-
-                                // Tear down the Drop-in UI
-                                instance.teardown(teardownErr => {
-                                    if (teardownErr) {
-                                        console.error('Could not tear down Drop-in UI!');
-                                    } else {
-                                        console.info('Drop-in UI has been torn down!');
-                                        button.remove();
-                                    }
-                                });
-                                console.log(result.success);
-                                if (result.success) {
-                                    document.querySelector('#checkout-message').innerHTML = `
-                    <h1>Success</h1>
-                    <p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p>
-                    <p>Refresh to try another transaction.</p>
-                  `;
-                                } else {
-                                    console.log(result);
-                                    document.querySelector('#checkout-message').innerHTML = `
-                    <h1>Error</h1>
-                    <p>Check your console.</p>
-                  `;
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error processing payment:', error);
-                                document.querySelector('#checkout-message').innerHTML = `
-                  <h1>Error</h1>
-                  <p>Check your console.</p>
-                  `;
-                            });
-                    });
-                });
+                this.instance = instance
+                //console.log(instance);
             });
         },
 
         newOrder() {
+            //caricamento in corso
             this.loading = true;
-            const url = "http://127.0.0.1:8000/api/add-order";
-            const restaurant_id = JSON.parse(localStorage.getItem("restaurantID"));
-            const total_price = JSON.parse(localStorage.getItem("total"));
-            const cartItems = JSON.parse(localStorage.getItem("order"));
-            const data = {
-                restaurant_id: restaurant_id,
-                customer_name: this.customer_name,
-                customer_lastname: this.customer_lastname,
-                customer_address: this.customer_address,
-                customer_phone_number: this.customer_phone_number,
-                customer_email: this.customer_email,
-                customer_note: this.customer_note,
-                total_price: total_price,
-                cartItems: cartItems,
-            };
-            console.log(url, data);
-            axios.post(url, data).then(response => {
-                console.log(response);
+            //chiedo al metodo pay il nonce 
+            this.pay()
+                //continuo solo se ho ottenuto il nonce da pay
+                .then(paymentMethodNonce => {
+                    //prendo i valori dallo
+                    const restaurant_id = JSON.parse(localStorage.getItem("restaurantID"));
+                    const total_price = JSON.parse(localStorage.getItem("total"));
+                    const cartItems = JSON.parse(localStorage.getItem("order"));
 
-                // se ho sucesso con la compilazione dei dati del form
-                if (response.data.success) {
-                    this.customer_name = '';
-                    this.customer_lastname = '';
-                    this.customer_address = '';
-                    this.customer_phone_number = '';
-                    this.customer_email = '';
-                    this.customer_note = '';
-                    this.errors = false;
-                    // console.log(response.data)
-                    // inserisci il messaggio di successo nell'istanza di successo
-                    this.success = response.data.message;
-                    this.orderDone = true;
-                } else if (response.data.errors) {//altrimenti se ti da errore
-                    this.success = false;
-                    // console.log(response.data)
-                    // inserisci il messaggio di errore nell'istanza di errore
-                    this.errors = response.data.errors;
-                    // console.log(this.errors);
-                }
-                this.loading = false;
-            }).catch(err => {
-                console.error(err);
-            })
+                    //preparo i dati per la richiesta post al server
+                    const data = {
+                        restaurant_id: restaurant_id,
+                        customer_name: this.customer_name,
+                        customer_lastname: this.customer_lastname,
+                        customer_address: this.customer_address,
+                        customer_phone_number: this.customer_phone_number,
+                        customer_email: this.customer_email,
+                        customer_note: this.customer_note,
+                        total_price: total_price,
+                        cartItems: cartItems,
+                        paymentMethodNonce: paymentMethodNonce
+                    };
+
+                    //faccio la chiamata api una volta che ho la certezza che tutto sia al suo posto
+                    return axios.post(this.base_api_url + 'add-order', data);
+                })
+
+                //stessa cosa di prima, gestendo la risposta del server
+                .then(response => {
+                    //la risposta
+                    console.log(response);
+
+                    //se va a buon fine
+                    if (response.data.success) {
+                        //reset dei campi 
+                        this.customer_name = '';
+                        this.customer_lastname = '';
+                        this.customer_address = '';
+                        this.customer_phone_number = '';
+                        this.customer_email = '';
+                        this.customer_note = '';
+                        this.errors = '';
+                        this.success = response.data.message;
+                        this.orderDone = true;
+                        this.orderMessage = 'Ordine effettuato con successo';
+                        this.paymentMessage = ''
+                        //chiudo il drop-in di Braintree
+                        this.instance.teardown(teardownErr => {
+                            if (teardownErr) {
+                                console.error('Could not tear down Drop-in UI:', teardownErr);
+                            } else {
+                                console.info('Drop-in UI has been torn down successfully.');
+                            }
+                        });
+                        //se ci sono errori li salviamo per mostrali all'utente
+                    } else if (response.data.errors) {
+                        this.success = false;
+                        this.errors = response.data.errors;
+                    }
+                    //Reimpostiamo false perché l'operazione è terminata
+                    this.loading = false;
+                })
+
+                //gestisco altri errori durante il processo
+                .catch(err => {
+                    console.error(err);
+                    this.loading = false;
+                });
         },
+
+        pay() {
+            //dichiaro una promessa per gestire le operazioni asincrone
+            return new Promise((resolve, reject) => {
+                //verifico di aver inizializzato l'istanza di Brainfree
+                if (this.instance) {
+                    //richiedo il pagamento
+                    this.instance.requestPaymentMethod((err, payload) => {
+                        //se non va bene c'è un errore
+                        if (err) {
+                            console.error('Error requesting payment method:', err);
+                            //promessa respinta 
+                            reject(err);
+                        } else {
+                            //promessa mantenuta e passaggio del parametro
+                            this.paymentMessage = 'Carta accettata, compila i tuoi dati per completare il pagamento';
+                            resolve(payload.nonce);
+                        }
+                    });
+                    //restituisco un errore nel caso l'istanza non esista
+                } else {
+                    reject(new Error('Braintree instance not initialized.'));
+                }
+            });
+        },
+
+        createCart() {
+            // Recupero i dati dal localStorage
+            let order = localStorage.getItem('order');
+            if (order) {
+                // parso i dati JSON
+                let orderItems = JSON.parse(order);
+
+                //li vedo
+                console.log(orderItems);
+                return orderItems;
+            }
+        }
+
+
+
     },
     mounted() {
         this.total_price = JSON.parse(localStorage.getItem("total"))
         this.restaurant_name = JSON.parse(localStorage.getItem("restaurant_name"))
+        this.cart = this.createCart()
+        this.giveMeToken()
     }
 }
 </script>
 
 <template>
+<!--     {{ console.log(this.cart)
+    }} -->
     <section class="order p-5">
         <div class="container">
 
@@ -167,14 +219,6 @@ export default {
                 <div class="alert alert-success">
                     <div class="info">
                         {{ success }}
-                        {{ giveMeToken() }}
-                        <div class="my_container">
-                            <div id="dropin-wrapper">
-                                <div id="checkout-message"></div>
-                                <div id="dropin-container"></div>
-                                <button id="submit-button" class="btn_pay"><span>Paga ora</span></button>
-                            </div>
-                        </div>
                     </div>
                     <div class="" @click="success = !success">
                         <i class="fa-solid fa-xmark"></i>
@@ -202,11 +246,34 @@ export default {
                 <div class="col">
                     <h3>Riepilogo ordine</h3>
                     <p>{{ restaurant_name }}</p>
+                    <div> <span class="order_title"></span>
+                        <ul>
+                            <li v-for="dish in this.cart">
+                                {{ dish.object.name }} <span> x{{ dish.quantity }}</span>
+                            </li>
+                        </ul>
+                    </div>
                     <p v-if="total_price">Totale Ordine: {{ total_price.toFixed(2) }} &euro;</p>
                 </div>
                 <!-- /.col -->
                 <div class="col">
                     <form v-if="!this.orderDone" action="" method="post" @submit.prevent="newOrder()">
+                        <div class="my_container">
+                            <div id="dropin-wrapper">
+                                <div id="checkout-message"></div>
+                                <div id="dropin-container"></div>
+                                <!--                                 <button id="submit-button" class="btn_pay"><span>Paga ora</span></button>
+ -->
+                            </div>
+                            <!-- Messaggio per la carta accettata -->
+                            <template v-if="paymentMessage">
+                                <div class="alert alert-success">
+                                    <div class="info">
+                                        {{ paymentMessage }}
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
                         <div class="mb-3">
                             <label for="customer_name" class="form-label">Nome*</label>
                             <input type="text" class="form-control pad-3" name="customer_name" id="customer_name"
@@ -285,7 +352,7 @@ export default {
                             </template>
                         </div>
                         <!-- /notes -->
-                        <button type="submit" class="btn_pay" :disabled="loading">
+                        <button id="submit-button" type="submit" class="btn_pay" :disabled="loading">
                             <template v-if="loading == false">
                                 <span>vai al pagamento</span>
                             </template>
@@ -296,10 +363,20 @@ export default {
                         </button>
                     </form>
                     <!-- /form -->
+                    <template v-if="orderMessage">
+                        {{ this.errors= null,
+                        this.paymentMessage = '' }}
+                        <div class="alert alert-success mt-3">
+                            <div class="info">
+                                {{ orderMessage }}
+                            </div>
+                        </div>
+                    </template>
                 </div>
                 <!-- /.col -->
             </div>
             <!-- /.row -->
+
         </div>
         <!-- /.container -->
     </section>
@@ -342,7 +419,12 @@ export default {
 }
 
 .my_container {
-    width: 50%;
+
     margin: auto;
+}
+
+.order_title {
+    font-weight: bold;
+
 }
 </style>
