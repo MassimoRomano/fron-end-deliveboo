@@ -108,7 +108,7 @@ export default {
         <div id="dropin-wrapper">
             <div id="checkout-message"></div>
             <div id="dropin-container"></div>
-            <button id="submit-button">Submit payment</button>
+            <button id="submit-button" class="pay_button">Paga ora</button>
         </div>
     </div>
 
@@ -121,5 +121,9 @@ export default {
 .my_container {
     width: 50%;
     margin: auto;
+}
+
+.pay_button {
+    padding: 0.3rem 0.5rem;
 }
 </style>

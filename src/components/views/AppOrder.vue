@@ -48,7 +48,8 @@ export default {
 
             dropin.create({
                 authorization: this.myToken,
-                container: '#dropin-container'
+                container: '#dropin-container',
+                locale: 'it_IT'
             }, (createErr, instance) => {
                 if (createErr) {
                     console.error('Error creating Braintree Drop-in:', createErr);
@@ -103,7 +104,6 @@ export default {
             });
         },
 
-
         newOrder() {
             this.loading = true;
             const url = "http://127.0.0.1:8000/api/add-order";
@@ -121,7 +121,7 @@ export default {
                 total_price: total_price,
                 cartItems: cartItems,
             };
-            // console.log(url, data);
+            console.log(url, data);
             axios.post(url, data).then(response => {
                 console.log(response);
 
@@ -172,7 +172,7 @@ export default {
                             <div id="dropin-wrapper">
                                 <div id="checkout-message"></div>
                                 <div id="dropin-container"></div>
-                                <button id="submit-button">Submit payment</button>
+                                <button id="submit-button" class="btn_pay"><span>Paga ora</span></button>
                             </div>
                         </div>
                     </div>
@@ -180,11 +180,7 @@ export default {
                         <i class="fa-solid fa-xmark"></i>
                     </div>
                 </div>
-
-
             </template>
-
-
 
             <!-- alert di errore del campo form lato laravel -->
             <template v-if="errors">
@@ -201,11 +197,11 @@ export default {
                 </div>
             </template>
 
-
             <h2 v-if="!this.orderDone" class="order_title">Inserisci i tuoi dati per completare l'ordine</h2>
             <div class="row">
                 <div class="col">
-                    <h3>{{ restaurant_name }}</h3>
+                    <h3>Riepilogo ordine</h3>
+                    <p>{{ restaurant_name }}</p>
                     <p v-if="total_price">Totale Ordine: {{ total_price.toFixed(2) }} &euro;</p>
                 </div>
                 <!-- /.col -->
@@ -291,7 +287,7 @@ export default {
                         <!-- /notes -->
                         <button type="submit" class="btn_pay" :disabled="loading">
                             <template v-if="loading == false">
-                                vai al pagamento
+                                <span>vai al pagamento</span>
                             </template>
                             <template v-else>
                                 <i class="fa-regular fa-paper-plane px-1"></i>
@@ -324,6 +320,7 @@ export default {
 .alert-success {
     border-color: green;
     background-color: rgba(0, 128, 0, 0.395);
+    margin-bottom: 2rem;
 }
 
 .alert-danger {
@@ -338,13 +335,6 @@ export default {
 
 .text-red {
     color: red !important;
-}
-
-.btn_pay {
-    padding: 0.75rem 0.5rem;
-    background-color: dark;
-    color: white;
-    border: 5px;
 }
 
 .list-errors {
