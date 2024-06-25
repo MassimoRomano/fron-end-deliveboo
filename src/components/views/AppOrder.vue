@@ -167,6 +167,13 @@ export default {
                     <div class="info">
                         {{ success }}
                         {{ giveMeToken() }}
+                        <div class="my_container">
+                            <div id="dropin-wrapper">
+                                <div id="checkout-message"></div>
+                                <div id="dropin-container"></div>
+                                <button id="submit-button">Submit payment</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="" @click="success = !success">
                         <i class="fa-solid fa-xmark"></i>
@@ -175,13 +182,7 @@ export default {
 
 
             </template>
-            <div class="my_container">
-                <div id="dropin-wrapper">
-                    <div id="checkout-message"></div>
-                    <div id="dropin-container"></div>
-                    <button id="submit-button">Submit payment</button>
-                </div>
-            </div>
+
 
 
             <!-- alert di errore del campo form lato laravel -->
