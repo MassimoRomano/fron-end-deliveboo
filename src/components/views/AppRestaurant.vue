@@ -15,33 +15,11 @@ export default {
             total: 0,
             restaurantOrder: null,
             restaurant_name: '',
+            dish: null,
         }
     },
     methods: {
-        /* Aprire la modale */
-        openModal(dish) {
-            //salviamo il restaurantID che era stato salvato in local storage
-            let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
 
-            // controlliamo se l'id del ristorante del l'ordinwe combaccia con quello del piatto che hai aggiunto, cioe puoi aggiungere nell'ordine solo i piatti del ristorante in cui stai facendo l'ordine
-            if (restaurant_id != this.ristoranteSalvato) {
-                // mostra la modale
-                this.showModal = true;
-            } else {
-                // aggiunge il prodotto
-                this.addItemToCart(dish);
-            }
-        },
-        orderProceed(dish) {
-            // chiude la modale
-            this.closeModal();
-            // aggiunge il prodotto al carello
-            this.addItemToCart(dish);
-        },
-        /* Chiudere la modale */
-        closeModal() {
-            this.showModal = false;
-        },
         /* Chiamata API */
         callApi(url) {
             axios
@@ -56,13 +34,13 @@ export default {
                     this.restaurants.forEach(restaurant => {
 
                         // salva l'id del ristorante del ristorante in cui si trovo il consumatore
-                        this.ristoranteSalvato = restaurant.id
+                        this.ristoranteSalvato = restaurant.id;
 
                         // salva il nome del ristorante del ristorante in cui si trovo il consumatore
                         this.restaurant_name = restaurant.name;
 
                         // inserisco nel local storage il nome del ristorante del l'ordinr
-                        localStorage.setItem("restaurant_name", JSON.stringify(this.restaurant_name))
+                        localStorage.setItem("restaurant_name", JSON.stringify(this.restaurant_name));
                         // console.log(restaurant);
                     });
 
@@ -75,14 +53,56 @@ export default {
                         //ricaviamo l'ordine dal local storage per savarlo e printaro sul carrello
                         this.cart = JSON.parse(localStorage.getItem("order"));
                         //console.log(this.cart);
+                        this.total = JSON.parse(localStorage.getItem("total"));
+                    }
+
+                    if (restaurant_id != this.ristoranteSalvato) {
+                        this.total = 0;
                     }
                 })
                 .catch(error => {
                     console.error(error);
                 })
         },
+        /* Aprire la modale */
+        openModal(dish) {
+            //salviamo il restaurantID che era stato salvato in local storage
+            let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"));
+            let count = JSON.parse(localStorage.getItem("order"));
+            // console.log(count.length);
+
+            // controlliamo se l'id del ristorante del l'ordinwe combaccia con quello del piatto che hai aggiunto, cioe puoi aggiungere nell'ordine solo i piatti del ristorante in cui stai facendo l'ordine
+            if (count.length === 0) {
+                // console.log(dish)
+                this.addItemToCart(dish);
+            } else if (restaurant_id != this.ristoranteSalvato) {
+                this.dish = dish;
+                this.showModal = true;
+            } else {
+                // aggiunge il prodotto
+                // console.log(dish)
+                this.addItemToCart(dish);
+            }
+        },
+
+        // button modal "prosegui"
+        orderProceed(dish) {
+            // aggiunge il prodotto al carello
+            // console.log(dish)
+            this.addItemToCart(dish);
+            // chiude la modale
+            this.closeModal();
+
+        },
+        /* Chiudere la modale */
+        closeModal() {
+            this.showModal = false;
+        },
+
         /* Agiungere il piatto al carrello */
         addItemToCart(product) {
+            // puliamo il localStorage dei dati vecchi
+            localStorage.clear();
 
             // costruiamo la variabile che inseriremo nel local storage
             let product_quantity = {
@@ -103,8 +123,7 @@ export default {
                 // console.log(this.total)
             }
 
-            // pulliamo il localStorage dei dati vecchi
-            localStorage.clear();
+
 
             // inseriamo nel localStorage l'istanza restaurant_name con la chiave restaurant_name
             localStorage.setItem("restaurant_name", JSON.stringify(this.restaurant_name));
@@ -170,12 +189,26 @@ export default {
             }
         },
         addOrder() {
-            if (this.cart.length > 0) {
 
+            //salviamo il restaurantID che era stato salvato in local storage
+            let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
+            let count = JSON.parse(localStorage.getItem("order"));
+            // console.log(count.length);
+
+            // controlliamo se l'id del ristorante del l'ordinwe combaccia con quello del piatto che hai aggiunto, cioe puoi aggiungere nell'ordine solo i piatti del ristorante in cui stai facendo l'ordine
+            if (count.length === 0) {
+                return true
+            } else if (restaurant_id != this.ristoranteSalvato) {
+                return true
+            } else {
+                return false
             }
         },
     },
     mounted() {
+        let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
+
+
         let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug;
         this.callApi(url);
     }
@@ -266,7 +299,7 @@ export default {
                                                     nuovo
                                                 </p>
                                                 <div class="add_remove">
-                                                    <button @click="orderProceed(dish)"
+                                                    <button @click="orderProceed(this.dish)"
                                                         class="btn_prosegui">Prosegui</button>
                                                 </div>
                                             </div>
@@ -301,12 +334,15 @@ export default {
                                     <p class="prod-price">Totale prodotto: <span>{{ product.price }} &euro;</span> </p>
                                 </div>
                             </div>
-                            <p class="tot-cart">Totale carrello: {{ this.total.toFixed(2) }} &euro;</p>
-                            <button class="pay" @click="addOrder()">
+                            <p class="tot-cart" v-if="this.total > 0">Totale carrello: {{ this.total.toFixed(2) }}
+                                &euro;</p>
+
+                            <button class="pay" v-if="!addOrder()">
                                 <router-link :to="{ name: 'order' }">
                                     Ordina
                                 </router-link>
                             </button>
+
                         </div>
                     </section>
                 </div>
