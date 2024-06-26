@@ -1173,7 +1173,7 @@
 
 /* MEDIA 1024 */
 
-@media all and (min-width:900px) and (max-width: 1580px) {
+@media screen and (min-width:900px) and (max-width: 1900px) {
     .jumbo-head {
         height: 500px;
 
