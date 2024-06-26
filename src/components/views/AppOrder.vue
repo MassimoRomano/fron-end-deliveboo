@@ -29,7 +29,8 @@ export default {
             paymentMessage: '',
             orderMessage: '',
             errors:'',
-            cantYouPay:null
+            cantYouPay:null,
+            orderToPrint: "",
         }
     },
     methods: {
@@ -123,11 +124,14 @@ export default {
                         this.orderMessage = 'Ordine effettuato con successo';
                         this.paymentMessage = ''
                         this.cantYouPay = false
+                        this.orderToPrint = response.data.order,
+                        console.log(response.data.order);
                         //chiudo il drop-in di Braintree
                         this.instance.teardown(teardownErr => {
                             if (teardownErr) {
                                 console.error('Could not tear down Drop-in UI:', teardownErr);
                             } else {
+
                                 localStorage.clear();
                                 console.info('Drop-in UI has been torn down successfully.');
                             }

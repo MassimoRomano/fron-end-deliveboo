@@ -21,6 +21,7 @@ export default {
             restaurantOrder: null,
             restaurant_name: '',
             restaurant_slug: '',
+            restaurant_id: '',
             dish: null,
             loading: true,
 
@@ -246,8 +247,8 @@ export default {
     },
     mounted() {
 
-        let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
-        let restaurant_slug = JSON.parse(localStorage.getItem("restaurantID"))
+        this.restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
+        this.restaurant_slug = JSON.parse(localStorage.getItem("restaurantID"))
         let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug;
         this.callApi(url);
     }
