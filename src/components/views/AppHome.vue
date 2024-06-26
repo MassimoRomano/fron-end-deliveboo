@@ -115,7 +115,6 @@ export default {
   mounted() {
     autoScroll();
     autoSlide();
-
     let url = this.base_api_url + this.base_restaurants_url;
     this.callApi(url);
     let urlTypes = this.base_api_url + this.base_types_url;

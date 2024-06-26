@@ -93,25 +93,26 @@ export default {
             let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"));
             let count = JSON.parse(localStorage.getItem("order"));
             // console.log(count.length);
-
+            
             if (count == null) {
-                this.ristoranteSalvato = ''
+                this.ristoranteSalvato = 0
                 count = 0;
             }
+            console.log(this.ristoranteSalvato, count, count.length === 0, restaurant_id);
             // controlliamo se l'id del ristorante del l'ordinwe combaccia con quello del piatto che hai aggiunto, cioe puoi aggiungere nell'ordine solo i piatti del ristorante in cui stai facendo l'ordine
-            if (count.length === 0) {
-                console.log("qui");
+            if (count.length === 0 || ((this.ristoranteSalvato == 0) && restaurant_id == null) ) {
+                //console.log("qui");
 
                 console.log(dish)
                 this.addItemToCart(dish);
             } else if (restaurant_id != this.ristoranteSalvato) {
-                console.log(count);
+                //console.log(count);
 
                 this.dish = dish;
                 this.showModal = true;
             } else {
                 // aggiunge il prodotto
-                console.log("qui");
+                //console.log("qui");
 
                 // console.log(dish)
                 this.addItemToCart(dish);
@@ -245,6 +246,7 @@ export default {
         },
     },
     mounted() {
+
         let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
         let restaurant_slug = JSON.parse(localStorage.getItem("restaurantID"))
         let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug;
