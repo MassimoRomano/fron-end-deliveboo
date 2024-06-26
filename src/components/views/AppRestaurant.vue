@@ -1,9 +1,13 @@
 <script>
 import axios from 'axios';
+import AppLoading from '../partials/AppLoading.vue';
 
 
 export default {
     name: 'AppRestaurant',
+    components: {
+        AppLoading,
+    },
     data() {
         return {
             base_api_url: 'http://127.0.0.1:8000/',
@@ -16,16 +20,21 @@ export default {
             total: 0,
             restaurantOrder: null,
             restaurant_name: '',
+            restaurant_slug: '',
             dish: null,
+            loading: true,
+
         }
     },
     methods: {
 
         /* Chiamata API */
         callApi(url) {
+            this.loading = true
             axios
                 .get(url)
                 .then(response => {
+
                     console.log(response);
                     if (response.data.success) {
                         // console.log(response.data.response);
@@ -41,9 +50,12 @@ export default {
 
                             // salva il nome del ristorante del ristorante in cui si trovo il consumatore
                             this.restaurant_name = restaurant.name;
+                            
+                            this.restaurant_slug = restaurant.slug;
 
                             // inserisco nel local storage il nome del ristorante del l'ordinr
                             localStorage.setItem("restaurant_name", JSON.stringify(this.restaurant_name));
+                            localStorage.setItem("restaurant_slug", JSON.stringify(this.restaurant_slug));
                             // console.log(restaurant);
                         });
 
@@ -69,8 +81,10 @@ export default {
                 })
                 .catch(error => {
                     console.error(error);
+                    this.loading = false;
                 })
         },
+
         /* Aprire la modale */
         openModal(dish) {
             //salviamo il restaurantID che era stato salvato in local storage
@@ -78,15 +92,25 @@ export default {
             let count = JSON.parse(localStorage.getItem("order"));
             // console.log(count.length);
 
+            if (count == null) {
+                this.ristoranteSalvato = ''
+                count = 0;
+            }
             // controlliamo se l'id del ristorante del l'ordinwe combaccia con quello del piatto che hai aggiunto, cioe puoi aggiungere nell'ordine solo i piatti del ristorante in cui stai facendo l'ordine
             if (count.length === 0) {
-                // console.log(dish)
+                console.log("qui");
+
+                console.log(dish)
                 this.addItemToCart(dish);
             } else if (restaurant_id != this.ristoranteSalvato) {
+                console.log(count);
+
                 this.dish = dish;
                 this.showModal = true;
             } else {
                 // aggiunge il prodotto
+                console.log("qui");
+
                 // console.log(dish)
                 this.addItemToCart(dish);
             }
@@ -134,6 +158,9 @@ export default {
 
             // inseriamo nel localStorage l'istanza restaurant_name con la chiave restaurant_name
             localStorage.setItem("restaurant_name", JSON.stringify(this.restaurant_name));
+
+            // inseriamo nel localStorage l'istanza restaurant_name con la chiave restaurant_slug
+            localStorage.setItem("restaurant_slug", JSON.stringify(this.restaurant_slug));
 
             // inseriamo nel localStorage l'istanza total(che sarebbe il totale del carello) con la chiave total
             localStorage.setItem("total", JSON.stringify(this.total))
@@ -199,11 +226,14 @@ export default {
 
             //salviamo il restaurantID che era stato salvato in local storage
             let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
+
             let count = JSON.parse(localStorage.getItem("order"));
             // console.log(count.length);
-
-            // controlliamo se l'id del ristorante del l'ordinwe combaccia con quello del piatto che hai aggiunto, cioe puoi aggiungere nell'ordine solo i piatti del ristorante in cui stai facendo l'ordine
-            if (count.length === 0) {
+            if (count === null) {
+                count = 0;
+            }
+            // controlliamo se l'id del ristorante dell'ordinwe combaccia con quello del piatto che hai aggiunto, cioe puoi aggiungere nell'ordine solo i piatti del ristorante in cui stai facendo l'ordine
+            if (count.length === 0 && !null) {
                 return true
             } else if (restaurant_id != this.ristoranteSalvato) {
                 return true
@@ -214,8 +244,7 @@ export default {
     },
     mounted() {
         let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
-
-
+        let restaurant_slug = JSON.parse(localStorage.getItem("restaurantID"))
         let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug;
         this.callApi(url);
     }
@@ -223,7 +252,8 @@ export default {
 </script>
 
 <template>
-    <main class="rest">
+    <AppLoading v-if="loading" />
+    <main class="rest" v-else>
         <template v-if="restaurants" v-for="restaurant in restaurants">
             <div class="restaurant-page">
                 <div class="container">
