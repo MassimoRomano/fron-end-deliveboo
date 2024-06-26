@@ -102,7 +102,6 @@ export default {
             // controlliamo se l'id del ristorante del l'ordinwe combaccia con quello del piatto che hai aggiunto, cioe puoi aggiungere nell'ordine solo i piatti del ristorante in cui stai facendo l'ordine
             if (count.length === 0 || ((this.ristoranteSalvato == 0) && restaurant_id == null) ) {
                 //console.log("qui");
-
                 console.log(dish)
                 this.addItemToCart(dish);
             } else if (restaurant_id != this.ristoranteSalvato) {
