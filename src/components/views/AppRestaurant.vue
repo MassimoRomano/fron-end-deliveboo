@@ -1,6 +1,7 @@
 <script>
 import axios from 'axios';
 
+
 export default {
     name: 'AppRestaurant',
     data() {
@@ -25,40 +26,46 @@ export default {
             axios
                 .get(url)
                 .then(response => {
-                    // console.log(response.data.response);
-                    // inserisco nell'istanza restaurants il ristorante
-                    this.restaurants = response.data.response
-                    //console.log(this.restaurants)
+                    console.log(response);
+                    if (response.data.success) {
+                        // console.log(response.data.response);
+                        // inserisco nell'istanza restaurants il ristorante
+                        this.restaurants = response.data.response
+                        //console.log(this.restaurants)
 
-                    // ciclo perche me lo da come array
-                    this.restaurants.forEach(restaurant => {
+                        // ciclo perche me lo da come array
+                        this.restaurants.forEach(restaurant => {
 
-                        // salva l'id del ristorante del ristorante in cui si trovo il consumatore
-                        this.ristoranteSalvato = restaurant.id;
+                            // salva l'id del ristorante del ristorante in cui si trovo il consumatore
+                            this.ristoranteSalvato = restaurant.id;
 
-                        // salva il nome del ristorante del ristorante in cui si trovo il consumatore
-                        this.restaurant_name = restaurant.name;
+                            // salva il nome del ristorante del ristorante in cui si trovo il consumatore
+                            this.restaurant_name = restaurant.name;
 
-                        // inserisco nel local storage il nome del ristorante del l'ordinr
-                        localStorage.setItem("restaurant_name", JSON.stringify(this.restaurant_name));
-                        // console.log(restaurant);
-                    });
+                            // inserisco nel local storage il nome del ristorante del l'ordinr
+                            localStorage.setItem("restaurant_name", JSON.stringify(this.restaurant_name));
+                            // console.log(restaurant);
+                        });
 
-                    // ricavo nel local storage l'id del ristorante
-                    let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
+                        // ricavo nel local storage l'id del ristorante
+                        let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
 
-                    // verifico che l'ordine che sto facendo non e di due ristoranti
-                    if (restaurant_id == this.ristoranteSalvato) {
+                        // verifico che l'ordine che sto facendo non e di due ristoranti
+                        if (restaurant_id == this.ristoranteSalvato) {
 
-                        //ricaviamo l'ordine dal local storage per savarlo e printaro sul carrello
-                        this.cart = JSON.parse(localStorage.getItem("order"));
-                        //console.log(this.cart);
-                        this.total = JSON.parse(localStorage.getItem("total"));
+                            //ricaviamo l'ordine dal local storage per savarlo e printaro sul carrello
+                            this.cart = JSON.parse(localStorage.getItem("order"));
+                            //console.log(this.cart);
+                            this.total = JSON.parse(localStorage.getItem("total"));
+                        }
+
+                        if (restaurant_id != this.ristoranteSalvato) {
+                            this.total = 0;
+                        }
+                    } else {
+                        this.$router.push({ name: 'not-found' })
                     }
 
-                    if (restaurant_id != this.ristoranteSalvato) {
-                        this.total = 0;
-                    }
                 })
                 .catch(error => {
                     console.error(error);
