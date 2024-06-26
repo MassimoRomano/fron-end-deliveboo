@@ -1173,7 +1173,7 @@
 
 /* MEDIA 1024 */
 
-@media (max-width: 1024px) {
+@media (min-width:900px) and (max-width: 1440px) {
     .jumbo-head {
         height: 500px;
 
@@ -1333,7 +1333,6 @@
             width: 100%;
             border-radius: 20px;
             object-fit: cover;
-            aspect-ratio: 1;
         }
     
     }
