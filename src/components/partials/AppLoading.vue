@@ -16,7 +16,7 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  height: 800;
+  height: 100vh;
   background: var(--tertiary-color);
   text-align: center;
   padding-top: 400px;

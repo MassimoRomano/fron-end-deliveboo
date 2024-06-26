@@ -20,6 +20,7 @@ export default {
       base_types_url: 'api/types',
       types: [],
       isLoading: true,
+      notTypes: false,
     }
   },
 
@@ -83,9 +84,16 @@ export default {
             .then(response => {
               // Vedo la risposta
               // Passo correttamente gli id!
+              if (response.data.success) {
+                this.notTypes = false;
+                console.log(response);
+                this.restaurants = response.data.received_data;
+              } else {
+                this.restaurants = false
+                this.notTypes = response.data.received_data
+              }
 
-              console.log(response.data.received_data);
-              this.restaurants = response.data.received_data;
+
               this.isLoading = false
               // this.restaurants =
             })
@@ -261,9 +269,10 @@ export default {
                 </div>
               </template>
 
-              <template v-else>
+              <template v-if="notTypes">
                 <h3 class="no-found col-12">Nessun ristorante trovato</h3>
               </template>
+
               <!-- template if don't have restaurant -->
               <nav aria-label="Page navigation" class="text-center col-12">
                 <ul class="my_pagination">

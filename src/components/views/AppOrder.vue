@@ -20,7 +20,7 @@ export default {
             errorMessage: '',
             formErrors: {},
             restaurant_name: '',
-            restaurant_slug:'',
+            restaurant_slug: '',
             myToken: '',
             base_api_url: 'http://127.0.0.1:8000/api/',
             orderDone: false,
@@ -31,6 +31,9 @@ export default {
             errors:'',
             cantYouPay:null,
             orderToPrint: "",
+            errors: '',
+            cantYouPay: null
+
         }
     },
     methods: {
@@ -111,8 +114,8 @@ export default {
                     //se va a buon fine
                     if (response.data.success) {
                         this.cantYouPay = false,
-                        //reset dei campi 
-                        this.customer_name = '';
+                            //reset dei campi 
+                            this.customer_name = '';
                         this.customer_lastname = '';
                         this.customer_address = '';
                         this.customer_phone_number = '';
@@ -168,8 +171,8 @@ export default {
                             console.error('Error requesting payment method:', err);
                             //promessa respinta 
                             reject(err);
-                        } 
-                         else {
+                        }
+                        else {
                             //promessa mantenuta e passaggio del parametro
                             resolve(payload.nonce);
                         }
@@ -364,8 +367,7 @@ export default {
                             </template>
                         </div>
                         <!-- /notes -->
-                        <button  id="submit-button" type="submit" class="btn_pay"
-                            :disabled="loading">
+                        <button id="submit-button" type="submit" class="btn_pay" :disabled="loading">
                             <template v-if="!loading">
                                 <span>Paga</span>
                             </template>
@@ -411,11 +413,6 @@ export default {
 
                         <div class="my_container">
                             <!-- Messaggio per la carta rifiutata -->
-                            <template v-if="this.cantYouPay">
-                                <div class="alert alert-danger">
-                                    <div class="info">{{ this.errorMessage }}</div>
-                                </div>
-                            </template>
                             <div id="dropin-wrapper">
                                 <div id="checkout-message"></div>
                                 <div id="dropin-container"></div>
@@ -428,6 +425,11 @@ export default {
                                 </div>
                             </template>
 
+                            <template v-if="this.cantYouPay">
+                                <div class="alert alert-danger">
+                                    <div class="info">{{ this.errorMessage }}</div>
+                                </div>
+                            </template>
 
                         </div>
                     </div>

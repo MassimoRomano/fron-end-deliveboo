@@ -61,7 +61,6 @@ h2 {
             .bottom-product {
                 padding: 1rem 0.5rem 0;
 
-
                 p {
                     padding: 0.5rem 0;
                 }
@@ -136,21 +135,30 @@ h2 {
         font-size: 30px;
     }
 
-    .pay {
-        width: 100%;
-        padding: 0.5rem;
-        border: none;
-        background: #e2e5e5;
-        border-radius: 10px;
-        cursor: pointer;
+    .ordina {
+        align-self: center;
 
-        a {
+        .pay {
+            width: 100%;
+            padding: 0.5rem 3rem;
+            border: none;
+            background: #e2e5e5;
+            border-radius: 10px;
+            cursor: pointer;
             text-decoration: none;
             color: #2e33337a;
             font-size: 20px;
             font-weight: bold;
+            box-shadow: rgba(100, 100, 111, 0.4) 3px 3px 4px;
+        }
+
+        .pay:hover {
+            transition: 0.2s ease-in-out;
+            box-shadow: rgba(100, 100, 111, 0.4) 5px 5px 4px;
+            color: var(--deliverboo-eighty);
         }
     }
+
 
     .add_product,
     .remove_product {
