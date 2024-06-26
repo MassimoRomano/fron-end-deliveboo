@@ -476,11 +476,7 @@
 /* #region Types */
 .bar-types {
     width: 20%;
-    padding: 4px 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
+    padding: 4px 5px;;
 
     @media (max-width: 768px) {
         padding: 2px 5px;
@@ -489,7 +485,7 @@
 }
 
 .types-container {
-    display: flex;
+    display: block;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
@@ -505,15 +501,6 @@
 
 }
 
-@keyframes slideToTop {
-    from {
-        transform: translateY(-3000%);
-    }
-
-    top {
-        transform: translateY(0);
-    }
-}
 
 .types-section {
     display: flex;
@@ -526,7 +513,7 @@
 }
 
 .types-section li {
-    animation: slideToTop 3s;
+    animation: slideleft 3s;
     display: flex;
     padding: 5px 0;
     list-style: none;
