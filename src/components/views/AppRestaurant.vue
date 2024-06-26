@@ -195,8 +195,8 @@ export default {
             let count = JSON.parse(localStorage.getItem("order"));
             // console.log(count.length);
 
-            // controlliamo se l'id del ristorante del l'ordinwe combaccia con quello del piatto che hai aggiunto, cioe puoi aggiungere nell'ordine solo i piatti del ristorante in cui stai facendo l'ordine
-            if (count.length === 0) {
+            // controlliamo se l'id del ristorante dell'ordinwe combaccia con quello del piatto che hai aggiunto, cioe puoi aggiungere nell'ordine solo i piatti del ristorante in cui stai facendo l'ordine
+            if (count.length === 0 && !null) {
                 return true
             } else if (restaurant_id != this.ristoranteSalvato) {
                 return true
