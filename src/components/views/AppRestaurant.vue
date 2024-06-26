@@ -2,6 +2,7 @@
 import axios from 'axios';
 import AppLoading from '../partials/AppLoading.vue';
 
+
 export default {
     name: 'AppRestaurant',
     components: {
@@ -33,46 +34,50 @@ export default {
             axios
                 .get(url)
                 .then(response => {
-                    // console.log(response.data.response);
-                    // inserisco nell'istanza restaurants il ristorante
-                    this.restaurants = response.data.response
-                    //console.log(this.restaurants)
 
-                    // ciclo perche me lo da come array
-                    this.restaurants.forEach(restaurant => {
+                    console.log(response);
+                    if (response.data.success) {
+                        // console.log(response.data.response);
+                        // inserisco nell'istanza restaurants il ristorante
+                        this.restaurants = response.data.response
+                        //console.log(this.restaurants)
 
-                        // salva l'id del ristorante del ristorante in cui si trovo il consumatore
-                        this.ristoranteSalvato = restaurant.id;
+                        // ciclo perche me lo da come array
+                        this.restaurants.forEach(restaurant => {
 
-                        // salva il nome del ristorante del ristorante in cui si trovo il consumatore
-                        this.restaurant_name = restaurant.name;
+                            // salva l'id del ristorante del ristorante in cui si trovo il consumatore
+                            this.ristoranteSalvato = restaurant.id;
 
-                        // salva il nome del ristorante del ristorante in cui si trovo il consumatore
-                        this.restaurant_slug = restaurant.slug;
+                            // salva il nome del ristorante del ristorante in cui si trovo il consumatore
+                            this.restaurant_name = restaurant.name;
+                            
+                            this.restaurant_slug = restaurant.slug;
 
-                        // inserisco nel local storage il nome del ristorante del l'ordinr
-                        localStorage.setItem("restaurant_name", JSON.stringify(this.restaurant_name));
-                        localStorage.setItem("restaurant_slug", JSON.stringify(this.restaurant_slug));
+                            // inserisco nel local storage il nome del ristorante del l'ordinr
+                            localStorage.setItem("restaurant_name", JSON.stringify(this.restaurant_name));
+                            localStorage.setItem("restaurant_slug", JSON.stringify(this.restaurant_slug));
+                            // console.log(restaurant);
+                        });
 
-                        // console.log(restaurant);
-                    });
+                        // ricavo nel local storage l'id del ristorante
+                        let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
 
-                    // ricavo nel local storage l'id del ristorante
-                    let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
+                        // verifico che l'ordine che sto facendo non e di due ristoranti
+                        if (restaurant_id == this.ristoranteSalvato) {
 
-                    // verifico che l'ordine che sto facendo non e di due ristoranti
-                    if (restaurant_id == this.ristoranteSalvato) {
+                            //ricaviamo l'ordine dal local storage per savarlo e printaro sul carrello
+                            this.cart = JSON.parse(localStorage.getItem("order"));
+                            //console.log(this.cart);
+                            this.total = JSON.parse(localStorage.getItem("total"));
+                        }
 
-                        //ricaviamo l'ordine dal local storage per savarlo e printaro sul carrello
-                        this.cart = JSON.parse(localStorage.getItem("order"));
-                        //console.log(this.cart);
-                        this.total = JSON.parse(localStorage.getItem("total"));
+                        if (restaurant_id != this.ristoranteSalvato) {
+                            this.total = 0;
+                        }
+                    } else {
+                        this.$router.push({ name: 'not-found' })
                     }
 
-                    if (restaurant_id != this.ristoranteSalvato) {
-                        this.total = 0;
-                    }
-                    this.loading = false
                 })
                 .catch(error => {
                     console.error(error);

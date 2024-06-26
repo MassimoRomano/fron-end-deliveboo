@@ -3,6 +3,7 @@ import AppHome from './components/views/AppHome.vue';
 import AppSearch from './components/views/AppSearch.vue';
 import AppRestaurant from "./components/views/AppRestaurant.vue";
 import AppOrder from "./components/views/AppOrder.vue";
+import NotFound from "./components/views/NotFound.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -26,7 +27,12 @@ const router = createRouter({
             path: '/order',
             component: AppOrder,
             name: 'order',
-        }
+        },
+        {
+            path: '/:patchMatch(.*)*',
+            name: 'not-found',
+            component: NotFound
+        },
     ]
 })
 
