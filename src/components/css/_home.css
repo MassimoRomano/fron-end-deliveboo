@@ -940,12 +940,12 @@
     /* Types */
     .bar-types {
         position: none;
-        width:100%;
+        width: 100%;
         padding: 4px 15px;
         display: flex;
         justify-content: start;
         overflow-y: scroll;
-        margin: 0 auto;
+        margin: 0;
     }
 
     .types-container {
