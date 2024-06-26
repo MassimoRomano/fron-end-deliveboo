@@ -28,8 +28,8 @@ export default {
             instance: null,
             paymentMessage: '',
             orderMessage: '',
-            errors:'',
-            cantYouPay:null,
+            errors: '',
+            cantYouPay: null,
             orderToPrint: "",
             errors: '',
             cantYouPay: null
@@ -128,7 +128,7 @@ export default {
                         this.paymentMessage = ''
                         this.cantYouPay = false
                         this.orderToPrint = response.data.order,
-                        console.log(response.data.order);
+                            console.log(response.data.order);
                         //chiudo il drop-in di Braintree
                         this.instance.teardown(teardownErr => {
                             if (teardownErr) {
@@ -409,6 +409,24 @@ export default {
                         <template v-if="orderMessage">
                             {{ (this.formErrors = null), (this.paymentMessage = '') }}
                             <!-- METTERE QUA IL RIEPILOGO DELL'ORDINE COME INDIRIZZO CLIENTE ETC -->
+                            <hr>
+                            <h4>Indirizzo di spedizione</h4>
+                            <p>
+                                {{ orderToPrint.customer_name }}
+                                {{ orderToPrint.customer_lastname }}
+                            </p>
+                            <p>
+                                {{ orderToPrint.customer_address }}
+                            </p>
+                            <p>
+                                {{ orderToPrint.customer_phone_number }}
+                            </p>
+                            <p>
+                                {{ orderToPrint.customer_email }}
+                            </p>
+                            <p v-if="orderToPrint.customer_note">
+                                Note: {{ orderToPrint.customer_note }}
+                            </p>
                         </template>
 
                         <div class="my_container">
