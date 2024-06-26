@@ -262,6 +262,8 @@
         background-color: var(--deliverboo-fifty);
         width: 1px;
         margin-top: 35px;
+        margin-left: -50px;
+        margin-right: 22px;
 
         @media (max-width: 768px) {
             height: 1150px;
@@ -380,8 +382,6 @@
     }
 }
 
-
-
 .text-rest h2 {
     font-size: 40px;
     font-weight: bold;
@@ -475,14 +475,12 @@
 
 /* #region Types */
 .bar-types {
-    position: relative;
     width: 20%;
     padding: 4px 5px;
-    display: block;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
 
     @media (max-width: 768px) {
         padding: 2px 5px;
@@ -491,12 +489,13 @@
 }
 
 .types-container {
-    overflow-x: hidden;
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
     width: 100%;
-    padding: 15px 40px;
+    padding: 35px 0;
     margin: 0 auto;
-    text-align: left;
 
     @media (max-width: 768px) {
         padding: 10px 35px;
@@ -520,16 +519,16 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
-    width: 1000%;
+    width: 100%;
     margin: 0 auto;
-    align-items: center;
+    align-items: start;
     justify-content: center;
 }
 
 .types-section li {
     animation: slideToTop 3s;
     display: flex;
-    padding: 5px 15px;
+    padding: 5px 0;
     list-style: none;
     color: var(--secondary-color);
     border-radius: 25px;
