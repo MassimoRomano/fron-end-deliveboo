@@ -792,7 +792,7 @@
 /* MEDIA TELEFONO */
 
 /* #region cell */
-@media (max-width: 480px) {
+@media (max-width: 540px) {
     /* #region jumbo */
     .jumbo-head {
         height: 300px;
@@ -1172,7 +1172,7 @@
 /* #endregion */
 
 /* MEDIA 1024 */
-
+/* #region Giacomo pc */
 @media screen and (min-width:900px) and (max-width: 1900px) {
     .jumbo-head {
         height: 500px;
@@ -1383,3 +1383,5 @@
         }
     }
 }
+
+/* #endregion */
