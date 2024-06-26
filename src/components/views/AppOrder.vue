@@ -17,28 +17,32 @@ export default {
             customer_note: '',
             loading: false,
             success: false,
+            errorMessage: '',
             formErrors: {},
             restaurant_name: '',
+            restaurant_slug:'',
             myToken: '',
             base_api_url: 'http://127.0.0.1:8000/api/',
             orderDone: false,
             paymentMethodNonce: null,
             instance: null,
             paymentMessage: '',
-            orderMessage: ''
+            orderMessage: '',
+            errors:'',
+            cantYouPay:null
         }
     },
     methods: {
 
         giveMeToken() {
             let url = this.base_api_url + "pay/token";
-            console.log(url);
+            //console.log(url);
             // Aggiungo un ritardo di 1 secondo prima di eseguire la richiesta
             axios
                 .get(url)
                 .then(response => {
                     //Ecco il token!
-                    console.log(response.data.clientToken);
+                    //console.log(response.data.clientToken);
                     this.myToken = response.data.clientToken;
                     this.initializeBraintree();
                 })
@@ -105,6 +109,7 @@ export default {
 
                     //se va a buon fine
                     if (response.data.success) {
+                        this.cantYouPay = false,
                         //reset dei campi 
                         this.customer_name = '';
                         this.customer_lastname = '';
@@ -117,19 +122,22 @@ export default {
                         this.orderDone = true;
                         this.orderMessage = 'Ordine effettuato con successo';
                         this.paymentMessage = ''
+                        this.cantYouPay = false
                         //chiudo il drop-in di Braintree
                         this.instance.teardown(teardownErr => {
                             if (teardownErr) {
                                 console.error('Could not tear down Drop-in UI:', teardownErr);
                             } else {
+                                localStorage.clear();
                                 console.info('Drop-in UI has been torn down successfully.');
                             }
                         });
                         //se ci sono errori li salviamo per mostrali all'utente
-                    } else if (response.data.errors) {
+                    } else if (response.data.errors) {/*  */
                         this.success = false;
                         this.errors = response.data.errors;
                     }
+
                     //Reimpostiamo false perché l'operazione è terminata
                     this.loading = false;
                 })
@@ -138,6 +146,9 @@ export default {
                 .catch(err => {
                     console.error(err);
                     this.loading = false;
+                    this.cantYouPay = true;
+                    this.errorMessage = "Abbiamo riscontrato qualche problema con la transazione, riprova"
+                    this.giveMeToken()
                 });
         },
 
@@ -153,9 +164,9 @@ export default {
                             console.error('Error requesting payment method:', err);
                             //promessa respinta 
                             reject(err);
-                        } else {
+                        } 
+                         else {
                             //promessa mantenuta e passaggio del parametro
-                            this.paymentMessage = 'Carta accettata, compila i tuoi dati per completare il pagamento';
                             resolve(payload.nonce);
                         }
                     });
@@ -174,7 +185,7 @@ export default {
                 let orderItems = JSON.parse(order);
 
                 //li vedo
-                console.log(orderItems);
+                //console.log(orderItems);
                 return orderItems;
             }
         },
@@ -220,6 +231,7 @@ export default {
     mounted() {
         this.total_price = JSON.parse(localStorage.getItem("total"))
         this.restaurant_name = JSON.parse(localStorage.getItem("restaurant_name"))
+        this.restaurant_slug = JSON.parse(localStorage.getItem("restaurant_slug"))
         this.cart = this.createCart()
         this.giveMeToken()
     }
@@ -228,6 +240,13 @@ export default {
 
 <template>
     <section class="order p-5">
+
+        <router-link :to="{ path: '/restaurant/' + this.restaurant_slug }" class="btn_back">
+            <span>
+                Torna al ristorante
+            </span>
+        </router-link>
+
         <div class="container">
             <!-- alert di successo del campo form lato laravel-->
             <template v-if="success">
@@ -253,6 +272,8 @@ export default {
                     </div>
                 </div>
             </template>
+
+
 
             <h2 v-if="!this.orderDone" class="fw_bold text_center">Inserisci i tuoi dati per completare l'ordine</h2>
 
@@ -339,7 +360,8 @@ export default {
                             </template>
                         </div>
                         <!-- /notes -->
-                        <button id="submit-button" type="submit" class="btn_pay" :disabled="loading">
+                        <button  id="submit-button" type="submit" class="btn_pay"
+                            :disabled="loading">
                             <template v-if="!loading">
                                 <span>Paga</span>
                             </template>
@@ -384,6 +406,12 @@ export default {
                         </template>
 
                         <div class="my_container">
+                            <!-- Messaggio per la carta rifiutata -->
+                            <template v-if="this.cantYouPay">
+                                <div class="alert alert-danger">
+                                    <div class="info">{{ this.errorMessage }}</div>
+                                </div>
+                            </template>
                             <div id="dropin-wrapper">
                                 <div id="checkout-message"></div>
                                 <div id="dropin-container"></div>
@@ -395,6 +423,8 @@ export default {
                                     <div class="info">{{ paymentMessage }}</div>
                                 </div>
                             </template>
+
+
                         </div>
                     </div>
                     <!-- /.card -->
