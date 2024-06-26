@@ -256,30 +256,13 @@ export default {
 
             <h2 v-if="!this.orderDone" class="fw_bold text_center">Inserisci i tuoi dati per completare l'ordine</h2>
 
-
             <div class="row">
 
-                <!-- /.col -->
-                <div class="col">
-                    <div class="my_container">
-                        <div id="dropin-wrapper">
-                            <div id="checkout-message"></div>
-                            <div id="dropin-container"></div>
-                        </div>
-
-                        <!-- Messaggio per la carta accettata -->
-                        <template v-if="paymentMessage">
-                            <div class="alert alert-success">
-                                <div class="info">{{ paymentMessage }}</div>
-                            </div>
-                        </template>
-                    </div>
-                </div>
                 <div class="col">
                     <form v-if="!this.orderDone" action="" method="post" @submit.prevent="newOrder">
 
                         <div class="mb-3">
-                            <label for="customer_name" class="form-label">Nome*</label>
+                            <label for="customer_name" class="form-label">Nome *</label>
                             <input type="text" class="form-control pad-3" name="customer_name" id="customer_name"
                                 aria-describedby="helpId" v-model="customer_name"
                                 :class="{ 'border-red': formErrors.customer_name }" />
@@ -292,7 +275,7 @@ export default {
                         </div>
                         <!-- /name -->
                         <div class="mb-3">
-                            <label for="customer_lastname" class="form-label">Cognome*</label>
+                            <label for="customer_lastname" class="form-label">Cognome *</label>
                             <input type="text" class="form-control pad-3" name="customer_lastname"
                                 id="customer_lastname" aria-describedby="helpId" v-model="customer_lastname"
                                 :class="{ 'border-red': formErrors.customer_lastname }" />
@@ -305,7 +288,7 @@ export default {
                         </div>
                         <!-- /lastname -->
                         <div class="mb-3">
-                            <label for="customer_address" class="form-label">Indirizzo*</label>
+                            <label for="customer_address" class="form-label">Indirizzo *</label>
                             <input type="text" class="form-control pad-3" name="customer_address" id="customer_address"
                                 aria-describedby="helpId" v-model="customer_address"
                                 :class="{ 'border-red': formErrors.customer_address }" />
@@ -318,7 +301,7 @@ export default {
                         </div>
                         <!-- /address -->
                         <div class="mb-3">
-                            <label for="customer_phone_number" class="form-label">Telefono*</label>
+                            <label for="customer_phone_number" class="form-label">Telefono *</label>
                             <input type="text" class="form-control pad-3" name="customer_phone_number"
                                 id="customer_phone_number" aria-describedby="helpId" v-model="customer_phone_number"
                                 :class="{ 'border-red': formErrors.customer_phone_number }" />
@@ -332,7 +315,7 @@ export default {
                         <!-- /phone number -->
                         <div class="mb-3">
                             <div class="mb-3">
-                                <label for="customer_email" class="form-label">Email*</label>
+                                <label for="customer_email" class="form-label">Email *</label>
                                 <input type="email" class="form-control pad-3" name="customer_email" id="customer_email"
                                     v-model="customer_email" :class="{ 'border-red': formErrors.customer_email }" />
                                 <!-- errore di validazione lato laravel -->
@@ -358,7 +341,7 @@ export default {
                         <!-- /notes -->
                         <button id="submit-button" type="submit" class="btn_pay" :disabled="loading">
                             <template v-if="!loading">
-                                <span>vai al pagamento</span>
+                                <span>Paga</span>
                             </template>
                             <template v-else>
                                 <i class="fa-regular fa-paper-plane px-1"></i>
@@ -372,22 +355,52 @@ export default {
                         <div class="alert alert-success mt-3">
                             <div class="info">{{ orderMessage }}</div>
                         </div>
+                        <router-link :to="{ name: 'Home' }" class="btn_pay">
+                            <span>
+                                Torna alla home
+                            </span>
+                        </router-link>
                     </template>
                 </div>
+                <!-- /.col -->
+
                 <div class="col">
-                    <h3>Riepilogo ordine</h3>
-                    <p>{{ restaurant_name }}</p>
-                    <div>
-                        <ul>
-                            <li v-for="dish in this.cart" :key="dish.object.id">
-                                {{ dish.object.name }} <span> x{{ dish.quantity }}</span>
-                            </li>
-                        </ul>
+                    <div class="card">
+                        <h3>Riepilogo ordine</h3>
+                        <p class="restaurant_name">{{ restaurant_name }}</p>
+                        <div>
+                            <ul>
+                                <li v-for="dish in this.cart" :key="dish.object.id">
+                                    {{ dish.object.name }} <span> x{{ dish.quantity }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <p v-if="total_price"> <span class="fw_bold">Totale Ordine:</span>
+                            {{ total_price.toFixed(2) }} &euro;</p>
+
+                        <template v-if="orderMessage">
+                            {{ (this.formErrors = null), (this.paymentMessage = '') }}
+                            <!-- METTERE QUA IL RIEPILOGO DELL'ORDINE COME INDIRIZZO CLIENTE ETC -->
+                        </template>
+
+                        <div class="my_container">
+                            <div id="dropin-wrapper">
+                                <div id="checkout-message"></div>
+                                <div id="dropin-container"></div>
+                            </div>
+
+                            <!-- Messaggio per la carta accettata -->
+                            <template v-if="paymentMessage">
+                                <div class="alert alert-success">
+                                    <div class="info">{{ paymentMessage }}</div>
+                                </div>
+                            </template>
+                        </div>
                     </div>
-                    <p v-if="total_price"> <span class="fw_bold">Totale Ordine:</span> {{ total_price.toFixed(2) }}
-                        &euro;</p>
+                    <!-- /.card -->
                 </div>
                 <!-- /.col -->
+
             </div>
             <!-- /.row -->
         </div>
@@ -441,7 +454,7 @@ export default {
 
 }
 
-.text_center{
+.text_center {
     text-align: center;
 }
 </style>
