@@ -16,8 +16,8 @@ export default {
             customer_email: '',
             customer_note: '',
             loading: false,
-            errors: false,
             success: false,
+            formErrors: {},
             restaurant_name: '',
             myToken: '',
             base_api_url: 'http://127.0.0.1:8000/api/',
@@ -29,27 +29,6 @@ export default {
         }
     },
     methods: {
-        /*         validateForm() {
-                    this.errors = {};
-        
-                    if (this.customer_name.length < 3) {
-                        this.errors.customer_name = ['Il nome deve essere lungo almeno 3 caratteri.'];
-                    }
-                    if (this.customer_lastname.length < 3) {
-                        this.errors.customer_lastname = ['Il cognome deve essere lungo almeno 3 caratteri.'];
-                    }
-                    if (this.customer_address.length < 6) {
-                        this.errors.customer_address = ['L\'indirizzo deve essere lungo almeno 6 caratteri.'];
-                    }
-                    if (!/^\d+$/.test(this.customer_phone_number)) {
-                        this.errors.customer_phone_number = ['Il numero di telefono deve essere un numero valido.'];
-                    }
-                    if (!/\S+@\S+\.\S+/.test(this.customer_email)) {
-                        this.errors.customer_email = ['L\'email deve essere un indirizzo email valido.'];
-                    }
-        
-                    return Object.keys(this.errors).length === 0;
-                }, */
 
         giveMeToken() {
             let url = this.base_api_url + "pay/token";
@@ -86,6 +65,10 @@ export default {
         },
 
         newOrder() {
+            // Validazione del form
+            if (!this.validateForm()) {
+                return;
+            }
             //caricamento in corso
             this.loading = true;
             //chiedo al metodo pay il nonce 
@@ -194,9 +177,44 @@ export default {
                 console.log(orderItems);
                 return orderItems;
             }
-        }
+        },
 
+        validateForm() {
+            this.formErrors = {};
+            let isValid = true;
 
+            //verifica nome
+            if (!this.customer_name || this.customer_name.length < 3) {
+                this.formErrors.customer_name = ['Questo campo deve contenere almeno 3 caratteri'];
+                isValid = false;
+            }
+
+            //verifica cognome
+            if (!this.customer_lastname || this.customer_lastname.length < 3) {
+                this.formErrors.customer_lastname = ['Questo campo deve contenere almeno 3 caratteri'];
+                isValid = false;
+            }
+
+            //verifica indirizzo
+            if (!this.customer_address || this.customer_address.length < 6) {
+                this.formErrors.customer_address = ['Questo campo deve contenere almeno 6 caratteri'];
+                isValid = false;
+            }
+
+            //verifica numero
+            if (!this.customer_phone_number || !Number.isInteger(Number(this.customer_phone_number))) {
+                this.formErrors.customer_phone_number = ['Questo campo deve essere un numero intero'];
+                isValid = false;
+            }
+
+            //modo di verificare che la stringa inserista sia una mail 
+            if (!this.customer_email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.customer_email)) {
+                this.formErrors.customer_email = ['Questo campo deve essere un indirizzo email valido'];
+                isValid = false;
+            }
+
+            return isValid;
+        },
 
     },
     mounted() {
@@ -209,17 +227,12 @@ export default {
 </script>
 
 <template>
-<!--     {{ console.log(this.cart)
-    }} -->
     <section class="order p-5">
         <div class="container">
-
             <!-- alert di successo del campo form lato laravel-->
             <template v-if="success">
                 <div class="alert alert-success">
-                    <div class="info">
-                        {{ success }}
-                    </div>
+                    <div class="info">{{ success }}</div>
                     <div class="" @click="success = !success">
                         <i class="fa-solid fa-xmark"></i>
                     </div>
@@ -241,47 +254,38 @@ export default {
                 </div>
             </template>
 
-            <h2 v-if="!this.orderDone" class="order_title">Inserisci i tuoi dati per completare l'ordine</h2>
+            <h2 v-if="!this.orderDone" class="fw_bold text_center">Inserisci i tuoi dati per completare l'ordine</h2>
+
+
             <div class="row">
-                <div class="col">
-                    <h3>Riepilogo ordine</h3>
-                    <p>{{ restaurant_name }}</p>
-                    <div> <span class="order_title"></span>
-                        <ul>
-                            <li v-for="dish in this.cart">
-                                {{ dish.object.name }} <span> x{{ dish.quantity }}</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <p v-if="total_price">Totale Ordine: {{ total_price.toFixed(2) }} &euro;</p>
-                </div>
+
                 <!-- /.col -->
                 <div class="col">
-                    <form v-if="!this.orderDone" action="" method="post" @submit.prevent="newOrder()">
-                        <div class="my_container">
-                            <div id="dropin-wrapper">
-                                <div id="checkout-message"></div>
-                                <div id="dropin-container"></div>
-                                <!--                                 <button id="submit-button" class="btn_pay"><span>Paga ora</span></button>
- -->
-                            </div>
-                            <!-- Messaggio per la carta accettata -->
-                            <template v-if="paymentMessage">
-                                <div class="alert alert-success">
-                                    <div class="info">
-                                        {{ paymentMessage }}
-                                    </div>
-                                </div>
-                            </template>
+                    <div class="my_container">
+                        <div id="dropin-wrapper">
+                            <div id="checkout-message"></div>
+                            <div id="dropin-container"></div>
                         </div>
+
+                        <!-- Messaggio per la carta accettata -->
+                        <template v-if="paymentMessage">
+                            <div class="alert alert-success">
+                                <div class="info">{{ paymentMessage }}</div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <div class="col">
+                    <form v-if="!this.orderDone" action="" method="post" @submit.prevent="newOrder">
+
                         <div class="mb-3">
                             <label for="customer_name" class="form-label">Nome*</label>
                             <input type="text" class="form-control pad-3" name="customer_name" id="customer_name"
                                 aria-describedby="helpId" v-model="customer_name"
-                                :class="{ 'border-red': errors.customer_lastname }" />
+                                :class="{ 'border-red': formErrors.customer_name }" />
                             <!-- errore di validazione lato laravel -->
-                            <template v-if="errors.customer_name">
-                                <div class="text-red" v-for="error in errors.customer_name">
+                            <template v-if="formErrors.customer_name">
+                                <div class="text-red" v-for="error in formErrors.customer_name" :key="error">
                                     {{ error }}
                                 </div>
                             </template>
@@ -291,10 +295,10 @@ export default {
                             <label for="customer_lastname" class="form-label">Cognome*</label>
                             <input type="text" class="form-control pad-3" name="customer_lastname"
                                 id="customer_lastname" aria-describedby="helpId" v-model="customer_lastname"
-                                :class="{ 'border-red': errors.customer_lastname }" />
+                                :class="{ 'border-red': formErrors.customer_lastname }" />
                             <!-- errore di validazione lato laravel -->
-                            <template v-if="errors.customer_lastname">
-                                <div class="text-red" v-for="error in errors.customer_lastname">
+                            <template v-if="formErrors.customer_lastname">
+                                <div class="text-red" v-for="error in formErrors.customer_lastname" :key="error">
                                     {{ error }}
                                 </div>
                             </template>
@@ -304,10 +308,10 @@ export default {
                             <label for="customer_address" class="form-label">Indirizzo*</label>
                             <input type="text" class="form-control pad-3" name="customer_address" id="customer_address"
                                 aria-describedby="helpId" v-model="customer_address"
-                                :class="{ 'border-red': errors.customer_address }" />
+                                :class="{ 'border-red': formErrors.customer_address }" />
                             <!-- errore di validazione lato laravel -->
-                            <template v-if="errors.customer_address">
-                                <div class="text-red" v-for="error in errors.customer_address">
+                            <template v-if="formErrors.customer_address">
+                                <div class="text-red" v-for="error in formErrors.customer_address" :key="error">
                                     {{ error }}
                                 </div>
                             </template>
@@ -315,12 +319,12 @@ export default {
                         <!-- /address -->
                         <div class="mb-3">
                             <label for="customer_phone_number" class="form-label">Telefono*</label>
-                            <input type="" class="form-control pad-3" name="customer_phone_number"
+                            <input type="text" class="form-control pad-3" name="customer_phone_number"
                                 id="customer_phone_number" aria-describedby="helpId" v-model="customer_phone_number"
-                                :class="{ 'border-red': errors.customer_phone_number }" />
+                                :class="{ 'border-red': formErrors.customer_phone_number }" />
                             <!-- errore di validazione lato laravel -->
-                            <template v-if="errors.customer_phone_number">
-                                <div class="text-red" v-for="error in errors.customer_phone_number">
+                            <template v-if="formErrors.customer_phone_number">
+                                <div class="text-red" v-for="error in formErrors.customer_phone_number" :key="error">
                                     {{ error }}
                                 </div>
                             </template>
@@ -330,10 +334,10 @@ export default {
                             <div class="mb-3">
                                 <label for="customer_email" class="form-label">Email*</label>
                                 <input type="email" class="form-control pad-3" name="customer_email" id="customer_email"
-                                    v-model="customer_email" :class="{ 'border-red': errors.customer_email }" />
+                                    v-model="customer_email" :class="{ 'border-red': formErrors.customer_email }" />
                                 <!-- errore di validazione lato laravel -->
-                                <template v-if="errors.customer_email">
-                                    <div class="text-red" v-for="error in errors.customer_email">
+                                <template v-if="formErrors.customer_email">
+                                    <div class="text-red" v-for="error in formErrors.customer_email" :key="error">
                                         {{ error }}
                                     </div>
                                 </template>
@@ -343,17 +347,17 @@ export default {
                         <div class="mb-3">
                             <label for="customer_note" class="form-label">Note</label>
                             <textarea class="form-control pad-3" name="customer_note" id="customer_note" rows="3"
-                                v-model="customer_note" :class="{ 'border-red': errors.customer_note }"></textarea>
+                                v-model="customer_note" :class="{ 'border-red': formErrors.customer_note }"></textarea>
                             <!-- errore di validazione lato laravel -->
-                            <template v-if="errors.customer_note">
-                                <div class="text-red" v-for="error in errors.customer_note">
+                            <template v-if="formErrors.customer_note">
+                                <div class="text-red" v-for="error in formErrors.customer_note" :key="error">
                                     {{ error }}
                                 </div>
                             </template>
                         </div>
                         <!-- /notes -->
                         <button id="submit-button" type="submit" class="btn_pay" :disabled="loading">
-                            <template v-if="loading == false">
+                            <template v-if="!loading">
                                 <span>vai al pagamento</span>
                             </template>
                             <template v-else>
@@ -364,19 +368,28 @@ export default {
                     </form>
                     <!-- /form -->
                     <template v-if="orderMessage">
-                        {{ this.errors= null,
-                        this.paymentMessage = '' }}
+                        {{ (this.formErrors = null), (this.paymentMessage = '') }}
                         <div class="alert alert-success mt-3">
-                            <div class="info">
-                                {{ orderMessage }}
-                            </div>
+                            <div class="info">{{ orderMessage }}</div>
                         </div>
                     </template>
+                </div>
+                <div class="col">
+                    <h3>Riepilogo ordine</h3>
+                    <p>{{ restaurant_name }}</p>
+                    <div>
+                        <ul>
+                            <li v-for="dish in this.cart" :key="dish.object.id">
+                                {{ dish.object.name }} <span> x{{ dish.quantity }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <p v-if="total_price"> <span class="fw_bold">Totale Ordine:</span> {{ total_price.toFixed(2) }}
+                        &euro;</p>
                 </div>
                 <!-- /.col -->
             </div>
             <!-- /.row -->
-
         </div>
         <!-- /.container -->
     </section>
@@ -423,8 +436,12 @@ export default {
     margin: auto;
 }
 
-.order_title {
+.fw_bold {
     font-weight: bold;
 
+}
+
+.text_center{
+    text-align: center;
 }
 </style>

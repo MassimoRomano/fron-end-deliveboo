@@ -2,7 +2,6 @@
 import AppHeader from './components/partials/AppHeader.vue';
 import AppHome from './components/views/AppHome.vue'
 import AppFooter from './components/partials/AppFooter.vue';
-import AppPayment from './components/views/AppPayment.vue';
 import { RouterLink } from 'vue-router';
 
 export default {
