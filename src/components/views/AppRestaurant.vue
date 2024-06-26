@@ -2,6 +2,7 @@
 import axios from 'axios';
 import AppLoading from '../partials/AppLoading.vue';
 
+
 export default {
     name: 'AppRestaurant',
     components: {
@@ -19,6 +20,7 @@ export default {
             total: 0,
             restaurantOrder: null,
             restaurant_name: '',
+            restaurant_slug: '',
             dish: null,
             loading: true,
 
@@ -32,63 +34,86 @@ export default {
             axios
                 .get(url)
                 .then(response => {
-                    // console.log(response.data.response);
-                    // inserisco nell'istanza restaurants il ristorante
-                    this.restaurants = response.data.response
-                    //console.log(this.restaurants)
 
-                    // ciclo perche me lo da come array
-                    this.restaurants.forEach(restaurant => {
+                    console.log(response);
+                    if (response.data.success) {
+                        // console.log(response.data.response);
+                        // inserisco nell'istanza restaurants il ristorante
+                        this.restaurants = response.data.response
+                        //console.log(this.restaurants)
+                        console.log(this.restaurants)
 
-                        // salva l'id del ristorante del ristorante in cui si trovo il consumatore
-                        this.ristoranteSalvato = restaurant.id;
+                        // ciclo perche me lo da come array
+                        this.restaurants.forEach(restaurant => {
 
-                        // salva il nome del ristorante del ristorante in cui si trovo il consumatore
-                        this.restaurant_name = restaurant.name;
+                            // salva l'id del ristorante del ristorante in cui si trovo il consumatore
+                            this.ristoranteSalvato = restaurant.id;
 
-                        // inserisco nel local storage il nome del ristorante del l'ordinr
-                        localStorage.setItem("restaurant_name", JSON.stringify(this.restaurant_name));
-                        // console.log(restaurant);
-                    });
+                            // salva il nome del ristorante del ristorante in cui si trovo il consumatore
+                            this.restaurant_name = restaurant.name;
 
-                    // ricavo nel local storage l'id del ristorante
-                    let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
+                            this.restaurant_slug = restaurant.slug;
 
-                    // verifico che l'ordine che sto facendo non e di due ristoranti
-                    if (restaurant_id == this.ristoranteSalvato) {
+                            // inserisco nel local storage il nome del ristorante del l'ordinr
+                            localStorage.setItem("restaurant_name", JSON.stringify(this.restaurant_name));
+                            localStorage.setItem("restaurant_slug", JSON.stringify(this.restaurant_slug));
+                            // console.log(restaurant);
+                        });
 
-                        //ricaviamo l'ordine dal local storage per savarlo e printaro sul carrello
-                        this.cart = JSON.parse(localStorage.getItem("order"));
-                        //console.log(this.cart);
-                        this.total = JSON.parse(localStorage.getItem("total"));
+                        // ricavo nel local storage l'id del ristorante
+                        let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
+
+                        // verifico che l'ordine che sto facendo non e di due ristoranti
+                        if (restaurant_id == this.ristoranteSalvato) {
+
+                            //ricaviamo l'ordine dal local storage per savarlo e printaro sul carrello
+                            this.cart = JSON.parse(localStorage.getItem("order"));
+                            //console.log(this.cart);
+                            this.total = JSON.parse(localStorage.getItem("total"));
+                        }
+
+                        if (restaurant_id != this.ristoranteSalvato) {
+                            this.total = 0;
+                        }
+                    } else {
+                        this.$router.push({ name: 'not-found' })
                     }
 
-                    if (restaurant_id != this.ristoranteSalvato) {
-                        this.total = 0;
-                    }
-                    this.loading = false
                 })
                 .catch(error => {
                     console.error(error);
-                    this.loading = false;
+
                 })
+            this.loading = false;
         },
+
         /* Aprire la modale */
         openModal(dish) {
             //salviamo il restaurantID che era stato salvato in local storage
             let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"));
             let count = JSON.parse(localStorage.getItem("order"));
             // console.log(count.length);
-
+            
+            if (count == null) {
+                this.ristoranteSalvato = 0
+                count = 0;
+            }
+            console.log(this.ristoranteSalvato, count, count.length === 0, restaurant_id);
             // controlliamo se l'id del ristorante del l'ordinwe combaccia con quello del piatto che hai aggiunto, cioe puoi aggiungere nell'ordine solo i piatti del ristorante in cui stai facendo l'ordine
-            if (count.length === 0) {
-                // console.log(dish)
+            if (count.length === 0 || ((this.ristoranteSalvato == 0) && restaurant_id == null) ) {
+                //console.log("qui");
+
+                console.log(dish)
                 this.addItemToCart(dish);
             } else if (restaurant_id != this.ristoranteSalvato) {
+                //console.log(count);
+
                 this.dish = dish;
                 this.showModal = true;
             } else {
                 // aggiunge il prodotto
+                //console.log("qui");
+
                 // console.log(dish)
                 this.addItemToCart(dish);
             }
@@ -136,6 +161,9 @@ export default {
 
             // inseriamo nel localStorage l'istanza restaurant_name con la chiave restaurant_name
             localStorage.setItem("restaurant_name", JSON.stringify(this.restaurant_name));
+
+            // inseriamo nel localStorage l'istanza restaurant_name con la chiave restaurant_slug
+            localStorage.setItem("restaurant_slug", JSON.stringify(this.restaurant_slug));
 
             // inseriamo nel localStorage l'istanza total(che sarebbe il totale del carello) con la chiave total
             localStorage.setItem("total", JSON.stringify(this.total))
@@ -218,9 +246,9 @@ export default {
         },
     },
     mounted() {
+
         let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
-
-
+        let restaurant_slug = JSON.parse(localStorage.getItem("restaurantID"))
         let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug;
         this.callApi(url);
     }
