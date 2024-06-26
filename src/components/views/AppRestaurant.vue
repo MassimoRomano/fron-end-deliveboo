@@ -41,6 +41,7 @@ export default {
                         // inserisco nell'istanza restaurants il ristorante
                         this.restaurants = response.data.response
                         //console.log(this.restaurants)
+                        console.log(this.restaurants)
 
                         // ciclo perche me lo da come array
                         this.restaurants.forEach(restaurant => {
@@ -50,7 +51,7 @@ export default {
 
                             // salva il nome del ristorante del ristorante in cui si trovo il consumatore
                             this.restaurant_name = restaurant.name;
-                            
+
                             this.restaurant_slug = restaurant.slug;
 
                             // inserisco nel local storage il nome del ristorante del l'ordinr
@@ -81,8 +82,9 @@ export default {
                 })
                 .catch(error => {
                     console.error(error);
-                    this.loading = false;
+
                 })
+            this.loading = false;
         },
 
         /* Aprire la modale */
