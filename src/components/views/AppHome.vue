@@ -234,7 +234,8 @@ export default {
             <div class="restaurant-wrap" v-else>
               <template v-if="restaurants.data">
                 <div class="col-2" v-for="restaurant in restaurants.data">
-                  <router-link :to="{ name: 'restaurant', params: { slug: restaurant.slug } }">
+                  <router-link :to="{ name: 'restaurant', params: { slug: restaurant.slug } }"
+                    >
                     <div class="card-restaurant">
                       <div class="card-body-restaurant">
                         <div class="top-restaurant">
@@ -284,7 +285,7 @@ export default {
                   <li v-for="page in restaurants.last_page" @click="goTo(page)">
                     <button
                       :class="{ 'active': page == restaurants.current_page, 'page-link': page != restaurants.current_page }">{{
-                        page }}</button>
+                      page }}</button>
                   </li>
 
                   <li v-show="restaurants.next_page_url" @click="nextPage(restaurants.next_page_url)">

@@ -21,6 +21,7 @@ export default {
             restaurantOrder: null,
             restaurant_name: '',
             restaurant_slug: '',
+            restaurant_id: '',
             dish: null,
             loading: true,
 
@@ -102,7 +103,6 @@ export default {
             // controlliamo se l'id del ristorante del l'ordinwe combaccia con quello del piatto che hai aggiunto, cioe puoi aggiungere nell'ordine solo i piatti del ristorante in cui stai facendo l'ordine
             if (count.length === 0 || ((this.ristoranteSalvato == 0) && restaurant_id == null)) {
                 //console.log("qui");
-
                 console.log(dish)
                 this.addItemToCart(dish);
             } else if (restaurant_id != this.ristoranteSalvato) {
@@ -247,8 +247,8 @@ export default {
     },
     mounted() {
 
-        let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
-        let restaurant_slug = JSON.parse(localStorage.getItem("restaurantID"))
+        this.restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
+        this.restaurant_slug = JSON.parse(localStorage.getItem("restaurantID"))
         let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug;
         this.callApi(url);
     }
