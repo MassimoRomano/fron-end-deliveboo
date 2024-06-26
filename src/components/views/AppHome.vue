@@ -2,10 +2,15 @@
 import autoScroll from '../js/autoScroll';
 import autoSlide from '../js/autoSlide.js';
 import axios from 'axios';
+import AppLoading from '../partials/AppLoading.vue';
+
 
 
 export default {
   name: 'AppHome',
+  components: {
+    AppLoading,
+  },
   data() {
     return {
       base_api_url: 'http://127.0.0.1:8000/',
@@ -14,7 +19,7 @@ export default {
       selectedTypes: [],
       base_types_url: 'api/types',
       types: [],
-      isLoading: false,
+      isLoading: true,
     }
   },
 
@@ -218,10 +223,8 @@ export default {
           <div class="separate"></div>
           <div class="restaurant-col">
 
-            <div v-if="isLoading" class="loader col-12">
-              <h3>Caricamento ristoranti...</h3>
-            </div>
-            <div class="restaurant-wrap">
+            <AppLoading v-if="isLoading"/>
+            <div class="restaurant-wrap" v-else>
               <template v-if="restaurants.data">
                 <div class="col-2" v-for="restaurant in restaurants.data">
                   <router-link :to="{ name: 'restaurant', params: { slug: restaurant.slug } }">

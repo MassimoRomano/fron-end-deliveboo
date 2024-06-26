@@ -16,8 +16,8 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  height: 800px;
-  background: rgba(255, 255, 255, 0.8);
+  height: 800;
+  background: var(--tertiary-color);
   text-align: center;
   padding-top: 200px;
   font-size: 30px;
