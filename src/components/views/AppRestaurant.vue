@@ -93,14 +93,14 @@ export default {
             let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"));
             let count = JSON.parse(localStorage.getItem("order"));
             // console.log(count.length);
-            
+
             if (count == null) {
                 this.ristoranteSalvato = 0
                 count = 0;
             }
             console.log(this.ristoranteSalvato, count, count.length === 0, restaurant_id);
             // controlliamo se l'id del ristorante del l'ordinwe combaccia con quello del piatto che hai aggiunto, cioe puoi aggiungere nell'ordine solo i piatti del ristorante in cui stai facendo l'ordine
-            if (count.length === 0 || ((this.ristoranteSalvato == 0) && restaurant_id == null) ) {
+            if (count.length === 0 || ((this.ristoranteSalvato == 0) && restaurant_id == null)) {
                 //console.log("qui");
 
                 console.log(dish)
@@ -378,11 +378,11 @@ export default {
                             <p class="tot-cart" v-if="this.total > 0">Totale carrello: {{ this.total.toFixed(2) }}
                                 &euro;</p>
 
-                            <button class="pay" v-if="!addOrder()">
-                                <router-link :to="{ name: 'order' }">
+                            <div v-if="!addOrder()" class="ordina">
+                                <router-link :to="{ name: 'order' }" class="pay">
                                     Ordina
                                 </router-link>
-                            </button>
+                            </div>
 
                         </div>
                     </section>
