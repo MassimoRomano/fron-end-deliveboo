@@ -1,8 +1,12 @@
 <script>
 import axios from 'axios';
+import AppLoading from '../partials/AppLoading.vue';
 
 export default {
     name: 'AppRestaurant',
+    components: {
+        AppLoading,
+    },
     data() {
         return {
             base_api_url: 'http://127.0.0.1:8000/',
@@ -16,12 +20,15 @@ export default {
             restaurantOrder: null,
             restaurant_name: '',
             dish: null,
+            loading: true,
+
         }
     },
     methods: {
 
         /* Chiamata API */
         callApi(url) {
+            this.loading = true
             axios
                 .get(url)
                 .then(response => {
@@ -59,9 +66,11 @@ export default {
                     if (restaurant_id != this.ristoranteSalvato) {
                         this.total = 0;
                     }
+                    this.loading = false
                 })
                 .catch(error => {
                     console.error(error);
+                    this.loading = false;
                 })
         },
         /* Aprire la modale */
@@ -219,7 +228,8 @@ export default {
 </script>
 
 <template>
-    <main class="rest">
+    <AppLoading v-if="loading" />
+    <main class="rest" v-else>
         <template v-if="restaurants" v-for="restaurant in restaurants">
             <div class="restaurant-page">
                 <div class="container">
