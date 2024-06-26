@@ -19,7 +19,8 @@ export default {
   height: 800;
   background: var(--tertiary-color);
   text-align: center;
-  padding-top: 200px;
+  padding-top: 400px;
+  padding-bottom: 400px;
   font-size: 30px;
 }
 
