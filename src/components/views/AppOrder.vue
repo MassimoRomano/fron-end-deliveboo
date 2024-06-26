@@ -408,7 +408,6 @@ export default {
 
                         <template v-if="orderMessage">
                             {{ (this.formErrors = null), (this.paymentMessage = '') }}
-                            <!-- METTERE QUA IL RIEPILOGO DELL'ORDINE COME INDIRIZZO CLIENTE ETC -->
                             <hr>
                             <h4>Indirizzo di spedizione</h4>
                             <p>
