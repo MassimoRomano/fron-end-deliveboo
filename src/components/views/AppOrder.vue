@@ -219,13 +219,9 @@ export default {
                 isValid = false;
             }
 
-            //verifica numero
-            if (!this.customer_phone_number || !Number.isInteger(Number(this.customer_phone_number))) {
-                this.formErrors.customer_phone_number = ['Questo campo deve essere un numero intero'];
-                isValid = false;
-            }
-            if (!this.customer_phone_number || this.customer_phone_number.length < 10) {
-                this.formErrors.customer_phone_number = ['Questo campo deve contenere almeno 10 numeri'];
+            // Verifica numero di telefono
+            if (!this.customer_phone_number || this.customer_phone_number.length < 10 || !/^\d{10,}$/.test(this.customer_phone_number)) {
+                this.formErrors.customer_phone_number = ['Questo campo deve essere un numero di almeno 10 cifre'];
                 isValid = false;
             }
 
@@ -371,7 +367,7 @@ export default {
                             </template>
                         </div>
                         <!-- /notes -->
-                        <button id="submit-button" type="submit" class="btn_pay" :disabled="loading">
+                        <button @click="this.cantYouPay=false" id="submit-button" type="submit" class="btn_pay" :disabled="loading">
                             <template v-if="!loading">
                                 <span>Paga</span>
                             </template>
