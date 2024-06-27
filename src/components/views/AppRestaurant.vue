@@ -306,7 +306,8 @@ export default {
                                         </template>
                                         <template v-else>
                                             <div class="card-image">
-                                                <img :src="dish.image" :alt="'Image of the dish: ' + dish.name">
+                                                <img :src="base_api_url + dish.image"
+                                                    :alt="'Image of the dish: ' + dish.name">
                                             </div>
                                         </template>
                                         <div class="new-card-content">
