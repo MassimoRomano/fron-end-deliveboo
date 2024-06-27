@@ -224,6 +224,10 @@ export default {
                 this.formErrors.customer_phone_number = ['Questo campo deve essere un numero intero'];
                 isValid = false;
             }
+            if (!this.customer_phone_number || this.customer_phone_number.length < 10) {
+                this.formErrors.customer_phone_number = ['Questo campo deve contenere almeno 10 numeri'];
+                isValid = false;
+            }
 
             //modo di verificare che la stringa inserista sia una mail 
             if (!this.customer_email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.customer_email)) {
