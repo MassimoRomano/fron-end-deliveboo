@@ -23,7 +23,7 @@ header {
     margin: auto;
 }
 
-.menu {
+.menu-head {
     display: flex;
     align-items: center;
     margin: 0;
@@ -91,11 +91,6 @@ header {
 
         .dropdown-button {
             display: block;
-        }
-    
-        .menu {
-            margin-left:0px;
-            justify-content: center; 
         }
     }
 
