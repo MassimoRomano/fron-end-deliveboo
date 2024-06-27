@@ -24,6 +24,7 @@ export default {
             restaurant_id: '',
             dish: null,
             loading: true,
+            isCartVisible: false,
 
         }
     },
@@ -251,6 +252,15 @@ export default {
                 return false
             }
         },
+
+        toggleCart() {
+            this.isCartVisible = !this.isCartVisible
+        },
+
+        closeCart() {
+            console.log('chiudo il carrello');
+            this.isCartVisible = false;
+        },
     },
     mounted() {
 
@@ -277,7 +287,7 @@ export default {
                         </div>
                         <div class="descr-rest">
                             <h1>{{ restaurant.name }}</h1>
-                            <p>
+                            <p class="description">
                                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, natus ex
                                 praesentium assumenda a deserunt
                                 doloribus, optio non rem reprehenderit fugit neque iure, odio nisi. Architecto eos ad
@@ -288,23 +298,33 @@ export default {
                                 ut voluptatem tempore
                                 veritatis.
                             </p>
-                            <p>
-                                Indirizzo:
-                                <strong>{{ restaurant.address }}</strong>
-                            </p>
-                            <p>
-                                Numero di Telefono:
-                                <strong>{{ restaurant.phone_number }}</strong>
-                            </p>
+                            <div class="descr-rest-info">
+                                <p>
+                                    Indirizzo:
+                                    <strong>{{ restaurant.address }}</strong>
+                                </p>
+                                <p>
+                                    Numero di Telefono:
+                                    <strong>{{ restaurant.phone_number }}</strong>
+                                </p>
+                            </div>
                         </div>
                     </section>
 
-                    <h2 class="menu">Menù</h2>
+                    <div class="menu">
+                        <h2>Menù</h2>
+                        <button @click="toggleCart" class="toggle-cart-button">
+                            <div class="cart-amount">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <p class="cart-counter">{{ cart.length }}</p>
+                            </div>
+                        </button>
+                    </div>
 
                     <section class="product">
                         <div class="product-info">
                             <section class="new-dish-display">
-                                <div v-for="dish in restaurant.dishes" class="">
+                                <div v-for="dish in restaurant.dishes" class="card-product-new">
                                     <div v-if="dish.visibility === 1" class="new-card">
                                         <template v-if="dish.image && dish.image.startsWith('uploads')">
                                             <div class="card-image">
@@ -360,10 +380,13 @@ export default {
                         </div>
                         <!-- /.row -->
 
-                        <div class="cart">
+                        <div class="cart" :class="{ 'cart': true, 'visible': isCartVisible }">
                             <div class="icon-cart">
                                 <i class="fa-solid fa-cart-shopping"></i>
                                 <h2>Carrello</h2>
+                                <button @click="closeCart" class="close-cart-button">
+                                    <i class="fa-solid fa-times"></i>
+                                </button>
                             </div>
                             <div class="text-cart">
                                 <p class="tot-prod-in-cart" v-if="cart">
@@ -380,7 +403,8 @@ export default {
                                         <span class="n_off_poducts">{{ product.quantity }}</span>
                                         <button class="add_product" @click="increase_cart_quantity(product)">+</button>
                                     </p>
-                                    <p class="prod-price">Totale prodotto: <span>{{ product.price }} &euro;</span> </p>
+                                    <p class="prod-price">Totale prodotto: <span>{{ product.price }} &euro;</span>
+                                    </p>
                                 </div>
                             </div>
                             <p class="tot-cart" v-if="this.total > 0">Totale carrello: {{ this.total.toFixed(2) }}
@@ -391,7 +415,6 @@ export default {
                                     Ordina
                                 </router-link>
                             </div>
-
                         </div>
                     </section>
                 </div>
