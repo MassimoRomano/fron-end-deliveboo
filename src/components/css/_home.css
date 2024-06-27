@@ -24,11 +24,6 @@
     h1 {
         margin-top: -50px;
         padding: 0 350px;
-
-        @media (min-width:550) and (max-width: 900px) {
-            padding: 0 20px;
-            font-size: 1.5rem;
-        }
     }
 }
 
@@ -94,11 +89,6 @@
     height: 150px;
     border-radius: 20px;
 
-    @media (max-width: 768px) {
-        height: 100px;
-        width: 160px;
-    }
-
     img {
         width: 100%;
         height: 100%;
@@ -112,11 +102,6 @@
 .scroll-2 {
     width: 210px;
     height: 150px;
-
-    @media (max-width:768px) {
-        height: 100px;
-        width: 105px;
-    }
 
     img {
         width: 100%;
@@ -206,11 +191,6 @@
     height: auto;
     margin: 120px auto;
 
-    @media (min-width:550) and (max-width: 900px) {
-        margin: 20px auto;
-    }
-
-
     .text-rest {
         text-align: center;
         color: var(--secondary-color);
@@ -221,10 +201,6 @@
             font-size: 30px;
             font-weight: bold;
             animation: slideRight 4s;
-
-            @media (max-width: 768px) {
-                font-size: 20px;
-            }
         }
     }
 
@@ -238,21 +214,12 @@
         justify-content: center;
         align-items: center;
 
-        @media (max-width: 768px) {
-            width: 100%;
-            margin: 50px auto;
-        }
-
         .restaurant-inside {
             display: flex;
             flex-direction: row;
             gap: 20px;
             width: 100%;
             margin: auto;
-
-            @media (max-width: 768px) {
-                gap: 10px;
-            }
         }
 
     }
@@ -264,12 +231,6 @@
         margin-top: 35px;
         margin-left: -50px;
         margin-right: 22px;
-
-        @media (max-width: 768px) {
-            height: 1150px;
-            margin-left: 0;
-            margin-top: 0;
-        }
     }
 
     .restaurant-col {
@@ -288,12 +249,6 @@
         margin-top: 30px;
         position: relative;
 
-        @media (max-width: 768px) {
-            gap: 20px 50px;
-        }
-
-
-
         a {
             text-decoration: none;
         }
@@ -301,10 +256,6 @@
 
     .col-2 {
         width: calc(100%/4);
-
-        @media (max-width: 768px) {
-            width: calc(100%/3);
-        }
 
         .card-restaurant {
             border-radius: 5px;
@@ -314,12 +265,6 @@
             height: 420px;
             margin: 20px 0;
             width: 350px;
-
-            @media (max-width: 768px) {
-                width: 220px;
-                height: 340px;
-            }
-
 
             .card-body-restaurant {
                 display: flex;
@@ -334,10 +279,6 @@
                     object-fit: cover;
                     aspect-ratio: 1.5;
                     border-radius: 2.5px;
-
-                    @media (max-width: 768px) {
-                        aspect-ratio: 1.8;
-                    }
                 }
 
 
@@ -348,11 +289,6 @@
                     padding: 20px;
                     display: flex;
                     flex-direction: column;
-
-                    @media (max-width: 768px) {
-                        padding: 5px;
-                        margin-top: 10px;
-                    }
 
                     h3 {
                         font-size: 20px;
@@ -422,25 +358,19 @@
     padding: 1rem 0;
     position: absolute;
     left: 27.5%;
-
-    @media (max-width: 768px) {
-        height: 20px;
-        left: 35px;
-    }
+    margin-top: 40px;
 
     li {
-        padding: 0.5rem 1.1rem;
+        width: 45px;
+        aspect-ratio: 1;
+        border-radius: 100%;
+        display: flex;
+        justify-content: center;
         margin: 2rem 1rem;
-        border-radius: 50%;
         cursor: pointer;
         font-size: 20px;
         box-shadow: -1px -1px 3px rgba(255, 255, 255, 0.1),
             2px 2px 8px rgba(0, 0, 0, 0.8);
-
-        @media (max-width: 768px) {
-            font-size: 5px;
-            padding: 0.2rem 0.8rem;
-        }
     }
 
     li:hover {
@@ -478,12 +408,7 @@
 /* #region Types */
 .bar-types {
     width: 20%;
-    padding: 4px 5px;;
-
-    @media (max-width: 768px) {
-        padding: 2px 5px;
-    }
-
+    padding: 4px 5px;
 }
 
 .types-container {
@@ -494,12 +419,6 @@
     width: 100%;
     padding: 35px 0;
     margin: 0 auto;
-
-    @media (max-width: 768px) {
-        padding: 10px 35px;
-        margin-left: -20px;
-    }
-
 }
 
 
@@ -553,10 +472,6 @@
     margin: 70px 0;
     background-image: linear-gradient(to left top, #6d48b2, #7b57c3, #8966d4, #9775e5, #a584f7);
 
-    @media (max-width: 768px) {
-        height: 500px;
-    }
-
     .card-body-offer {
         width: 84%;
         margin: 0 auto;
@@ -568,12 +483,6 @@
         padding: 40px;
         border-radius: 30px;
         gap: 20px;
-
-        @media (max-width: 768px) {
-            height: 500px;
-            width: 100%;
-            gap: 10px;
-        }
     }
 }
 
@@ -591,29 +500,17 @@
         position: absolute;
         left: -70px;
         top: 50px;
-
-        @media (max-width: 768px) {
-            display: none;
-        }
     }
 
 
     h3 {
         font-size: 30px;
         margin-bottom: 20px;
-
-        @media (max-width: 768px) {
-            font-size: 25px;
-        }
     }
 
     p {
         font-size: 20px;
         margin-bottom: 20px;
-
-        @media (max-width: 768px) {
-            font-size: 15px;
-        }
     }
 
     a {
@@ -631,10 +528,6 @@
         height: 100%;
         border-radius: 20px;
         object-fit: cover;
-
-        @media (max-width: 768px) {
-            aspect-ratio: 1;
-        }
     }
 
 }
@@ -649,18 +542,8 @@
     height: auto;
     padding: 100px 0px;
 
-    @media (max-width: 768px) {
-        overflow-y: hidden;
-        height: 1050px;
-        margin-top: -160px;
-    }
-
     .col-4 {
         width: 25%;
-
-        @media (max-width: 768px) {
-            width: 33%;
-        }
     }
 }
 
@@ -668,10 +551,6 @@
     max-width: 1920px;
     margin: 0 auto;
     width: 80%;
-
-    @media (max-width: 768px) {
-        width: 90%;
-    }
 }
 
 .inside-collabs {
@@ -680,13 +559,6 @@
     justify-content: space-between;
     align-items: center;
     gap: 70px;
-
-    @media (max-width: 768px) {
-        gap: 50px 140px;
-        justify-content: center;
-        padding: 50px 0;
-    }
-
 }
 
 .card-collab {
@@ -694,10 +566,6 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-
-    @media (max-width: 768px) {
-        width: 100%;
-    }
 
     .card-body-collab {
         width: 100%;
@@ -710,11 +578,6 @@
             object-fit: cover;
             margin-bottom: 40px;
             border-radius: 20px;
-
-            @media (max-width: 768px) {
-                margin-bottom: 20px;
-                height: 200px;
-            }
         }
     }
 
@@ -722,27 +585,14 @@
         color: var(--secondary-color);
         margin-bottom: 40px;
 
-        @media (max-width: 768px) {
-            margin-bottom: 20px;
-        }
-
         h3 {
             font-size: 25px;
             margin-bottom: 10px;
-
-            @media (max-width: 768px) {
-                font-size: 20px;
-            }
         }
 
         p {
             font-size: 15px;
             margin-bottom: 50px;
-
-            @media (max-width: 768px) {
-                font-size: 13px;
-                margin-bottom: 35px;
-            }
         }
 
         a {
@@ -777,14 +627,16 @@
 /* MEDIA TELEFONO */
 
 /* #region cell */
-@media (max-width: 540px) {
+@media (max-width: 750px) {
 
     /* #region jumbo */
     .jumbo-head {
         height: 300px;
 
+
         h1 {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
+            padding: 0 30px;
         }
     }
 
@@ -827,7 +679,7 @@
         margin: auto;
 
         .restaurant-container {
-            max-width: 480px;
+            max-width: 750px;
             width: 100%;
             height: auto;
             margin: 80px auto;
@@ -1158,6 +1010,201 @@
 
 /* #endregion */
 
+/* MEDIA TABLET */
+
+/* #region tablet */
+
+@media (min-width:750px) and (max-width:999px) {
+    .jumbo-head {
+        h1 {
+            margin-top: -50px;
+            padding: 0 100px;
+            font-size: 40px;
+        }
+    }
+
+    .scroll-1 {
+        height: 100px;
+        width: 160px;
+    }
+
+    .scroll-2 {
+        height: 100px;
+        width: 105px;
+    }
+
+    .restaurant {
+        margin: 50px auto;
+
+        .text-rest {
+            h3 {
+                font-size: 20px;
+            }
+        }
+
+        .restaurant-container {
+            width: 100%;
+            margin: 20px auto 120px;
+
+            .restaurant-inside {
+                gap: 10px;
+            }
+
+        }
+
+        .separate {
+            height: 1200px;
+            margin-left: 25px;
+            margin-top: 0;
+
+        }
+
+
+        .restaurant-wrap {
+            gap: 20px 60px;
+            width: 100%;
+            margin-left: 60px;
+        }
+
+        .col-2 {
+            width: calc(100%/3);
+
+            .card-restaurant {
+                height: 320px;
+                width: 220px;
+
+
+                .card-body-restaurant {
+                    img {
+                        aspect-ratio: 1.8;
+                    }
+
+
+                    .bottom-restaurant {
+                        padding: 5px;
+                        margin-top: 10px;
+
+                    }
+
+                }
+            }
+        }
+
+    }
+
+    .my_pagination {
+        height: 20px;
+        left: 35px;
+
+        li {
+            font-size: 5px;
+            padding: 0.2rem 0.8rem;
+            aspect-ratio: 1;
+        }
+    }
+
+
+    .bar-types {
+
+        padding: 2px 5px;
+
+
+    }
+
+    .types-container {
+        padding: 10px 35px;
+        margin-left: -20px;
+
+
+    }
+
+    .offer {
+        height: 500px;
+
+        .card-body-offer {
+            height: 500px;
+            width: 100%;
+            gap: 10px;
+
+        }
+    }
+
+    .left-offer {
+        .stars {
+            display: none;
+        }
+
+        h3 {
+            font-size: 25px;
+
+        }
+
+        p {
+            font-size: 15px;
+        }
+
+    }
+}
+
+.collabs {
+    height: auto;
+    padding: 100px 0px;
+
+    @media (max-width: 768px) {
+        overflow-y: hidden;
+        height: 1050px;
+        margin-top: -160px;
+    }
+
+    .col-4 {
+        width: 25%;
+
+        @media (max-width: 768px) {
+            width: 33%;
+        }
+    }
+}
+
+.container-coll {
+    width: 90%;
+
+}
+
+.inside-collabs {
+    gap: 50px 140px;
+    justify-content: center;
+    padding: 50px 0;
+
+
+}
+
+.card-collab {
+    width: 100%;
+
+
+    .card-body-collab {
+        img {
+            margin-bottom: 20px;
+            height: 200px;
+        }
+    }
+
+    .bottom-collab {
+        margin-bottom: 20px;
+
+        h3 {
+            font-size: 20px;
+        }
+
+        p {
+            font-size: 13px;
+            margin-bottom: 35px;
+        }
+    }
+}
+
+
+/* #endregion */
 /* MEDIA 1024 */
 /* #region Giacomo pc */
 @media screen and (min-width:1000px) and (max-width: 1900px) {
@@ -1257,14 +1304,15 @@
 
     .bar-types {
         width: 20%;
-        padding: 4px 5px;;
-    
+        padding: 4px 5px;
+        ;
+
         @media (max-width: 768px) {
             padding: 2px 5px;
         }
-    
+
     }
-    
+
     .types-container {
         display: block;
         flex-direction: column;
@@ -1273,15 +1321,15 @@
         width: 100%;
         padding: 35px 0;
         margin: 0 auto;
-    
+
         @media (max-width: 768px) {
             padding: 10px 35px;
             margin-left: -20px;
         }
-    
+
     }
-    
-    
+
+
     .types-section {
         display: flex;
         flex-direction: column;
@@ -1291,7 +1339,7 @@
         align-items: start;
         justify-content: center;
     }
-    
+
     .types-section li {
         animation: slideleft 3s;
         display: flex;
@@ -1304,7 +1352,7 @@
         cursor: pointer;
         background-color: var(--tertiary-color);
     }
-    
+
     .no-found {
         display: flex;
         align-items: center;
@@ -1313,8 +1361,9 @@
         margin-top: 200px;
         font-size: 30px;
         font-weight: bold;
-    
+
     }
+
     .offer {
         height: auto;
         width: 100%;
