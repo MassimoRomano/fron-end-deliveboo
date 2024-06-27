@@ -79,13 +79,14 @@ export default {
                     } else {
                         this.$router.push({ name: 'not-found' })
                     }
+                    this.loading = false;
 
                 })
                 .catch(error => {
                     console.error(error);
-
+                    this.loading = false;
                 })
-            this.loading = false;
+
         },
 
         /* getMyRestaurant(){
