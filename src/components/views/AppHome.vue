@@ -46,7 +46,7 @@ export default {
           this.isLoading = false
         })
         .catch(error => {
-          this.error.message = error.message;
+          console.error(error);
           this.isLoading = false
         })
 
@@ -219,8 +219,10 @@ export default {
               <div ref="typesContainer" class="types-container">
                 <ul class="types-section">
                   <li v-for="type, index in types">
+
                     <input type="checkbox" name="type.id" id="type.id" v-model="selectedTypes" :value="type.id"
                       @change="callApiFilter()">
+                    <img :src="base_api_url + type.icon" width="30px">
                     {{ type.name }}
                   </li>
                 </ul>
@@ -234,8 +236,7 @@ export default {
             <div class="restaurant-wrap" v-else>
               <template v-if="restaurants.data">
                 <div class="col-2" v-for="restaurant in restaurants.data">
-                  <router-link :to="{ name: 'restaurant', params: { slug: restaurant.slug } }"
-                    >
+                  <router-link :to="{ name: 'restaurant', params: { slug: restaurant.slug } }">
                     <div class="card-restaurant">
                       <div class="card-body-restaurant">
                         <div class="top-restaurant">
@@ -285,7 +286,7 @@ export default {
                   <li v-for="page in restaurants.last_page" @click="goTo(page)">
                     <button
                       :class="{ 'active': page == restaurants.current_page, 'page-link': page != restaurants.current_page }">{{
-                      page }}</button>
+                        page }}</button>
                   </li>
 
                   <li v-show="restaurants.next_page_url" @click="nextPage(restaurants.next_page_url)">
