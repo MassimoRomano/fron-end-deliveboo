@@ -93,14 +93,14 @@ export default {
             let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"));
             let count = JSON.parse(localStorage.getItem("order"));
             // console.log(count.length);
-            
+
             if (count == null) {
                 this.ristoranteSalvato = 0
                 count = 0;
             }
             console.log(this.ristoranteSalvato, count, count.length === 0, restaurant_id);
             // controlliamo se l'id del ristorante del l'ordinwe combaccia con quello del piatto che hai aggiunto, cioe puoi aggiungere nell'ordine solo i piatti del ristorante in cui stai facendo l'ordine
-            if (count.length === 0 || ((this.ristoranteSalvato == 0) && restaurant_id == null) ) {
+            if (count.length === 0 || ((this.ristoranteSalvato == 0) && restaurant_id == null)) {
                 //console.log("qui");
 
                 console.log(dish)
@@ -306,7 +306,8 @@ export default {
                                         </template>
                                         <template v-else>
                                             <div class="card-image">
-                                                <img :src="dish.image" :alt="'Image of the dish: ' + dish.name">
+                                                <img :src="base_api_url + dish.image"
+                                                    :alt="'Image of the dish: ' + dish.name">
                                             </div>
                                         </template>
                                         <div class="new-card-content">
