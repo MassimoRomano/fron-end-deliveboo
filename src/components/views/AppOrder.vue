@@ -371,7 +371,7 @@ export default {
                             </template>
                         </div>
                         <!-- /notes -->
-                        <button id="submit-button" type="submit" class="btn_pay" :disabled="loading">
+                        <button @click="this.cantYouPay=false" id="submit-button" type="submit" class="btn_pay" :disabled="loading">
                             <template v-if="!loading">
                                 <span>Paga</span>
                             </template>
