@@ -41,7 +41,7 @@ export default {
       axios
         .get(url)
         .then(response => {
-          console.log(response.data.restaurants);
+          //console.log(response.data.restaurants);
           this.restaurants = response.data.restaurants
           this.isLoading = false
         })
