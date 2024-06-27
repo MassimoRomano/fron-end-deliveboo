@@ -234,6 +234,12 @@ export default {
             return isValid;
         },
 
+        canYouOrder() { 
+            this.total_price = JSON.parse(localStorage.getItem("total"))
+            this.restaurant_name = JSON.parse(localStorage.getItem("restaurant_name"))
+            this.restaurant_slug = JSON.parse(localStorage.getItem("restaurant_slug"))
+        }
+
     },
     mounted() {
         this.total_price = JSON.parse(localStorage.getItem("total"))
@@ -246,7 +252,7 @@ export default {
 </script>
 
 <template>
-    <section class="order p-5">
+    <section class="order p-5" v-if="this.total_price > 0">
 
         <router-link :to="{ path: '/restaurant/' + this.restaurant_slug }" class="btn_back">
             <span>
@@ -367,7 +373,8 @@ export default {
                             </template>
                         </div>
                         <!-- /notes -->
-                        <button @click="this.cantYouPay=false" id="submit-button" type="submit" class="btn_pay" :disabled="loading">
+                        <button @click="this.cantYouPay = false" id="submit-button" type="submit" class="btn_pay"
+                            :disabled="loading">
                             <template v-if="!loading">
                                 <span>Paga</span>
                             </template>
@@ -459,6 +466,7 @@ export default {
         </div>
         <!-- /.container -->
     </section>
+    <section v-else>Non hai nulla nel carrello!</section>
     <!-- /.order -->
 </template>
 
