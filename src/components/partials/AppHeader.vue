@@ -1,8 +1,15 @@
 <script>
 export default {
     name: 'AppHeader',
-    mounted() {
-
+    data() {
+        return {
+            dropdownVisible: false
+        };
+    },
+    methods: {
+        toggleDropdown() {
+            this.dropdownVisible = !this.dropdownVisible;
+        }
     }
 }
 </script>
@@ -17,10 +24,19 @@ export default {
                                 Deliveboo</router-link></h2>
                     </div>
                     <div class="menu">
-                        <a href="http://127.0.0.1:8000" target="_blank">Collabora con noi</a>
-                        <a href="http://127.0.0.1:8000/register" target="_blank">Registrati o Accedi</a>
-                        <a href="http://127.0.0.1:8000/login" target="_blank">Account</a>
-                        <a href=""><i class="fa-solid fa-cart-shopping"></i></a>
+                        <button :class="{'dropdown-button': true, 'active': dropdownVisible}" @click="toggleDropdown">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+                        <div class="dropdown-content" :class="{ show: dropdownVisible }">
+                            <a href="http://127.0.0.1:8000" target="_blank">Collabora con noi</a>
+                            <a href="http://127.0.0.1:8000/register" target="_blank">Registrati o Accedi</a>
+                            <a href="http://127.0.0.1:8000/login" target="_blank">Account</a>
+                        </div>
+                        <div class="menu-links">
+                            <a href="http://127.0.0.1:8000" target="_blank">Collabora con noi</a>
+                            <a href="http://127.0.0.1:8000/register" target="_blank">Registrati o Accedi</a>
+                            <a href="http://127.0.0.1:8000/login" target="_blank">Account</a>
+                        </div>
                     </div>
                 </div>
             </div>
