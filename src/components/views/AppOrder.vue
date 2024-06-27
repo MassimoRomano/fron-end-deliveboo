@@ -32,7 +32,6 @@ export default {
             cantYouPay: null,
             orderToPrint: "",
             errors: '',
-            cantYouPay: null
 
         }
     },
@@ -113,8 +112,7 @@ export default {
 
                     //se va a buon fine
                     if (response.data.success) {
-                        this.cantYouPay = false,
-                            //reset dei campi 
+
                             this.customer_name = '';
                         this.customer_lastname = '';
                         this.customer_address = '';
@@ -234,6 +232,12 @@ export default {
             return isValid;
         },
 
+        canYouOrder() { 
+            this.total_price = JSON.parse(localStorage.getItem("total"))
+            this.restaurant_name = JSON.parse(localStorage.getItem("restaurant_name"))
+            this.restaurant_slug = JSON.parse(localStorage.getItem("restaurant_slug"))
+        }
+
     },
     mounted() {
         this.total_price = JSON.parse(localStorage.getItem("total"))
@@ -246,6 +250,7 @@ export default {
 </script>
 
 <template>
+<<<<<<< HEAD
     <div class="order-page">
         <section class="order p-5">
     
@@ -262,6 +267,23 @@ export default {
                         <div class="" @click="success = !success">
                             <i class="fa-solid fa-xmark"></i>
                         </div>
+=======
+    <section class="order p-5" v-if="this.total_price > 0">
+
+        <router-link :to="{ path: '/restaurant/' + this.restaurant_slug }" class="btn_back">
+            <span>
+                Torna al ristorante
+            </span>
+        </router-link>
+
+        <div class="container">
+            <!-- alert di successo del campo form lato laravel-->
+            <template v-if="success">
+                <div class="alert alert-success">
+                    <div class="info">{{ success }}</div>
+                    <div class="" @click="success = !success">
+                        <i class="fa-solid fa-xmark"></i>
+>>>>>>> 499859e8aadee67f781c47ca942f798d835ab71f
                     </div>
                 </template>
     
@@ -353,6 +375,7 @@ export default {
                                         </div>
                                     </template>
                                 </div>
+<<<<<<< HEAD
                             </div>
                             <!-- /email -->
                             <div class="mb-3">
@@ -379,6 +402,51 @@ export default {
                             </button>
                         </form>
                         <!-- /form -->
+=======
+                            </template>
+                        </div>
+                        <!-- /notes -->
+                        <button @click="this.cantYouPay = false" id="submit-button" type="submit" class="btn_pay"
+                            :disabled="loading">
+                            <template v-if="!loading">
+                                <span>Paga</span>
+                            </template>
+                            <template v-else>
+                                <i class="fa-regular fa-paper-plane px-1"></i>
+                                ATTENDI....
+                            </template>
+                        </button>
+                    </form>
+                    <!-- /form -->
+                    <template v-if="orderMessage">
+                        {{ (this.formErrors = null), (this.paymentMessage = '') }}
+                        <div class="alert alert-success mt-3">
+                            <div class="info">{{ orderMessage }}</div>
+                        </div>
+                        <router-link :to="{ name: 'Home' }" class="btn_pay">
+                            <span>
+                                Torna alla home
+                            </span>
+                        </router-link>
+                    </template>
+                </div>
+                <!-- /.col -->
+
+                <div class="col">
+                    <div class="card">
+                        <h3>Riepilogo ordine</h3>
+                        <p class="restaurant_name">{{ restaurant_name }}</p>
+                        <div>
+                            <ul>
+                                <li v-for="dish in this.cart" :key="dish.object.id">
+                                    {{ dish.object.name }} <span> x{{ dish.quantity }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <p v-if="total_price"> <span class="fw_bold">Totale Ordine:</span>
+                            {{ total_price.toFixed(2) }} &euro;</p>
+
+>>>>>>> 499859e8aadee67f781c47ca942f798d835ab71f
                         <template v-if="orderMessage">
                             {{ (this.formErrors = null), (this.paymentMessage = '') }}
                             <div class="alert alert-success mt-3">
@@ -458,10 +526,19 @@ export default {
                 </div>
                 <!-- /.row -->
             </div>
+<<<<<<< HEAD
             <!-- /.container -->
         </section>
         <!-- /.order -->
     </div>
+=======
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+    <section v-else>Non hai nulla nel carrello!</section>
+    <!-- /.order -->
+>>>>>>> 499859e8aadee67f781c47ca942f798d835ab71f
 </template>
 
 <style>
