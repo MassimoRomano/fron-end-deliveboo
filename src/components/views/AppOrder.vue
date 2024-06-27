@@ -32,7 +32,6 @@ export default {
             cantYouPay: null,
             orderToPrint: "",
             errors: '',
-            cantYouPay: null
 
         }
     },
@@ -113,8 +112,7 @@ export default {
 
                     //se va a buon fine
                     if (response.data.success) {
-                        this.cantYouPay = false,
-                            //reset dei campi 
+
                             this.customer_name = '';
                         this.customer_lastname = '';
                         this.customer_address = '';
