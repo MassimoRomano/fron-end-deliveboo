@@ -23,7 +23,7 @@ export default {
                         <h2><router-link :to="{ name: 'Home' }"><i class="fa-solid fa-utensils"></i>
                                 Deliveboo</router-link></h2>
                     </div>
-                    <div class="menu">
+                    <div class="menu-head">
                         <button :class="{'dropdown-button': true, 'active': dropdownVisible}" @click="toggleDropdown">
                             <i class="fa-solid fa-bars"></i>
                         </button>
