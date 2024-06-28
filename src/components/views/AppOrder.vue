@@ -240,6 +240,7 @@ export default {
 
     },
     mounted() {
+        window.scrollTo(0, 0);
         this.total_price = JSON.parse(localStorage.getItem("total"))
         this.restaurant_name = JSON.parse(localStorage.getItem("restaurant_name"))
         this.restaurant_slug = JSON.parse(localStorage.getItem("restaurant_slug"))

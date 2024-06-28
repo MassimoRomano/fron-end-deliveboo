@@ -123,6 +123,7 @@ export default {
   mounted() {
     autoScroll();
     autoSlide();
+    window.scrollTo(0, 0);
     let url = this.base_api_url + this.base_restaurants_url;
     this.callApi(url);
     let urlTypes = this.base_api_url + this.base_types_url;
