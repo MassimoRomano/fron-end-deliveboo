@@ -223,8 +223,10 @@ export default {
                     <label :for="'type-' + type.id">
                       <input type="checkbox" :name="'type-' + type.id" :id="'type-' + type.id" v-model="selectedTypes"
                         :value="type.id" @change="callApiFilter()" />
-                      <img :src="base_api_url + type.icon" width="30px" />
-                      {{ type.name }}
+                      <div>
+                        <img :src="base_api_url + type.icon" width="30px" />
+                      </div>
+                      <p>{{ type.name }}</p>
                     </label>
                   </li>
                 </ul>
@@ -264,7 +266,7 @@ export default {
                           <div>
                             <p class="type-text">Tipologia:</p>
                             <span class="type-text" v-for=" (type, index) in restaurant.types">
-                              {{ type.name }} 
+                              {{ type.name }}
                               <span v-if="index < restaurant.types.length - 1">, </span></span>
                           </div>
                         </div>
@@ -385,6 +387,5 @@ export default {
 </template>
 
 <style>
-
 @import '../css/_home.css';
 </style>
