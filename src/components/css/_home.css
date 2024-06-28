@@ -825,9 +825,13 @@
 
     .types-section li {
         display: flex;
+        justify-content: center;
+        align-items: center;
         background-color: var(--deliverboo-fifty);
         padding: 5px 7px;
         gap: 4px;
+        width: 160px;
+        
 
         input[type="checkbox"] {
             accent-color: var(--deliverboo-eighty);
@@ -1120,15 +1124,15 @@
     .bar-types {
 
         padding: 2px 5px;
-
-
     }
 
     .types-container {
         padding: 10px 35px;
         margin-left: -20px;
+    }
 
-
+    .types-section{
+        width: 200px;
     }
 
     .offer {
