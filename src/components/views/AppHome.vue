@@ -219,7 +219,7 @@ export default {
             <form action="">
               <div ref="typesContainer" class="types-container">
                 <ul class="types-section">
-                  <li v-for="type, index in types" :key="type.id">
+                  <li v-for="type, index in types" :key="type.id" :class="{ checked: selectedTypes.includes(type.id) }">
                     <label :for="'type-' + type.id">
                       <input type="checkbox" :name="'type-' + type.id" :id="'type-' + type.id" v-model="selectedTypes"
                         :value="type.id" @change="callApiFilter()" />

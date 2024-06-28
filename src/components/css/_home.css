@@ -822,6 +822,7 @@
         gap: 10px;
         width: 100%;
         
+        
     }
 
     .types-section li {
@@ -831,7 +832,9 @@
         padding: 5px 7px 0 7px;
         gap: 4px;
         width: 160px;
-        background-color: var(--quaternary-color);
+        /* background-color: var(--quaternary-color); */
+        
+        
         
 
         label{
@@ -1371,13 +1374,14 @@
 
     .types-section li {
         animation: slideleft 3s;
-        padding: 5px;
+        padding:5px 10px 0 5px;
         list-style: none;
         color: var(--secondary-color);
         border-radius: 25px;
         gap: 5px;
         cursor: pointer;
         background-color: var(--tertiary-color);
+        background-color: #7b57c3;
         
         label{
             display: flex;
@@ -1393,6 +1397,10 @@
             display: none;
         }
     }
+
+    .types-section li.checked  {
+        background-color: #fafafa; 
+      }
 
     .types-section li:hover {
         background-color: #f0f0f0;
