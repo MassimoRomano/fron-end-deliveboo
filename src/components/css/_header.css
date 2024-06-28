@@ -7,7 +7,7 @@ header {
 
 .container {
     max-width: 1920px;
-    width: 90%;
+    width: 85%;
     margin: auto;
 }
 
@@ -52,6 +52,7 @@ header {
         left: 0;
         text-align: center;
         max-height: 100%;
+        z-index: 9999;
 
         a{
             text-decoration: none;
