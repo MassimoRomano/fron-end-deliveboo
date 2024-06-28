@@ -1224,7 +1224,7 @@
 /* #region Giacomo pc */
 @media (min-width:1000px)  {
     .jumbo-head {
-        height: 500px;
+        height: 800px;
 
         h1 {
             font-size: 3rem;
@@ -1324,12 +1324,6 @@
     .bar-types {
         width: 20%;
         padding: 4px 5px;
-        ;
-
-        @media (max-width: 768px) {
-            padding: 2px 5px;
-        }
-
     }
 
     .types-container {
@@ -1340,11 +1334,6 @@
         width: 100%;
         padding: 35px 0;
         margin: 0 auto;
-
-        @media (max-width: 768px) {
-            padding: 10px 35px;
-            margin-left: -20px;
-        }
 
     }
 
