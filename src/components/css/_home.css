@@ -265,7 +265,7 @@
             height: 420px;
             margin: 20px 0;
             width: 350px;
-            transition: 0.3s;
+            transition: 0.3s ease-in-out;
 
             .card-body-restaurant {
                 display: flex;
@@ -444,6 +444,14 @@
     gap: 5px;
     cursor: pointer;
     background-color: var(--tertiary-color);
+
+    input[type="checkbox"] {
+        accent-color: var(--deliverboo-eighty);
+    }
+
+    img {
+        padding: 0 0.2rem;
+    }
 }
 
 .no-found {
@@ -821,6 +829,11 @@
         background-color: var(--deliverboo-fifty);
         padding: 5px 7px;
         gap: 4px;
+
+        input[type="checkbox"] {
+            accent-color: var(--deliverboo-eighty);
+        }
+
     }
 
 
@@ -1362,6 +1375,11 @@
         img {
             padding-left: 3px;
         }
+
+        input[type="checkbox"] {
+            accent-color: var(--deliverboo-eighty);
+        }
+
     }
 
     .types-section li:hover {
