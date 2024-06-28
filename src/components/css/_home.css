@@ -739,7 +739,6 @@
                 width: 100%;
                 padding: 0;
 
-
                 .card-body-restaurant {
                     display: flex;
                     flex-direction: row;
@@ -831,7 +830,7 @@
         padding: 5px 7px;
         gap: 4px;
         width: 160px;
-        
+
 
         input[type="checkbox"] {
             accent-color: var(--deliverboo-eighty);
@@ -1090,7 +1089,6 @@
                 height: 320px;
                 width: 220px;
 
-
                 .card-body-restaurant {
                     img {
                         aspect-ratio: 1.8;
@@ -1131,7 +1129,7 @@
         margin-left: -20px;
     }
 
-    .types-section{
+    .types-section {
         width: 200px;
     }
 
@@ -1226,7 +1224,7 @@
 /* MEDIA 1024 */
 
 /* #region Giacomo pc */
-@media (min-width:1000px)  {
+@media (min-width:1000px) {
     .jumbo-head {
         height: 800px;
 
