@@ -123,6 +123,7 @@ export default {
   mounted() {
     autoScroll();
     autoSlide();
+    window.scrollTo(0, 0);
     let url = this.base_api_url + this.base_restaurants_url;
     this.callApi(url);
     let urlTypes = this.base_api_url + this.base_types_url;
@@ -218,12 +219,13 @@ export default {
             <form action="">
               <div ref="typesContainer" class="types-container">
                 <ul class="types-section">
-                  <li v-for="type, index in types">
-
-                    <input type="checkbox" name="type.id" id="type.id" v-model="selectedTypes" :value="type.id"
-                      @change="callApiFilter()">
-                    <img :src="base_api_url + type.icon" width="30px">
-                    {{ type.name }}
+                  <li v-for="type, index in types" :key="type.id">
+                    <label :for="'type-' + type.id">
+                      <input type="checkbox" :name="'type-' + type.id" :id="'type-' + type.id" v-model="selectedTypes"
+                        :value="type.id" @change="callApiFilter()" />
+                      <img :src="base_api_url + type.icon" width="30px" />
+                      {{ type.name }}
+                    </label>
                   </li>
                 </ul>
               </div>
@@ -261,7 +263,9 @@ export default {
                           </div>
                           <div>
                             <p class="type-text">Tipologia:</p>
-                            <span class="type-text" v-for=" (type, index) in restaurant.types">{{ type.name }} , </span>
+                            <span class="type-text" v-for=" (type, index) in restaurant.types">
+                              {{ type.name }} 
+                              <span v-if="index < restaurant.types.length - 1">, </span></span>
                           </div>
                         </div>
                       </div>
@@ -381,5 +385,6 @@ export default {
 </template>
 
 <style>
+
 @import '../css/_home.css';
 </style>
