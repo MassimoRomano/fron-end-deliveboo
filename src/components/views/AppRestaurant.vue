@@ -184,6 +184,7 @@ export default {
             //trasforma il dato in stringa e lo salva con il nome restaurantID
             localStorage.setItem("restaurantID", JSON.stringify(this.ristoranteSalvato));
             //console.log(ordineSavato);
+            this.$emit('cart-updated');
         },
         /* Aumentare quantità del carrello */
         increase_cart_quantity(product) {
@@ -200,6 +201,7 @@ export default {
 
             // sovrascrivo total per cambiare il totale del carello del local storage
             localStorage.setItem("total", JSON.stringify(this.total));
+            this.$emit('cart-updated');
         },
         /* Ridurre quantità del carrello */
         decrease_cart_quantity(product, index) {
@@ -232,6 +234,7 @@ export default {
                 // sovrascrivo total per cambiare il totale del carello del local storage
                 localStorage.setItem("total", JSON.stringify(this.total));
             }
+            this.$emit('cart-updated');
         },
         addOrder() {
 
@@ -268,6 +271,9 @@ export default {
         this.restaurant_slug = JSON.parse(localStorage.getItem("restaurant_slug"))
         let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug;
         this.callApi(url);
+    },
+    beforeDestroy() {
+        window.removeEventListener('storage', this.updateCartQuantity);
     }
 }
 </script>

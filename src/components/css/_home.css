@@ -1380,8 +1380,7 @@
         border-radius: 25px;
         gap: 5px;
         cursor: pointer;
-        background-color: var(--tertiary-color);
-        background-color: #7b57c3;
+        background-color: white;
         
         label{
             display: flex;
@@ -1393,17 +1392,16 @@
         }
 
         input[type="checkbox"] {
-            accent-color: var(--deliverboo-eighty);
             display: none;
         }
     }
 
     .types-section li.checked  {
-        background-color: #fafafa; 
+        background-color: var(--deliverboo-fifty); 
       }
 
     .types-section li:hover {
-        background-color: #f0f0f0;
+        background-color: var(--deliverboo-sixty);
         cursor: pointer;
 
         >* {
