@@ -255,6 +255,7 @@ export default {
 
         <router-link :to="{ path: '/restaurant/' + this.restaurant_slug }" class="btn_back">
             <span>
+                <i class="fa-solid fa-circle-arrow-left"></i>
                 Torna al ristorante
             </span>
         </router-link>
