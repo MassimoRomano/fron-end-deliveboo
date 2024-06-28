@@ -263,7 +263,7 @@ export default {
         },
     },
     mounted() {
-
+        window.scrollTo(0, 0);
         this.restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
         this.restaurant_slug = JSON.parse(localStorage.getItem("restaurant_slug"))
         let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug;
