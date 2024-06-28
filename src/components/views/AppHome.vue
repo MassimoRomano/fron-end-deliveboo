@@ -262,7 +262,9 @@ export default {
                           </div>
                           <div>
                             <p class="type-text">Tipologia:</p>
-                            <span class="type-text" v-for=" (type, index) in restaurant.types">{{ type.name }} , </span>
+                            <span class="type-text" v-for=" (type, index) in restaurant.types">
+                              {{ type.name }} 
+                              <span v-if="index < restaurant.types.length - 1">, </span></span>
                           </div>
                         </div>
                       </div>
@@ -382,5 +384,6 @@ export default {
 </template>
 
 <style>
+
 @import '../css/_home.css';
 </style>

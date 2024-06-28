@@ -305,7 +305,7 @@
                     }
 
                     .type-text {
-                        color: #1616169f;
+                        color: #000000;
                     }
 
                     font-weight: bold;
@@ -1302,6 +1302,10 @@
         animation: slideleft 3s;
     }
 
+    .fw_bold {
+        font-weight: bold
+    }
+
 
     .bar-types {
         width: 20%;
@@ -1344,7 +1348,7 @@
     .types-section li {
         animation: slideleft 3s;
         display: flex;
-        padding: 5px ;
+        padding: 5px;
         list-style: none;
         color: var(--secondary-color);
         border-radius: 25px;
@@ -1363,7 +1367,8 @@
     .types-section li:hover {
         background-color: #f0f0f0;
         cursor: pointer;
-        >*{
+
+        >* {
             cursor: pointer;
         }
     }
