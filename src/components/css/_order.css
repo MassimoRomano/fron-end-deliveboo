@@ -1,6 +1,6 @@
-.order-page{
+.order-page {
     background-color: var(--tertiary-color);
-    height: 100vh;
+    min-height: 100vh;
 }
 
 
@@ -9,7 +9,7 @@
     width: 85%;
     margin: auto;
     padding-top: 66px;
-    
+
 
     .btn_back {
         position: absolute;
@@ -150,6 +150,15 @@
         z-index: 1;
         position: relative;
     }
+}
+
+.braintree-placeholder {
+    margin-bottom: 0;
+}
+
+.braintree-placeholder,
+.braintree-placeholder {
+    margin-bottom: 0;
 }
 
 /* MEDIA */
