@@ -389,7 +389,7 @@ export default {
                         <div class="cart" :class="{ 'cart': true, 'visible': isCartVisible }">
                             <div class="icon-cart">
                                 <i class="fa-solid fa-cart-shopping"></i>
-                                <h2>Carrello</h2>
+                                <div>Carrello</div>
                                 <button @click="closeCart" class="close-cart-button">
                                     <i class="fa-solid fa-times"></i>
                                 </button>
@@ -402,12 +402,13 @@ export default {
                                     nel carrello
                                 </p>
                                 <div v-for="(product, index) in cart" class="prod-cart-price">
-                                    <p>
+                                    <p class="prod_name">
                                         {{ product.object.name }}
                                         <button class="remove_product"
                                             @click="decrease_cart_quantity(product, index)">-</button>
                                         <span class="n_off_poducts">{{ product.quantity }}</span>
                                         <button class="add_product" @click="increase_cart_quantity(product)">+</button>
+                                    <div></div>
                                     </p>
                                     <p class="prod-price">Totale prodotto: <span>{{ product.price }} &euro;</span>
                                     </p>
