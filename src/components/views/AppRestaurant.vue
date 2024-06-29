@@ -366,7 +366,6 @@ export default {
                                     <div v-if="showModal" class="modal" @click.self="closeModal()">
                                         <div class="modal-content">
                                             <div class="modal-inside">
-                                                <span class="close" @click="closeModal()">&times;</span>
                                                 <h2>Attenzione!</h2>
                                                 <p>
                                                     Hai già l'ordine di un altro ristorante nel carrello, cliccando
@@ -374,12 +373,15 @@ export default {
                                                     nuovo
                                                 </p>
                                                 <div class="add_remove">
+                                                    <button class="btn_indietro" @click="closeModal()">Indietro</button>
                                                     <button @click="orderProceed(this.dish)"
                                                         class="btn_prosegui">Prosegui</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- /modale -->
+
                                 </div>
                             </section>
                             <!-- /new-dish-dispay -->
