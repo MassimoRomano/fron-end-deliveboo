@@ -4,7 +4,7 @@ export default {
     data() {
         return {
             dropdownVisible: false,
-            cartQuantity: 0, // Initialize cart quantity
+            cartQuantity: 0, 
         };
     },
     methods: {
@@ -12,7 +12,10 @@ export default {
             this.dropdownVisible = !this.dropdownVisible;
         },
         goToCart() {
-            this.$router.push({ name: 'restaurant' });
+            const restaurantSlug = JSON.parse(localStorage.getItem("restaurant_slug"));
+            if (restaurantSlug) {
+                this.$router.push({ name: 'restaurant', params: { slug: restaurantSlug } });
+            }
         },
         updateCartQuantity() {
             let cart = JSON.parse(localStorage.getItem("order")) || [];
