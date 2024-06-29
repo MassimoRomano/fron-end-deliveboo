@@ -3,13 +3,31 @@ export default {
     name: 'AppHeader',
     data() {
         return {
-            dropdownVisible: false
+            dropdownVisible: false,
+            cartQuantity: 0, 
         };
     },
     methods: {
         toggleDropdown() {
             this.dropdownVisible = !this.dropdownVisible;
+        },
+        goToCart() {
+            const restaurantSlug = JSON.parse(localStorage.getItem("restaurant_slug"));
+            if (restaurantSlug) {
+                this.$router.push({ name: 'restaurant', params: { slug: restaurantSlug } });
+            }
+        },
+        updateCartQuantity() {
+            let cart = JSON.parse(localStorage.getItem("order")) || [];
+            this.cartQuantity = cart.reduce((total, item) => total + item.quantity, 0);
         }
+    },
+    mounted() {
+        this.updateCartQuantity();
+        window.addEventListener('storage', this.updateCartQuantity);
+    },
+    beforeDestroy() {
+        window.removeEventListener('storage', this.updateCartQuantity);
     }
 }
 </script>
@@ -36,6 +54,10 @@ export default {
                             <a href="http://127.0.0.1:8000" target="_blank">Collabora con noi</a>
                             <a href="http://127.0.0.1:8000/register" target="_blank">Registrati o Accedi</a>
                             <a href="http://127.0.0.1:8000/login" target="_blank">Account</a>
+                            <div class="cart-icon" @click="goToCart">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <span v-if="cartQuantity" class="cart-quantity">{{ cartQuantity }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
