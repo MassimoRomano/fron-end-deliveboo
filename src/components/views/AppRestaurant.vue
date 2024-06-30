@@ -284,10 +284,12 @@ export default {
                             </div>
                         </div>
                     </section>
-
+                    <div class="horizontal_separate"></div>
                     <div class="menu">
                         <h2>Menù</h2>
                     </div>
+                    <div class="horizontal_separate"></div>
+
                     <button @click="toggleCart" class="toggle-cart-button">
                         <div class="cart-amount">
                             <i v-if="!isCartVisible" class="fa-solid fa-arrow-right"></i>

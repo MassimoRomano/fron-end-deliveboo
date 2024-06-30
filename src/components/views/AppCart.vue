@@ -9,10 +9,9 @@ export default {
     },
     methods: {
         goToRestaurant() {
-            const restaurantSlug = JSON.parse(localStorage.getItem("old_slug"));
+            const restaurantSlug = JSON.parse(localStorage.getItem("restaurant_slug"));
             if (restaurantSlug) {
-                const url = this.$router.resolve({ name: 'restaurant', params: { slug: restaurantSlug } }).href;
-                window.location.href = url;
+                this.$router.push({ name: 'restaurant', params: { slug: restaurantSlug } }).href;
             }
         }
     },
@@ -49,7 +48,7 @@ export default {
     justify-content: center;
     width: 50px;
     height: 50px;
-    background-color: #8a2be2;
+    background-color: var(--deliverboo-eighty);
     border-radius: 50%;
     cursor: pointer;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
@@ -57,7 +56,7 @@ export default {
 }
 
 .carrello-wrapper:hover {
-    background-color: #6b1d9e;
+    background-color: var(--deliverboo-eighty);
 
 }
 
@@ -67,6 +66,8 @@ export default {
 }
 
 .carrello-quantity {
+    width: 25px;
+    height: 25px;
     position: absolute;
     top: -10px;
     right: -10px;
@@ -79,5 +80,6 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
 </style>
