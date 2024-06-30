@@ -118,27 +118,3 @@ header {
         color: var(--deliverboo-fifty);
     }
 }
-
-.cart-icon {
-    position: relative;
-    cursor: pointer;
-    margin-left: 20px;
-    font-size: 20px;
-}
-
-.cart-icon:hover{
-    color:var(--deliverboo-fifty);
-}
-
-.cart-quantity {
-    position: absolute;
-    top: -12px;
-    right: -10px;
-    background-color: red;
-    color: white;
-    aspect-ratio: 1;
-    width: 80%;
-    text-align: center;
-    border-radius: 50%;
-    font-size: 12px;
-}
