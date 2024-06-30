@@ -5,12 +5,12 @@ export default {
     data() {
         return {
             store,
-            cartQuantity: 0, // Modifica questo valore con la quantità reale
         };
     },
     methods: {
         goToRestaurant() {
-            const restaurantSlug = JSON.parse(localStorage.getItem("restaurant_slug"));
+            console.log(JSON.parse(localStorage.getItem("oldSlug")));
+            const restaurantSlug = JSON.parse(localStorage.getItem("old_slug"));
             if (restaurantSlug) {
                 this.$router.push({ name: 'restaurant', params: { slug: restaurantSlug } });
             }
@@ -27,7 +27,7 @@ export default {
             <!-- Icona del carrello -->
             <i class="carrello-icon fa-solid fa-cart-shopping"></i>
             <!-- Nuvoletta con la quantità nel carrello -->
-            <span class="carrello-quantity">{{ store.Cart.items.length }}</span>
+            <span class="carrello-quantity">{{ store.Cart.items }}</span>
         </div>
         <!-- Aggiungi qui il contenuto del carrello -->
     </div>
@@ -50,19 +50,15 @@ export default {
     width: 50px;
     height: 50px;
     background-color: #8a2be2;
-    /* Colore viola del cerchio */
     border-radius: 50%;
-    /* Forma circolare */
     cursor: pointer;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    /* Ombra leggera */
     transition: background-color 0.3s ease;
-    /* Transizione per il cambio di colore al passaggio del mouse */
 }
 
 .carrello-wrapper:hover {
     background-color: #6b1d9e;
-    /* Cambio di colore al passaggio del mouse */
+
 }
 
 .carrello-icon {
@@ -73,21 +69,13 @@ export default {
 .carrello-quantity {
     position: absolute;
     top: -10px;
-    /* Posiziona la nuvoletta sopra l'icona */
     right: -10px;
-    /* Allinea la nuvoletta a destra dell'icona */
     background-color: red;
-    /* Colore di sfondo della nuvoletta */
     color: white;
-    /* Colore del testo */
     border-radius: 50%;
-    /* Forma circolare */
     padding: 2px 6px;
-    /* Spaziatura interna */
     font-size: 14px;
-    /* Dimensione del testo */
     font-weight: bold;
-    /* Testo in grassetto */
     display: flex;
     align-items: center;
     justify-content: center;

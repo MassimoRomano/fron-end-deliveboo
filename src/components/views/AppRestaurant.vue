@@ -18,18 +18,18 @@ export default {
             cart: [],
             ristoranteSalvato: null,
             total: 0,
-            restaurantOrder: null,
+            /*             restaurantOrder: null, */
             restaurant_name: '',
             restaurant_slug: '',
             restaurant_id: '',
+            oldSlug: '',
             dish: null,
             loading: true,
             isCartVisible: false,
-            store
+            store: store
         }
     },
     methods: {
-
         /* Chiamata API */
         callApi(url) {
             this.loading = true
@@ -56,7 +56,7 @@ export default {
 
                             this.restaurant_slug = restaurant.slug;
 
-                            // inserisco nel local storage il nome del ristorante del l'ordinr
+                            // inserisco nel local storage il nome del ristorante del l'ordine
                             localStorage.setItem("restaurant_name", JSON.stringify(this.restaurant_name));
                             localStorage.setItem("restaurant_slug", JSON.stringify(this.restaurant_slug));
                             // console.log(restaurant);
@@ -90,7 +90,7 @@ export default {
 
         },
 
-        /* Aprire la modale */
+        /* Gestione del carrello */
         openModal(dish) {
             // Salviamo il restaurantID che era stato salvato in local storage
             let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"));
@@ -137,37 +137,36 @@ export default {
             this.showModal = false;
         },
 
-        /* Agiungere il piatto al carrello */
         addItemToCart(product) {
-            // puliamo il localStorage dei dati vecchi
-            localStorage.clear();
-
-            // costruiamo la variabile che inseriremo nel local storage
             let product_quantity = {
                 object: product,
                 quantity: 1,
                 price: parseFloat(product.price).toFixed(2),
-            }
-            //console.log(product_quantity);
+            };
 
-            // check per non fare aggiungere due piatti con lo stesso nome nella card
-            let check_product = this.cart.find(product_quantity => product_quantity.object.name === product.name);
-
-            // se il nome del piatto non ce nella card
-            if (!check_product) {
+            // Aggiungi il prodotto solo se non è già presente nel carrello
+            if (!this.cart.find(item => item.object.name === product.name)) {
                 this.cart.push(product_quantity);
-                // chiamo l'istanza total e aggiungo il prezzo del prodotto
-                this.total = this.total + parseFloat(product.price);
-                // console.log(this.total)
+                this.total += parseFloat(product.price);
+                this.updateLocalStorage();
             }
+        },
 
 
-
+        updateLocalStorage() {
             // inseriamo nel localStorage l'istanza restaurant_name con la chiave restaurant_name
             localStorage.setItem("restaurant_name", JSON.stringify(this.restaurant_name));
 
             // inseriamo nel localStorage l'istanza restaurant_name con la chiave restaurant_slug
             localStorage.setItem("restaurant_slug", JSON.stringify(this.restaurant_slug));
+
+            // inseriamo nel localStorage l'istanza restaurant_name con la chiave restaurant_slug
+            localStorage.setItem("old_slug", JSON.stringify(this.old_slug));
+
+            if (this.oldSlug=="") {
+                // inseriamo nel localStorage l'istanza restaurant_name con la chiave restaurant_slug
+                localStorage.setItem("old_slug", JSON.stringify(this.restaurant_slug));
+            }
 
             // inseriamo nel localStorage l'istanza total(che sarebbe il totale del carello) con la chiave total
             localStorage.setItem("total", JSON.stringify(this.total))
@@ -180,78 +179,52 @@ export default {
             //trasforma il dato in stringa e lo salva con il nome restaurantID
             localStorage.setItem("restaurantID", JSON.stringify(this.ristoranteSalvato));
             //console.log(ordineSavato);
-            this.store.Cart.items = JSON.parse(localStorage.getItem('order')) || [];
-        },
-        /* Aumentare quantità del carrello */
-        increase_cart_quantity(product) {
-            product.quantity += 1
+            let order = JSON.parse(localStorage.getItem('order')) || [];
+            console.log(order);
 
-            // moltiplico il prezzo unitario per la quantita diventa un numero di due cifre dopo la virgola(attenzione diventa una stringa con toFixed())
-            product.price = parseFloat(product.object.price * product.quantity).toFixed(2);
-
-            // sovrascrivo Order per cambiargli la quantita
-            localStorage.setItem("order", JSON.stringify(this.cart));
-
-            // aggiunge al totale il costo del prodotto
-            this.total += parseFloat(product.object.price);
-
-            // sovrascrivo total per cambiare il totale del carello del local storage
-            localStorage.setItem("total", JSON.stringify(this.total));
-            this.store.Cart.items = JSON.parse(localStorage.getItem('order')) || [];
-        },
-        /* Ridurre quantità del carrello */
-        decrease_cart_quantity(product, index) {
-            // se la quantita e meno 1
-            if (product.quantity <= 1) {
-
-                // cancella il prodoto dall'istanza cart
-                this.cart.splice(index, 1)
-                // console.log(product.object.price)
-
-                // sovrascrivo Order per aggiornare i prodotti
-                localStorage.setItem("order", JSON.stringify(this.cart));
-
-                // tolgo il costo del prodotto dall'istanza total
-                this.total -= parseFloat(product.object.price);
-
-                // sovrascrivo total per cambiare il totale del carello del local storage
-                localStorage.setItem("total", JSON.stringify(this.total));
-                this.store.Cart.items = JSON.parse(localStorage.getItem('order')) || [];
-            } else {
-                // decremento la quantita del prodottto
-                product.quantity -= 1
-
-                // moltiplico il prezzo unitario per la quantita diventa un numero di due cifre dopo la virgola(attenzione diventa una stringa con toFixed())
-                product.price = parseFloat(product.object.price * product.quantity).toFixed(2);
-                // sovrascrivo Order per aggiornare i prodotti
-                localStorage.setItem("order", JSON.stringify(this.cart));
-
-                // tolgo il costo del prodotto dall'istanza total
-                this.total -= parseFloat(product.object.price);
-                // sovrascrivo total per cambiare il totale del carello del local storage
-                localStorage.setItem("total", JSON.stringify(this.total));
-                this.store.Cart.items = JSON.parse(localStorage.getItem('order')) || [];
+            this.store.Cart.items = 0
+            for (let i = 0; i < order.length; i++) {
+                this.store.Cart.items += order[i].quantity;
             }
+            console.log('Totale quantità:', this.store.Cart.items);
+
         },
+
+        loadCart() {
+            // Metodo per caricare il carrello dal localStorage
+            this.cart = JSON.parse(localStorage.getItem("order")) || [];
+            this.total = JSON.parse(localStorage.getItem("total")) || 0;
+            this.ristoranteSalvato = JSON.parse(localStorage.getItem("restaurantID"));
+            this.restaurant_name = JSON.parse(localStorage.getItem("restaurant_name"));
+            this.restaurant_slug = JSON.parse(localStorage.getItem("restaurant_slug"));
+        },
+
+        // Metodo per aumentare la quantità di un prodotto nel carrello
+        increase_cart_quantity(product) {
+            product.quantity += 1;
+
+            product.price = (parseFloat(product.object.price) * product.quantity).toFixed(2);
+            this.total += parseFloat(product.object.price);
+            this.updateLocalStorage();
+
+        },
+        // Metodo per diminuire la quantità di un prodotto nel carrello
+        decrease_cart_quantity(product, index) {
+            if (product.quantity <= 1) {
+                this.cart.splice(index, 1);
+            } else {
+                product.quantity -= 1;
+                product.price = (parseFloat(product.object.price) * product.quantity).toFixed(2);
+            }
+            this.total -= parseFloat(product.object.price);
+            this.updateLocalStorage();
+        },
+
+
 
         addOrder() {
-
-            //salviamo il restaurantID che era stato salvato in local storage
-            let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
-
-            let count = JSON.parse(localStorage.getItem("order"));
-            // console.log(count.length);
-            if (count === null) {
-                count = 0;
-            }
-            // controlliamo se l'id del ristorante dell'ordinwe combaccia con quello del piatto che hai aggiunto, cioe puoi aggiungere nell'ordine solo i piatti del ristorante in cui stai facendo l'ordine
-            if (count.length === 0 && !null) {
-                return true
-            } else if (restaurant_id != this.ristoranteSalvato) {
-                return true
-            } else {
-                return false
-            }
+            let restaurant_id = JSON.parse(localStorage.getItem("restaurantID"));
+            return !this.cart.length || restaurant_id !== this.ristoranteSalvato;
         },
 
         toggleCart() {
@@ -266,9 +239,12 @@ export default {
     mounted() {
         window.scrollTo(0, 0);
         this.restaurant_id = JSON.parse(localStorage.getItem("restaurantID"))
-        this.restaurant_slug = JSON.parse(localStorage.getItem("restaurant_slug"))
+        this.old_slug = JSON.parse(localStorage.getItem("restaurant_slug"))
+        console.log(this.old_slug);
         let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug;
         this.callApi(url);
+        this.loadCart();
+        this.updateLocalStorage();
     },
 }
 </script>
@@ -393,7 +369,7 @@ export default {
                             </div>
                             <div class="text-cart">
                                 <p class="tot-prod-in-cart" v-if="cart">
-                                    {{ cart.length }}
+                                    {{ this.store.Cart.items }}
                                     oggett<span v-if="cart.length == 1">o</span>
                                     <span v-else>i</span>
                                     nel carrello
