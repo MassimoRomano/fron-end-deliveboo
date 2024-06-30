@@ -1,7 +1,7 @@
 <script>
 import axios from 'axios';
 import AppLoading from '../partials/AppLoading.vue';
-
+import { store } from '../store.js';
 
 export default {
     name: 'AppRestaurant',
@@ -25,7 +25,7 @@ export default {
             dish: null,
             loading: true,
             isCartVisible: false,
-
+            store
         }
     },
     methods: {
@@ -89,10 +89,6 @@ export default {
                 })
 
         },
-
-        /* getMyRestaurant(){
-            console.log(this.restaurants[0]);
-        }, */
 
         /* Aprire la modale */
         openModal(dish) {
@@ -184,7 +180,7 @@ export default {
             //trasforma il dato in stringa e lo salva con il nome restaurantID
             localStorage.setItem("restaurantID", JSON.stringify(this.ristoranteSalvato));
             //console.log(ordineSavato);
-            this.$emit('cart-updated');
+            this.store.Cart.items = JSON.parse(localStorage.getItem('order')) || [];
         },
         /* Aumentare quantità del carrello */
         increase_cart_quantity(product) {
@@ -201,7 +197,7 @@ export default {
 
             // sovrascrivo total per cambiare il totale del carello del local storage
             localStorage.setItem("total", JSON.stringify(this.total));
-            this.$emit('cart-updated');
+            this.store.Cart.items = JSON.parse(localStorage.getItem('order')) || [];
         },
         /* Ridurre quantità del carrello */
         decrease_cart_quantity(product, index) {
@@ -220,6 +216,7 @@ export default {
 
                 // sovrascrivo total per cambiare il totale del carello del local storage
                 localStorage.setItem("total", JSON.stringify(this.total));
+                this.store.Cart.items = JSON.parse(localStorage.getItem('order')) || [];
             } else {
                 // decremento la quantita del prodottto
                 product.quantity -= 1
@@ -233,9 +230,10 @@ export default {
                 this.total -= parseFloat(product.object.price);
                 // sovrascrivo total per cambiare il totale del carello del local storage
                 localStorage.setItem("total", JSON.stringify(this.total));
+                this.store.Cart.items = JSON.parse(localStorage.getItem('order')) || [];
             }
-            this.$emit('cart-updated');
         },
+
         addOrder() {
 
             //salviamo il restaurantID che era stato salvato in local storage
@@ -272,9 +270,6 @@ export default {
         let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug;
         this.callApi(url);
     },
-    beforeDestroy() {
-        window.removeEventListener('storage', this.updateCartQuantity);
-    }
 }
 </script>
 
