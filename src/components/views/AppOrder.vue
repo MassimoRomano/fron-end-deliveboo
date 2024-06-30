@@ -496,7 +496,9 @@ export default {
         </section>
         <section v-else>
             <div class="container">
-                Non hai nulla nel carrello!
+                <h1 class="empty-cart">
+                    Non hai nulla nel carrello!
+                </h1>
             </div>
         </section>
         <!-- /.order -->

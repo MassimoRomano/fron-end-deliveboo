@@ -163,7 +163,7 @@ export default {
             // inseriamo nel localStorage l'istanza restaurant_name con la chiave restaurant_slug
             localStorage.setItem("old_slug", JSON.stringify(this.old_slug));
 
-            if (this.oldSlug=="") {
+            if (this.oldSlug == "") {
                 // inseriamo nel localStorage l'istanza restaurant_name con la chiave restaurant_slug
                 localStorage.setItem("old_slug", JSON.stringify(this.restaurant_slug));
             }
@@ -243,8 +243,8 @@ export default {
         console.log(this.old_slug);
         let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug;
         this.callApi(url);
-        this.loadCart();
-        this.updateLocalStorage();
+        /* this.loadCart();
+        this.updateLocalStorage(); */
     },
 }
 </script>
