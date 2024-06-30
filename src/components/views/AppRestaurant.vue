@@ -271,9 +271,6 @@ export default {
                                 sunt nobis.
                                 Quasi reprehenderit asperiores, quo dolorum accusamus eius illum earum atque deleniti
                                 expedita nobis possimus.
-                                Pariatur nulla veniam voluptate saepe tenetur earum, sequi iusto provident eos deleniti
-                                ut voluptatem tempore
-                                veritatis.
                             </p>
                             <div class="descr-rest-info">
                                 <p>
