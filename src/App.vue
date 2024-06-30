@@ -20,7 +20,7 @@ export default {
 </script>
 
 <template>
-  <AppCart @update-cart="console.log('emesso con successo')" />
+  <AppCart />
   <AppHeader />
   <RouterView></RouterView>
   <AppFooter />

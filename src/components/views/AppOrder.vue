@@ -1,6 +1,7 @@
 <script>
 import axios from 'axios';
 import dropin from 'braintree-web-drop-in';
+import { store } from '../store.js';
 
 export default {
     name: 'AppOrder',

@@ -1,5 +1,17 @@
 <script>
-
+import { store } from '../store.js';
+export default {
+    name: 'AppCart',
+    data() {
+        return {
+            store,
+        };
+    },
+    mounted() {
+        //Azzero il carrello
+        this.store.Cart.items = 0
+    }
+};
 </script>
 
 <template>
