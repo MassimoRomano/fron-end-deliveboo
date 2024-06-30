@@ -38,12 +38,46 @@ h2 {
     justify-content: center;
     margin: 0 auto 70px;
     gap: 10px;
-
-    i {
-        padding-bottom: 36px;
-        font-size: 30px;
-    }
 }
+
+.toggle-cart-button {
+    position: fixed;
+    top: 80px; /* Posizionato leggermente sotto rispetto all'originale */
+    right: 20px;
+    z-index: 9999; /* Z-index leggermente inferiore per mantenere lo stacking order corretto */
+}
+
+.toggle-cart-button .cart-amount {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background-color: white; /* Colore di sfondo invertito */
+    border: 2px solid #8a2be2; /* Bordo viola */
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.toggle-cart-button:hover .cart-amount {
+    background-color: #f0f0f0; /* Colore di sfondo al passaggio del mouse */
+}
+
+.toggle-cart-button .fa-solid {
+    font-size: 24px;
+    color: #8a2be2; /* Colore del bordo viola */
+}
+
+.toggle-cart-button .cart-amount:hover .fa-solid {
+    color: #8a2be2; /* Cambia il colore dell'icona al passaggio del mouse al colore del bordo viola */
+}
+
+.toggle-cart-button .cart-amount .fa-solid.fa-arrow-right {
+    margin-left: 1px; /* Aggiusta la posizione dell'icona all'interno del cerchio */
+}
+
 
 .col-2 {
     width: calc((100%/12)*3.8);

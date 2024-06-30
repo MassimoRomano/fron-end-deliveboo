@@ -9,12 +9,12 @@ export default {
     },
     methods: {
         goToRestaurant() {
-            console.log(JSON.parse(localStorage.getItem("oldSlug")));
             const restaurantSlug = JSON.parse(localStorage.getItem("old_slug"));
             if (restaurantSlug) {
-                this.$router.push({ name: 'restaurant', params: { slug: restaurantSlug } });
+                const url = this.$router.resolve({ name: 'restaurant', params: { slug: restaurantSlug } }).href;
+                window.location.href = url;
             }
-        },
+        }
     },
 };
 
@@ -38,7 +38,7 @@ export default {
     position: fixed;
     top: 20px;
     right: 20px;
-    z-index: 10000;
+    z-index: 100;
     /* Assicura che il carrello sia sopra gli altri elementi */
 }
 

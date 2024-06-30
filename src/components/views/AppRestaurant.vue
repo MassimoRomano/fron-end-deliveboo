@@ -243,8 +243,8 @@ export default {
         console.log(this.old_slug);
         let url = this.base_api_url + this.base_restaurants_url + "/" + this.$route.params.slug;
         this.callApi(url);
-        /* this.loadCart();
-        this.updateLocalStorage(); */
+        //this.loadCart();
+        /*   this.updateLocalStorage(); */
     },
 }
 </script>
@@ -290,13 +290,13 @@ export default {
 
                     <div class="menu">
                         <h2>Menù</h2>
-                        <button @click="toggleCart" class="toggle-cart-button">
-                            <div class="cart-amount">
-                                <i class="fa-solid fa-cart-shopping"></i>
-                                <p class="cart-counter">{{ cart.length }}</p>
-                            </div>
-                        </button>
                     </div>
+                    <button @click="toggleCart" class="toggle-cart-button">
+                        <div class="cart-amount">
+                            <i v-if="!isCartVisible" class="fa-solid fa-arrow-right"></i>
+                            <i v-if="isCartVisible" class="fa-solid fa-arrow-left"></i>
+                        </div>
+                    </button>
 
                     <section class="product">
                         <div class="product-info">
