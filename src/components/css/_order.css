@@ -7,9 +7,8 @@
 .order {
     max-width: 1920px;
     width: 85%;
-    margin: auto;
+    margin: 0 5rem;
     padding-top: 66px;
-
 
     .btn_back {
         position: absolute;
@@ -43,7 +42,7 @@
         display: flex;
         flex-direction: row;
         justify-content: center;
-        gap: 200px;
+        gap: 100px;
 
         .col {
             width: calc((100% / 12)*2);
@@ -88,6 +87,10 @@
                     list-style: none;
                 }
             }
+        }
+
+        .col:nth-child(2) {
+            flex-grow: 1;
         }
     }
 
