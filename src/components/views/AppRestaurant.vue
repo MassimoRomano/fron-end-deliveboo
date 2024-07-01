@@ -259,34 +259,52 @@ export default {
                 <div class="container">
                     <section v-for="restaurant in restaurants" class="info-rest">
                         <div class="logo-rest">
-                            <template v-if="restaurant.image">
-                                <img :src="restaurant.image.startsWith('uploads') ? base_api_url + 'storage/' + restaurant.image : restaurant.image"
-                                    alt="Logo del ristorante">
+                            <template v-if="restaurant.image && restaurant.image.startsWith('uploads')">
+                                <div class="card-image">
+                                    <img :src="base_api_url + 'storage/' + restaurant.image" alt="">
+                                </div>
+                            </template>
+                            <template v-else-if="restaurant.image">
+                                <div class="card-image">
+                                    <img :src="restaurant.image" :alt="'Image of the restaurant: ' + restaurant.name">
+                                </div>
+                            </template>
+                            <template v-else>
+                                <img src="/public/img/log-aff/deliveboo.jpg" alt="">
                             </template>
                         </div>
                         <div class="descr-rest">
-                            <h1>{{ restaurant.name }}</h1>
                             <p class="description">
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, natus ex
-                                praesentium assumenda a deserunt
-                                doloribus, optio non rem reprehenderit fugit neque iure, odio nisi. Architecto eos ad
-                                sunt nobis.
-                                Quasi reprehenderit asperiores, quo dolorum accusamus eius illum earum atque deleniti
-                                expedita nobis possimus.
+                            <div class="">
+                                <div>
+                                    <h2 class="color-primary-title">{{ restaurant.name }}</h2>
+                                </div>
+                                <div>
+                                    <p class="fw_bold">Indirizzo:</p>
+                                    <p>{{ restaurant.address }}</p>
+                                </div>
+                                <div>
+                                    <p class="fw_bold">Tipologia:</p>
+                                    <span class="" v-for=" (type, index) in restaurant.types">
+                                        {{ type.name }}
+                                        <span v-if="index < restaurant.types.length - 1">, </span></span>
+                                </div>
+                            </div>
                             </p>
-                            <div class="descr-rest-info">
+                            <div class="">
+                                <p class="fw_bold"> Indirizzo:</p>
+
+                                <p>{{ restaurant.address }}</p>
                                 <p>
-                                    Indirizzo:
-                                    <strong>{{ restaurant.address }}</strong>
-                                </p>
-                                <p>
-                                    Numero di Telefono:
-                                    <strong>{{ restaurant.phone_number }}</strong>
+                                <p class="fw_bold"> Numero di Telefono:</p>
+
+                                <p>{{ restaurant.phone_number }}</p>
                                 </p>
                             </div>
                         </div>
                     </section>
-                    <div class="horizontal_separate"></div>
+                    <div class=" horizontal_separate">
+                    </div>
                     <div class="menu">
                         <h2>Menù</h2>
                     </div>
@@ -309,11 +327,14 @@ export default {
                                                 <img :src="base_api_url + 'storage/' + dish.image" alt="">
                                             </div>
                                         </template>
-                                        <template v-else>
+                                        <template v-else-if="dish.image">
                                             <div class="card-image">
                                                 <img :src="base_api_url + dish.image"
                                                     :alt="'Image of the dish: ' + dish.name">
                                             </div>
+                                        </template>
+                                        <template v-else>
+                                            <img src="/public/img/log-aff/deliveboo.jpg" alt="">
                                         </template>
                                         <div class="new-card-content">
                                             <p class="dish-name">
@@ -340,8 +361,10 @@ export default {
                                             <div class="modal-inside">
                                                 <h2>Attenzione!</h2>
                                                 <p>
-                                                    Hai già l'ordine di un altro ristorante nel carrello, cliccando
-                                                    prosegui andrai a cancellare il vecchio ordine per far spazio al
+                                                    Hai già l'ordine di un altro ristorante nel carrello,
+                                                    cliccando
+                                                    prosegui andrai a cancellare il vecchio ordine per far
+                                                    spazio al
                                                     nuovo
                                                 </p>
                                                 <div class="add_remove">
@@ -384,11 +407,13 @@ export default {
                                         <button class="add_product" @click="increase_cart_quantity(product)">+</button>
                                     <div></div>
                                     </p>
-                                    <p class="prod-price">Totale prodotto: <span>{{ product.price }} &euro;</span>
+                                    <p class="prod-price">Totale prodotto: <span>{{ product.price }}
+                                            &euro;</span>
                                     </p>
                                 </div>
                             </div>
-                            <p class="tot-cart" v-if="this.total > 0">Totale carrello: {{ this.total.toFixed(2) }}
+                            <p class="tot-cart" v-if="this.total > 0">Totale carrello: {{ this.total.toFixed(2)
+                                }}
                                 &euro;</p>
 
                             <div v-if="!addOrder()" class="ordina">

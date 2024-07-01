@@ -735,3 +735,7 @@ h2 {
         width: 80%;
     }
 }
+.color-primary-title{
+    color: var(--deliverboo-eighty);
+    margin-bottom: 1rem;
+}
