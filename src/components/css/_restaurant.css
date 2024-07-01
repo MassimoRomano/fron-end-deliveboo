@@ -718,3 +718,7 @@ h2 {
         width: 100%;
     }
 }
+.color-primary-title{
+    color: var(--deliverboo-eighty);
+    margin-bottom: 1rem;
+}
