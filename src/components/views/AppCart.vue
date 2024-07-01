@@ -11,7 +11,7 @@ export default {
         goToRestaurant() {
             const restaurantSlug = JSON.parse(localStorage.getItem("old_slug"));
             if (restaurantSlug) {
-                this.$router.push({ name: 'restaurant', params: { slug: restaurantSlug } }).href;
+                this.$router.push({ name: 'restaurant', params: { slug: restaurantSlug } });
 
             }
         }
