@@ -59,6 +59,8 @@ export default {
                             // inserisco nel local storage il nome del ristorante del l'ordine
                             localStorage.setItem("restaurant_name", JSON.stringify(this.restaurant_name));
                             localStorage.setItem("restaurant_slug", JSON.stringify(this.restaurant_slug));
+
+
                             // console.log(restaurant);
                         });
 
