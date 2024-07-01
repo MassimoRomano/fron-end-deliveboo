@@ -853,11 +853,6 @@
         background-color: var(--deliverboo-fifty) !important; 
       }
 
-    .types-section li:hover {
-        background-color: var(--deliverboo-sixty) !important;
-        cursor: pointer;
-    }
-
 
     .no-found {
         display: flex;
@@ -1442,13 +1437,8 @@
     }
 
     .types-section li.checked  {
-        background-color: var(--deliverboo-fifty); 
+        background-color: var(--deliverboo-fifty) !important; 
       }
-
-    .types-section li:hover {
-        background-color: var(--deliverboo-sixty);
-        cursor: pointer;
-    }
 
 
     .no-found {
