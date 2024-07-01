@@ -892,7 +892,6 @@
             font-size: 20px;
             box-shadow: -1px -1px 3px rgba(255, 255, 255, 0.1),
                 2px 2px 8px rgba(0, 0, 0, 0.8);
-
         }
 
         li:hover {
@@ -1179,6 +1178,12 @@
     .types-section {
         width: 200px;
 
+        li {
+            padding: 0.5rem 0.8rem ;
+            border-radius: 25px;
+            font-size: 20px;
+        }
+
         label {
             display: flex;
             gap: 5px;
@@ -1189,13 +1194,7 @@
             display: none;
         }
 
-        .types-section li.checked {
-            background-color: var(--deliverboo-fifty);
-        }
-
-        .types-section li:hover {
-            background-color: var(--deliverboo-sixty);
-        }
+        
     }
 
     .offer {
@@ -1224,6 +1223,10 @@
         }
 
     }
+}
+
+.types-section li.checked {
+    background-color: var(--deliverboo-fifty) !important;
 }
 
 .collabs {
