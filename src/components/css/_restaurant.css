@@ -319,9 +319,13 @@ h2 {
         background-color: var(--quaternary-color);
         margin: 200px auto;
         border: 1px solid var(--tertiary-color);
-        width: 30%;
         border-radius: 15px;
         box-shadow: rgba(100, 100, 111, 0.1) 2px 2px 2px 2.5px;
+        z-index: 999999;
+
+        @media (min-width: 1024px) {
+            width: 35%;
+        }
     }
 
     .modal-inside {
@@ -331,6 +335,8 @@ h2 {
         align-items: center;
         margin: auto;
         gap: 10px;
+        padding: 20px;
+        text-align: center;
 
         h2 {
             margin: 0;
@@ -339,7 +345,6 @@ h2 {
 
         p {
             align-self: self-start;
-            margin-left: 35px;
         }
     }
 
@@ -564,11 +569,17 @@ h2 {
         margin: auto;
     }
 
+    .modal-content {
+        padding: 5px;
+        text-align: center;
+        width: 60%;
+    }
+
 
 }
 
 /* Media Cell */
-@media (max-width: 750px) {
+@media (min-width:350px) and (max-width: 650px) {
     .info-rest {
         display: flex;
         flex-direction: column;
@@ -716,5 +727,11 @@ h2 {
 
     .card-product-new {
         width: 100%;
+    }
+
+    .modal-content {
+        padding: 5px;
+        text-align: center;
+        width: 80%;
     }
 }
