@@ -309,11 +309,14 @@ export default {
                                                 <img :src="base_api_url + 'storage/' + dish.image" alt="">
                                             </div>
                                         </template>
-                                        <template v-else>
+                                        <template v-else-if="dish.image">
                                             <div class="card-image">
                                                 <img :src="base_api_url + dish.image"
                                                     :alt="'Image of the dish: ' + dish.name">
                                             </div>
+                                        </template>
+                                        <template v-else>
+                                            <img src="/public/img/log-aff/deliveboo.jpg" alt="">
                                         </template>
                                         <div class="new-card-content">
                                             <p class="dish-name">

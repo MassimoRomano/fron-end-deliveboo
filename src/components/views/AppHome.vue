@@ -235,6 +235,7 @@ export default {
           </div>
           <div class="separate"></div>
           <div class="restaurant-col">
+
             <AppLoading v-if="isLoading" />
             <div class="restaurant-wrap" v-else>
               <template v-if="restaurants.data">
@@ -248,10 +249,13 @@ export default {
                               <img :src="base_api_url + 'storage/' + restaurant.image" alt="">
                             </div>
                           </template>
-                          <template v-else>
+                          <template v-else-if="restaurant.image">
                             <div class="card-image">
                               <img :src="restaurant.image" :alt="'Image of the restaurant: ' + restaurant.name">
                             </div>
+                          </template>
+                          <template v-else>
+                            <img src="/public/img/log-aff/deliveboo.jpg" alt="">
                           </template>
                         </div>
                         <div class="bottom-restaurant">
@@ -291,7 +295,7 @@ export default {
                   <li v-for="page in restaurants.last_page" @click="goTo(page)">
                     <button
                       :class="{ 'active': page == restaurants.current_page, 'page-link': page != restaurants.current_page }">{{
-                        page }}</button>
+                      page }}</button>
                   </li>
 
                   <li v-show="restaurants.next_page_url" @click="nextPage(restaurants.next_page_url)">
