@@ -1,10 +1,14 @@
 <script>
 import axios from 'axios';
 import dropin from 'braintree-web-drop-in';
+import AppLoading from '../partials/AppLoading.vue';
 import { store } from '../store.js';
 
 export default {
     name: 'AppOrder',
+    components: {
+        AppLoading
+    },
     data() {
         return {
             cart: null,
@@ -32,6 +36,7 @@ export default {
             cantYouPay: null,
             orderToPrint: "",
             errors: '',
+            isLoading: false,
 
         }
     },
@@ -78,6 +83,7 @@ export default {
             }
             //caricamento in corso
             this.loading = true;
+            this.isLoading = true;
             //chiedo al metodo pay il nonce 
             this.pay()
                 //continuo solo se ho ottenuto il nonce da pay
@@ -153,7 +159,9 @@ export default {
                     this.loading = false;
                     this.cantYouPay = true;
                     this.errorMessage = "Abbiamo riscontrato qualche problema con la transazione, riprova"
+                    this.isLoading = false;
                     this.giveMeToken()
+
                 });
         },
 
@@ -428,6 +436,7 @@ export default {
                             <div id="dropin-wrapper">
                                 <div id="checkout-message"></div>
                                 <div id="dropin-container"></div>
+                                <AppLoading v-if="isLoading" />
                             </div>
 
                             <!-- Messaggio per la carta accettata -->
@@ -442,6 +451,7 @@ export default {
                                     <div class="info">{{ this.errorMessage }}</div>
                                 </div>
                             </template>
+                            
 
                         </div>
                         <!-- /pagamento -->
@@ -493,6 +503,9 @@ export default {
                 <!-- /.row -->
             </div>
             <!-- /.container -->
+        </section>
+        <section v-else-if="loading">
+            <AppLoading />
         </section>
         <section v-else>
             <div class="container">
