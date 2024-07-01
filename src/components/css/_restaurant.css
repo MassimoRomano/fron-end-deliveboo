@@ -53,7 +53,7 @@ h2 {
 
 .toggle-cart-button {
     position: fixed;
-    top: 80px; /* Posizionato leggermente sotto rispetto all'originale */
+    top: 160px; /* Posizionato leggermente sotto rispetto all'originale */
     right: 20px;
     z-index: 9999; /* Z-index leggermente inferiore per mantenere lo stacking order corretto */
 }

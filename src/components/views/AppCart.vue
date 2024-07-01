@@ -36,7 +36,7 @@ export default {
 <style>
 .app-carrello {
     position: fixed;
-    top: 20px;
+    top: 100px;
     right: 20px;
     z-index: 100;
     /* Assicura che il carrello sia sopra gli altri elementi */
