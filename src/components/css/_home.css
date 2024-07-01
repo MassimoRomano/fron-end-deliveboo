@@ -847,14 +847,15 @@
             display: none;
         }
 
-        .types-section li.checked  {
-            background-color: var(--deliverboo-fifty); 
-          }
-    
-        .types-section li:hover {
-            background-color: var(--deliverboo-sixty);
-        }
+    }
 
+    .types-section li.checked  {
+        background-color: var(--deliverboo-fifty); 
+      }
+
+    .types-section li:hover {
+        background-color: var(--deliverboo-sixty);
+        cursor: pointer;
     }
 
 
@@ -1447,10 +1448,6 @@
     .types-section li:hover {
         background-color: var(--deliverboo-sixty);
         cursor: pointer;
-
-        >* {
-            cursor: pointer;
-        }
     }
 
 
