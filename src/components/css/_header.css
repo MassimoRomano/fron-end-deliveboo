@@ -85,13 +85,25 @@ header {
         }
     }
 
-    @media (max-width: 1024px) {
+    @media (min-width:300px) and (max-width: 650px) {
         .menu-links {
             display: none;
         }
 
         .dropdown-button {
             display: block;
+            margin-bottom: -28px;
+        }
+    }
+
+    @media (min-width:700px) and (max-width: 999px) {
+        .menu-links {
+            display: none;
+        }
+
+        .dropdown-button {
+            display: block;
+            margin-bottom: -3px;
         }
     }
 

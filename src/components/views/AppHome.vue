@@ -235,7 +235,6 @@ export default {
           </div>
           <div class="separate"></div>
           <div class="restaurant-col">
-
             <AppLoading v-if="isLoading" />
             <div class="restaurant-wrap" v-else>
               <template v-if="restaurants.data">
