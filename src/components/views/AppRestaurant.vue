@@ -294,8 +294,8 @@ export default {
 
                     <button @click="toggleCart" class="toggle-cart-button">
                         <div class="cart-amount">
-                            <i v-if="!isCartVisible" class="fa-solid fa-arrow-right"></i>
-                            <i v-if="isCartVisible" class="fa-solid fa-arrow-left"></i>
+                            <i v-if="!isCartVisible" class="fa-solid fa-arrow-left"></i>
+                            <i v-if="isCartVisible" class="fa-solid fa-arrow-right"></i>
                         </div>
                     </button>
 
